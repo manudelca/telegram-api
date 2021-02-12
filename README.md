@@ -1,5 +1,7 @@
 # Web Template
 
+[![pipeline status](https://gitlab.com/fiuba-memo2/tp2/volantis-api/badges/master/pipeline.svg)](https://gitlab.com/fiuba-memo2/tp2/volantis-api/commits/master)
+
 This is a simple web project based on Padrino.
 
 ### Run local with Docker
