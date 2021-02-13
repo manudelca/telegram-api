@@ -3,14 +3,17 @@ Feature: Register Content genre
     As a streaming platform
     I want to be able to register a content genre
 
+    @wip
     Scenario: US7.1 - Register genre successfully
     When I register the genre "comedy"
     Then I should receive "Genero comedy fue registrado exitosamente!" message
 
+    @wip
     Scenario: US7.2 - Register invalid genre whitout a name
     When I register a genre without a name
     Then I should receive "Error: falta el campo genero" message
 
+    @wip
     Scenario: US7.3 - Register an already registered genre
     Given I register the genre "comedy"
     When I register the genre "comedy"
