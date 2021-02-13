@@ -6,7 +6,7 @@ Feature: Registration
     @wip
     Scenario: US1.1 - Successful registration
     When I register as "john@test.com"
-    Then I should recieve a welcome message
+    Then I should recieve a "Bienvenido! :)" message
 
     @wip
     Scenario: US1.2 - Registration without email
