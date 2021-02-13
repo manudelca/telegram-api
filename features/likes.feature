@@ -24,4 +24,4 @@ Feature: Registration of positive likes
     Scenario: US5.3 - Positive like to a not seen content
     Given I haven't seen content with id 0
     When I positive like content with id 0
-    Then I should recieve a "Error: contenido no vist" message
+    Then I should recieve a "Error: contenido no visto" message
