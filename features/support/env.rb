@@ -60,6 +60,10 @@ def reset_url
   "#{BASE_URL}/reset"
 end
 
+def create_genre_url
+  "#{BASE_URL}/genre"
+end
+
 After do |_scenario|
   Faraday.post(reset_url)
 end
