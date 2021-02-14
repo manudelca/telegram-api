@@ -23,15 +23,15 @@ module WebTemplate
 
       def save_tv_show(content_params)
         tv_show = TvShow.new(content_params[:name])
-        new_tv_show = movie_repo.create_content(tv_show)
+        movie_repo.create_content(tv_show)
 
         # save season
-        season = Season.new(content_params[:season])
+        # season = Season.new(content_params[:season])
 
         # save episode
 
         # tv_show + season n + episode n to_json
-        #tv_show_to_json
+        # tv_show_to_json
       end
 
       def tv_show_repo

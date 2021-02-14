@@ -11,4 +11,12 @@ describe Persistence::Repositories::SeasonsRepo do # rubocop:disable RSpec/FileP
         season.number
     end
   end
+
+  describe 'save seasons' do
+    it 'must save season' do
+      season = Season.new(1)
+      saved_season = repository.create_season(season)
+      expect(repository.find(saved_season.id).number).to eq season.number
+    end
+  end
 end
