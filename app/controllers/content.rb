@@ -8,9 +8,9 @@ WebTemplate::App.controllers :content, :provides => [:json] do
     # genre = Genre.new(genre_params[:name])
     # new_genre = genre_repo.create_genre(genre)
 
-    status 200
+    status 201
     {
-      :message => ' ',
+      :message => 'El contenido fue registrado exitosamente!',
       :content => movie_to_json(movie)
     }.to_json
   end
