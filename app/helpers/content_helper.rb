@@ -62,8 +62,11 @@ module WebTemplate
         }
       end
 
-      def tv_show_to_json(_tv_show, _season, _episode)
-        {}
+      def tv_show_to_json(tv_show, _season, _episode)
+        {
+          id: tv_show.id,
+          name: tv_show.name
+        }
       end
     end
 
