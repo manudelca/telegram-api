@@ -18,7 +18,10 @@ module Persistence
       private
 
       def tv_show_changeset(tv_show)
-        { name: tv_show.name }
+        {
+          name: tv_show.name,
+          type: 'tv_show'
+        }
       end
 
       def tv_show_mapper
