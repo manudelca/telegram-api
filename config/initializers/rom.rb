@@ -47,6 +47,12 @@ DB = ROM.container(:sql, DATABASE_URL) do |config|
     end
   end
 
+  config.relation(:clients) do
+    auto_struct true
+    schema(infer: true) do
+    end
+  end
+
   config.relation(:contents) do
     auto_struct true
     schema(infer: true) do

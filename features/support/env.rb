@@ -64,6 +64,10 @@ def create_genre_url
   "#{BASE_URL}/genre"
 end
 
+def client_url
+  "#{BASE_URL}/register"
+end
+
 After do |_scenario|
   Faraday.post(reset_url)
 end
