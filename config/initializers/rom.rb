@@ -56,6 +56,9 @@ DB = ROM.container(:sql, DATABASE_URL) do |config|
   config.relation(:seasons) do
     auto_struct true
     schema(infer: true) do
+      associations do
+        belongs_to :content
+      end
     end
   end
 

@@ -26,8 +26,8 @@ module WebTemplate
         movie_repo.create_content(tv_show)
 
         # save season
-        season = Season.new(content_params[:season])
-        seasons_repo.create_season(season, tv_show.id)
+        season = Season.new(tv_show, content_params[:season])
+        seasons_repo.create_season(season)
 
         # save episode
 
