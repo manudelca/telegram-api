@@ -3,10 +3,9 @@ Feature: Register content
     As a streaming platform
     I want to be able to register content
 
-    @wip
     Scenario: US8.1 - Register content successfully
     Given I register the genre "drama"
-    When I register the movies "Titanic", with audience "ATP", duration 195 min, genre "drama", origin country "USA", director "James Cameron", actors "Kate Winslet" and "Leonardo Dicaprio", release date "2021-01-01" and "Titanic 2", with audience "ATP", duration 205 min, genre "drama", origin country "USA Jr", director "James Cameron Jr", actors "Kate Winslet Jr" and "Leonardo Dicaprio Jr", release date "2021-01-01"
+    When I register the movie "Titanic", with audience "ATP", duration 195 min, genre "drama", origin country "USA", director "James Cameron", actors "Kate Winslet" and "Leonardo Dicaprio", release date "2021-01-01" and the tv show episode "Titanic: La Serie", with audience "ATP", duration 30 min, genre "drama", origin country "USA Jr", director "James Cameron Jr", actors "Kate Winslet Jr" and "Leonardo Dicaprio Jr", release date "2021-01-01", season 1 and episode 1
     Then I should receive "El contenido fue registrado exitosamente!" message
 
     @wip
