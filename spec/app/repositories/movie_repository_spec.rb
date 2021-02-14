@@ -11,4 +11,12 @@ describe Persistence::Repositories::MovieRepo do # rubocop:disable RSpec/FilePat
         movie.name
     end
   end
+
+  describe 'save movie' do
+    it 'must save movie' do
+      movie = Movie.new('Titanic')
+      saved_movie = repository.create_movie(movie)
+      expect(repository.find(saved_movie.id).name).to eq movie.name
+    end
+  end
 end
