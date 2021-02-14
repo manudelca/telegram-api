@@ -3,7 +3,7 @@ Feature: Registration
     As a streaming platform user
     I want to be able to register
 
-    @wip
+    
     Scenario: US1.1 - Successful registration
     When I register as "john@test.com"
     Then I should receive "Bienvenido! :)" message

@@ -65,7 +65,7 @@ def create_genre_url
 end
 
 def client_url
-  "#{BASE_URL}/client"
+  "#{BASE_URL}/register"
 end
 
 After do |_scenario|
