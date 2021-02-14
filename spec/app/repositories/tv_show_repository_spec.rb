@@ -15,7 +15,7 @@ describe Persistence::Repositories::TvShowRepo do # rubocop:disable RSpec/FilePa
   describe 'save tv show' do
     it 'must save tv show' do
       tv_show = TvShow.new('The Office')
-      saved_tv_show = repository.create_tv_show(tv_show)
+      saved_tv_show = repository.create_content(tv_show)
       expect(repository.find(saved_tv_show.id).name).to eq tv_show.name
     end
   end

@@ -3,7 +3,7 @@ module Persistence
     class MovieRepo < ROM::Repository[:contents]
       commands :create
 
-      def create_movie(movie)
+      def create_content(movie)
         movie_struct = create(movie_changeset(movie))
         movie.id = movie_struct.id
 

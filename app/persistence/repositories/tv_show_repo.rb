@@ -3,7 +3,7 @@ module Persistence
     class TvShowRepo < ROM::Repository[:contents]
       commands :create
 
-      def create_tv_show(tv_show)
+      def create_content(tv_show)
         tv_show_struct = create(tv_show_changeset(tv_show))
         tv_show.id = tv_show_struct.id
 
