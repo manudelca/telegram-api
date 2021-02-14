@@ -8,3 +8,9 @@ Then('I should receive {string} message') do |string|
   answer = JSON.parse(@response.body)
   expect(answer['message']).to eq(string)
 end
+
+Then('the genre {string} should be created') do |string|
+  answer = JSON.parse(@response.body)
+  genre = JSON.parse(answer['genre'])
+  expect(genre['name']).to eq(string)
+end

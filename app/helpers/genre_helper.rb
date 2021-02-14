@@ -12,7 +12,15 @@ module WebTemplate
         JSON.parse(@body).symbolize_keys
       end
 
-      def genre_to_json(genre); end
+      def genre_to_json(genre)
+        genre_attributes(genre).to_json
+      end
+    end
+
+    private
+
+    def genre_attributes(genre)
+      {id: genre.id, name: genre.name}
     end
 
     helpers GenreHelper
