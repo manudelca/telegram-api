@@ -10,6 +10,12 @@ describe Persistence::Repositories::MovieRepo do # rubocop:disable RSpec/FilePat
       expect(repository.send(:movie_changeset, movie)[:name]).to eq \
         movie.name
     end
+
+    it 'changeset has type == movie' do
+      movie = Movie.new(name: 'Titanic')
+      expect(repository.send(:movie_changeset, movie)[:type]).to eq \
+        'movie'
+    end
   end
 
   describe 'save movie' do

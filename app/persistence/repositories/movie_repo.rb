@@ -18,7 +18,10 @@ module Persistence
       private
 
       def movie_changeset(movie)
-        { name: movie.name }
+        {
+          name: movie.name,
+          type: 'movie'
+        }
       end
 
       def movie_mapper

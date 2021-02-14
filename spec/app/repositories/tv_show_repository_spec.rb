@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'byebug'
 require_relative '../../../app/persistence/repositories/tv_show_repo'
 
 describe Persistence::Repositories::TvShowRepo do # rubocop:disable RSpec/FilePath
@@ -23,7 +22,6 @@ describe Persistence::Repositories::TvShowRepo do # rubocop:disable RSpec/FilePa
     it 'must save tv show' do
       tv_show = TvShow.new('The Office')
       saved_tv_show = repository.create_content(tv_show)
-      byebug
       expect(repository.find(saved_tv_show.id).name).to eq tv_show.name
     end
   end
