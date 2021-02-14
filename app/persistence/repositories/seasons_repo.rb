@@ -3,8 +3,8 @@ module Persistence
     class SeasonsRepo < ROM::Repository[:seasons]
       commands :create
 
-      def create_season(season)
-        season_struct = create(seasons_changeset(season))
+      def create_season(season, tv_show_id)
+        season_struct = create(seasons_changeset(season, tv_show_id))
         season.id = season_struct.id
 
         season
@@ -17,9 +17,10 @@ module Persistence
 
       private
 
-      def seasons_changeset(season)
+      def seasons_changeset(season, tv_show_id)
         {
-          number: season.number
+          number: season.number,
+          tv_show_id: tv_show_id
         }
       end
 
