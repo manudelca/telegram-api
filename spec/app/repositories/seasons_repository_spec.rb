@@ -1,5 +1,4 @@
 require 'spec_helper'
-require_relative '../../../app/persistence/repositories/tv_show_repo'
 
 describe Persistence::Repositories::SeasonsRepo do # rubocop:disable RSpec/FilePath
   let(:repository) { described_class.new(DB) }

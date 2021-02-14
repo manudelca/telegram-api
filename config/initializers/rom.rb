@@ -62,4 +62,10 @@ DB = ROM.container(:sql, DATABASE_URL) do |config|
     end
   end
 
+  config.relation(:episodes) do
+    auto_struct true
+    schema(infer: true) do
+    end
+  end
+
 end
