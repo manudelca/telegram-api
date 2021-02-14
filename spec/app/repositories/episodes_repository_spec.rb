@@ -10,4 +10,12 @@ describe Persistence::Repositories::EpisodesRepo do # rubocop:disable RSpec/File
         episode.number
     end
   end
+
+  describe 'save episode' do
+    it 'must save episode' do
+      episode = Episode.new(1)
+      saved_episode = repository.create_episode(episode)
+      expect(repository.find(saved_episode.id).number).to eq episode.number
+    end
+  end
 end
