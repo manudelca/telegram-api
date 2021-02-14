@@ -1,15 +1,13 @@
 WebTemplate::App.controllers :content, :provides => [:json] do
   post :create, :map => '/content' do
-    movie = Movie.new(content_params[0][:name])
-    new_movie = movie_repo.create_content(movie)
-    # content_params.each do |content|
-
-    # end
+    content_params.each do |content|
+      create_content_and_get_json(content[:type], content)
+    end
 
     status 201
     {
       :message => 'El contenido fue registrado exitosamente!',
-      :content => movie_to_json(new_movie)
+      :content => { }
     }.to_json
   end
 end

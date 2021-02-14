@@ -3,21 +3,43 @@
 module WebTemplate
   class App
     module ContentHelper
-      def content_repo(content_type)
+      def create_content_and_get_json(content_type, content_params)
         dic_content_repo = {
-          'movie' => Persistence::Repositories::MovieRepo,
-          'tv_show' => Persistence::Repositories::TvShowRepo
+          'movie' => method(:save_movie),
+          'tv_show' => method(:save_tv_show)
         }
-        clazz = dic_content_repo[content_type]
-        clazz.new(DB)
+        dic_content_repo[content_type][content_params]
+      end
+
+      def save_movie(content_params)
+        movie = Movie.new(content_params[:name])
+        new_movie = movie_repo.create_content(movie)
+        movie_to_json(new_movie)
       end
 
       def movie_repo
         Persistence::Repositories::MovieRepo.new(DB)
       end
 
+      def save_tv_show(content_params)
+        tv_show = TvShow.new(content_params[:name])
+        new_tv_show = movie_repo.create_content(tv_show)
+
+        # save season
+        season = Season.new(content_params[:season])
+
+        # save episode
+
+        # tv_show + season n + episode n to_json
+        #tv_show_to_json
+      end
+
       def tv_show_repo
         Persistence::Repositories::TvShowRepo.new(DB)
+      end
+
+      def seasons_repo
+        Persistence::Repositories::SeasonsRepo.new(DB)
       end
 
       def content_params
@@ -25,21 +47,16 @@ module WebTemplate
         JSON.parse(@body).symbolize_keys
       end
 
-      def content_to_json(content_type, content)
-        dic_content_repo = {
-          'movie' => method(:movie_to_json),
-          'tv_show' => method(:tv_show_to_json)
-        }
-        dic_content_repo[content_type][content]
-      end
-
       private
 
-      def movie_to_json(_movie)
-        {}
+      def movie_to_json(movie)
+        {
+          id: movie.id,
+          name: movie.name
+        }
       end
 
-      def tv_show_to_json(_tv_show)
+      def tv_show_to_json(_tv_show, _season, _episode)
         {}
       end
     end
