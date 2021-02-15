@@ -55,7 +55,7 @@ module WebTemplate
         episode = Episode.new(new_season, content_params['episode_number'])
         new_episode = episodes_repo.create_episode(episode)
 
-        tv_show_to_json(new_tv_show, new_season, new_episode)
+        create_tv_show_to_json(new_tv_show, new_season, new_episode)
       end
 
       def tv_show_repo
@@ -106,9 +106,9 @@ module WebTemplate
         }
       end
 
-      def tv_show_to_json(tv_show, season, episode)
+      def create_tv_show_to_json(tv_show, season, episode)
         {
-          id: tv_show.id,
+          id: episode.id,
           name: tv_show.name,
           audience: tv_show.audience,
           duration_minutes: tv_show.duration_minutes,
