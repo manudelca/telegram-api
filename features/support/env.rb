@@ -72,6 +72,10 @@ def client_url
   "#{BASE_URL}/register"
 end
 
+def get_content_url(content_id)
+  "#{BASE_URL}/content/#{content_id}"
+end
+
 After do |_scenario|
   Faraday.post(reset_url)
 end

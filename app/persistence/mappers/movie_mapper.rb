@@ -19,7 +19,8 @@ module Persistence
                   movie_attributes.director,
                   movie_attributes.release_date,
                   movie_attributes.first_actor,
-                  movie_attributes.second_actor)
+                  movie_attributes.second_actor,
+                  movie_attributes.id)
       end
 
       def genre_mapper

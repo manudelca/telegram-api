@@ -11,4 +11,15 @@ WebTemplate::App.controllers :content, :provides => [:json] do
       :content => content_created
     }.to_json
   end
+
+  get :show, :map => '/content', :with => :id do
+    content_id = params[:id]
+    movie = movie_repo.find(content_id)
+
+    status 200
+    {
+      :message => 'El contenido fue encontrado!',
+      :content => movie_details_to_json(movie)
+    }.to_json
+  end
 end

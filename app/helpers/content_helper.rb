@@ -92,6 +92,20 @@ module WebTemplate
         }
       end
 
+      def movie_details_to_json(movie)
+        {
+          id: movie.id,
+          name: movie.name,
+          audience: movie.audience,
+          duration_minutes: movie.duration_minutes,
+          genre: movie.genre.name,
+          country: movie.country,
+          director: movie.director,
+          first_actor: movie.first_actor,
+          second_actor: movie.second_actor
+        }
+      end
+
       def tv_show_to_json(tv_show, season, episode)
         {
           id: tv_show.id,
