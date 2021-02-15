@@ -4,7 +4,10 @@ describe Persistence::Repositories::SeasonsRepo do # rubocop:disable RSpec/FileP
   let(:repository) { described_class.new(DB) }
 
   let(:tv_show) do
-    tv_show = TvShow.new('Titanic')
+    genre = Genre.new('comedy')
+    Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
+
+    tv_show = TvShow.new('The Office', "No ATP", 190, genre, 'USA', 'Ricky Gervais', '2021-01-01', 'Steve Carrell', 'Rainn Wilson')
     Persistence::Repositories::TvShowRepo.new(DB).create_content(tv_show)
   end
 
@@ -25,7 +28,7 @@ describe Persistence::Repositories::SeasonsRepo do # rubocop:disable RSpec/FileP
   describe 'save seasons' do
     it 'must save season' do
       season = Season.new(tv_show, 1)
-      saved_season = repository.create_season(season)
+      saved_season = repository.find_or_create(season)
       expect(repository.find(saved_season.id).number).to eq season.number
     end
   end

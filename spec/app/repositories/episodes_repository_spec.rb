@@ -2,9 +2,13 @@ require 'spec_helper'
 
 describe Persistence::Repositories::EpisodesRepo do # rubocop:disable RSpec/FilePath
   let(:repository) { described_class.new(DB) }
+  let(:genre) do
+    genre = Genre.new('drama')
+    Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
+  end
 
   let(:season) do
-    tv_show = TvShow.new('Titanic')
+    tv_show = TvShow.new('Titanic', 'ATP', 195, genre, 'USA', 'James Cameron', 'Kate Winslet', 'Leonardo Dicaprio')
     new_tv_show = Persistence::Repositories::TvShowRepo.new(DB).create_content(tv_show)
 
     season = Season.new(new_tv_show, 1)

@@ -12,7 +12,18 @@ module WebTemplate
       end
 
       def save_movie(content_params)
-        movie = Movie.new(content_params[:name])
+        genre = genre_repo.find_by_genre_name(content_params[:genre])
+        # Hay que definir que pasa si no lo encuentra...
+
+        movie = Movie.new(content_params[:name],
+                          content_params[:audience],
+                          content_params[:duration_minutes],
+                          genre,
+                          content_params[:country],
+                          content_params[:director],
+                          content_params[:release_date],
+                          content_params[:first_actor],
+                          content_params[:second_actor])
         new_movie = movie_repo.create_content(movie)
         movie_to_json(new_movie)
       end
@@ -21,19 +32,30 @@ module WebTemplate
         Persistence::Repositories::MovieRepo.new(DB)
       end
 
-      def save_tv_show(content_params)
-        tv_show = TvShow.new(content_params[:name])
-        new_tv_show = movie_repo.create_content(tv_show)
+      def save_tv_show(content_params) # rubocop:disable Metrics/AbcSize
+        genre = genre_repo.find_by_genre_name(content_params[:genre])
+        # Hay que definir que pasa si no lo encuentra...
+
+        tv_show = TvShow.new(content_params[:name],
+                             content_params[:audience],
+                             content_params[:duration_minutes],
+                             genre,
+                             content_params[:country],
+                             content_params[:director],
+                             content_params[:release_date],
+                             content_params[:first_actor],
+                             content_params[:second_actor])
+        tv_show = tv_show_repo.find_or_create(tv_show)
 
         # save season
-        season = Season.new(new_tv_show, content_params[:season])
-        new_season = seasons_repo.create_season(season)
+        season = Season.new(tv_show, content_params[:season])
+        season = seasons_repo.find_or_create(season)
 
         # save episode
-        episode = Episode.new(new_season, content_params[:episode])
+        episode = Episode.new(season, content_params[:episode])
         new_episode = episodes_repo.create_episode(episode)
 
-        tv_show_to_json(new_season, new_season, new_episode)
+        tv_show_to_json(tv_show, season, new_episode)
       end
 
       def tv_show_repo
@@ -58,14 +80,31 @@ module WebTemplate
       def movie_to_json(movie)
         {
           id: movie.id,
-          name: movie.name
+          name: movie.name,
+          audience: movie.audience,
+          duration_minutes: movie.duration_minutes,
+          genre: movie.genre.name,
+          country: movie.country,
+          director: movie.director,
+          release_date: movie.release_date,
+          first_actor: movie.first_actor,
+          second_actor: movie.second_actor
         }
       end
 
       def tv_show_to_json(tv_show, _season, _episode)
+        # season y episode por que son necesarios? no deberian...
         {
           id: tv_show.id,
-          name: tv_show.name
+          name: tv_show.name,
+          audience: tv_show.audience,
+          duration_minutes: tv_show.duration_minutes,
+          genre: tv_show.genre.name,
+          country: tv_show.country,
+          director: tv_show.director,
+          release_date: tv_show.release_date,
+          first_actor: tv_show.first_actor,
+          second_actor: tv_show.second_actor
         }
       end
     end

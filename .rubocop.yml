@@ -43,3 +43,5 @@ Style/HashSyntax:
   EnforcedStyle: no_mixed_keys
 Layout/SpaceInsideHashLiteralBraces:
   Enabled: false
+Metrics/ParameterLists:
+  Enabled: false
