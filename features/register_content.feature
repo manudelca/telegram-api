@@ -3,7 +3,6 @@ Feature: Register content
     As a streaming platform
     I want to be able to register content
 
-    @wip
     Scenario: US8.1 - Register content successfully
     Given I register the genre "drama"
     When I register the movie "Titanic", with type "movie", with audience "ATP", duration 195 min, genre "drama", origin country "USA", director "James Cameron", actors "Kate Winslet" and "Leonardo Dicaprio", release date "2021-01-01" and the tv show episode "Titanic: La Serie", with type "tv_show", with audience "ATP", duration 30 min, genre "drama", origin country "USA Jr", director "James Cameron Jr", actors "Kate Winslet Jr" and "Leonardo Dicaprio Jr", release date "2021-01-01", season 1 and episode 1

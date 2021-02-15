@@ -19,7 +19,8 @@ module Persistence
                    tv_show_attributes.director,
                    tv_show_attributes.release_date,
                    tv_show_attributes.first_actor,
-                   tv_show_attributes.second_actor)
+                   tv_show_attributes.second_actor,
+                   tv_show_attributes.id)
       end
 
       def genre_mapper
