@@ -64,6 +64,10 @@ def create_genre_url
   "#{BASE_URL}/genre"
 end
 
+def create_content_url
+  "#{BASE_URL}/content"
+end
+
 def client_url
   "#{BASE_URL}/register"
 end

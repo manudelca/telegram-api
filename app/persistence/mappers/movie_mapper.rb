@@ -25,7 +25,6 @@ module Persistence
       def genre_mapper
         GenreMapper.new
       end
-      
     end
   end
 end

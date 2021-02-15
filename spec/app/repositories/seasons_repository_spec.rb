@@ -7,7 +7,7 @@ describe Persistence::Repositories::SeasonsRepo do # rubocop:disable RSpec/FileP
     genre = Genre.new('comedy')
     Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
 
-    tv_show = TvShow.new('The Office', "No ATP", 190, genre, 'USA', 'Ricky Gervais', '2021-01-01', 'Steve Carrell', 'Rainn Wilson')
+    tv_show = TvShow.new('The Office', 'No ATP', 190, genre, 'USA', 'Ricky Gervais', '2021-01-01', 'Steve Carrell', 'Rainn Wilson')
     Persistence::Repositories::TvShowRepo.new(DB).create_content(tv_show)
   end
 

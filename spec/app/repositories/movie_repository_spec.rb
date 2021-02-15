@@ -7,7 +7,7 @@ describe Persistence::Repositories::MovieRepo do # rubocop:disable RSpec/FilePat
     genre = Genre.new('drama')
     Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
 
-    Movie.new('Titanic', "No ATP", 190, genre, "USA", "James Cameron", "2021-01-01", "Kate Winslet", "Leonardo Dicaprio")
+    Movie.new('Titanic', 'No ATP', 190, genre, 'USA', 'James Cameron', '2021-01-01', 'Kate Winslet', 'Leonardo Dicaprio')
   end
 
   describe 'changeset' do
