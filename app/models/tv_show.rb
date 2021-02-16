@@ -21,4 +21,8 @@ class TvShow
     @id = id
     @seasons = seasons
   end
+
+  def number_of_seasons
+    seasons.size
+  end
 end
