@@ -12,13 +12,19 @@ module Persistence
 
       def find(id)
         clients_relation = (clients.combine(contents: :genres).by_pk(id) >> client_mapper)
-        clients_relation.one
+        client = clients_relation.one
+        raise ClientNotFound if client.nil?
+
+        client
       end
 
       def find_by_username(username)
         clients_relation = clients.where(username: username).combine(contents: :genres)
         clients_relation = (clients_relation >> client_mapper)
-        clients_relation.first
+        client = clients_relation.first
+        raise ClientNotFound if client.nil?
+
+        client
       end
 
       def update_movies_seen(client)

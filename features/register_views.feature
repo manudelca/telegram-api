@@ -9,19 +9,16 @@ Feature: Register user views
     When  I marked the movie as seen for "johncito"
     Then I should get "Visto registrado exitosamente"
 
-    @wip
     Scenario: Non-existing movie
-    Given there is no movie with id 0
-    Given the user "john@test.com" is registered
-    When I marked the movie with id 0 as seen
+    Given there is no movie with id 8989
+    Given the user "john@test.com" "johncito" is registered
+    When I marked the movie as seen for "johncito"
     Then I should get "Error: la pelicula con id 0 no se encuentra registrada"
 
-    @wip
     Scenario: Non-existing user
-    Given the movie "Titanic", with audience "ATP", duration 195 min, genre "drama", origin country "USA", director "James Cameron", actors "Kate Winslet" and "Leonardo Dicaprio" is available with id 0
-    Given the user "john@test.com" is registered
-    When I marked the movie with id 0 as seen for "john@test.com"
-    Then I should get "Error: el usario con mail id john@test.com no se encuentra registrada"
+    Given the movie "Titanic", with audience "ATP", duration 195 min, genre "drama", origin country "USA", director "James Cameron", actors "Kate Winslet" and "Leonardo Dicaprio" and release date '2020-01-01' is available
+    When I marked the movie as seen for "usuario_no_registrado"
+    Then I should get "Error: el usario con username usuario_no_registrado no se encuentra registrado"
 
     @wip
     Scenario: US9.2 - Episode seen by an user

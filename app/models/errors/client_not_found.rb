@@ -1,0 +1,1 @@
+class ClientNotFound < StandardError; end
