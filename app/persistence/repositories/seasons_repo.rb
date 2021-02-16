@@ -11,7 +11,8 @@ module Persistence
       end
 
       def find_or_create(season)
-        seasons_relation = seasons.where(tv_show_id: season.tv_show.id, number: season.number).combine(:contents)  # esta bien esto o es un abuso de notacion?
+        seasons_relation = seasons.where(tv_show_id: season.tv_show_id, number: season.number)
+                                  .combine(:episodes)
         season_searched = (seasons_relation >> season_mapper).first
         return create_season(season) if season_searched.nil?
 
@@ -19,7 +20,7 @@ module Persistence
       end
 
       def find(id)
-        seasons_relation = seasons.combine(:contents).by_pk(id)
+        seasons_relation = seasons.combine(:episodes).by_pk(id)
         (seasons_relation >> season_mapper).first
       end
 
@@ -28,7 +29,7 @@ module Persistence
       def seasons_changeset(season)
         {
           number: season.number,
-          tv_show_id: season.tv_show.id
+          tv_show_id: season.tv_show_id
         }
       end
 

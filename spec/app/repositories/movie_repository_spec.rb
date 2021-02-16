@@ -27,4 +27,11 @@ describe Persistence::Repositories::MovieRepo do # rubocop:disable RSpec/FilePat
       expect(repository.find(saved_movie.id).name).to eq movie.name
     end
   end
+
+  describe 'find movie' do
+    it 'find none existant movie raise ContentNotFound' do
+      non_existant_movie_id = -1
+      expect { repository.find(non_existant_movie_id) }.to raise_error(ContentNotFound)
+    end
+  end
 end

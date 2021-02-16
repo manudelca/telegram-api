@@ -72,6 +72,7 @@ DB = ROM.container(:sql, DATABASE_URL) do |config|
       associations do
         belongs_to :genres
         many_to_many :clients, through: :clients_contents
+        has_many :seasons
       end
     end
   end
@@ -80,7 +81,8 @@ DB = ROM.container(:sql, DATABASE_URL) do |config|
     auto_struct true
     schema(infer: true) do
       associations do
-        belongs_to :content
+        belongs_to :contents
+        has_many :episodes
       end
     end
   end
@@ -89,7 +91,7 @@ DB = ROM.container(:sql, DATABASE_URL) do |config|
     auto_struct true
     schema(infer: true) do
       associations do
-        belongs_to :season
+        belongs_to :seasons
       end
     end
   end

@@ -1,0 +1,1 @@
+class ContentNotFound < StandardError; end
