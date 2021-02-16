@@ -1,5 +1,5 @@
 class Client
-  attr_reader :email, :username, :content_seen
+  attr_reader :email, :username, :movies_seen
   attr_accessor :id
 
   def initialize(email, username, id = nil)

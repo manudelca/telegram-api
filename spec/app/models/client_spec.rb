@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'byebug'
 
 describe Client do
   let(:client) { described_class.new('juan@test.com', 'juan') }

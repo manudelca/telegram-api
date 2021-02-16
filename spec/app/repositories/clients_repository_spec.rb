@@ -33,4 +33,19 @@ describe Persistence::Repositories::ClientRepo do # rubocop:disable RSpec/FilePa
       expect(repository.find_by_email('test@test.com').email).to eq client.email
     end
   end
+
+  describe 'update movie seen' do
+    it 'must update movies seen by the client' do
+      client = Client.new('test@test3.com', 'test783')
+      repository.create_client(client)
+      genre = Genre.new('Drama')
+      movie = Movie.new('Titanic', 'No ATP', 190, genre, 'USA', 'James Cameron', '2021-01-01', 'Kate Winslet', 'Leonardo Dicaprio')
+      Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
+      Persistence::Repositories::MovieRepo.new(DB).create_content(movie)
+      client.sees_movie(movie)
+      repository.update_movies_seen(client)
+
+      expect(repository.find_by_email('test@test3.com').movies_seen[0].name).to eq movie.name
+    end
+  end
 end
