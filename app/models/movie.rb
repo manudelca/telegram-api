@@ -28,6 +28,8 @@ class Movie
   end
 
   def eql?(other)
-    @id == other.id # Deberia chequear titulo tambien?
+    @id == other.id
+    # Deberia chequear el id o algo mas bien de nivel de objetos
+    # como el titulo?
   end
 end

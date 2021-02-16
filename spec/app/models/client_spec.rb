@@ -21,4 +21,15 @@ describe Client do
 
     expect(client.saw_content?(same_movie)).to eq(true)
   end
+
+  it 'should considered seen episodes' do
+    genre = Genre.new('Comedy')
+    id = 0
+    tv_show = TvShow.new('Titanic: La serie', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', id)
+    season = Season.new(tv_show, 1, id)
+    episode = Episode.new(season, 1, 0)
+    client.sees_content(episode)
+
+    expect(client.saw_content?(episode)).to eq(true)
+  end
 end
