@@ -21,8 +21,13 @@ class Movie
     @id = id
   end
 
-  def ==(other)
-    @id == other.id # Deberia chequear titulo tambien?
+  def hash
+    [@id].hash # El valor segun el que hashee
+    # tiene que ser los mismos segun
+    # los que compare
   end
 
+  def eql?(other)
+    @id == other.id # Deberia chequear titulo tambien?
+  end
 end
