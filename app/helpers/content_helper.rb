@@ -2,7 +2,7 @@
 
 module WebTemplate
   class App
-    module ContentHelper
+    module ContentHelper # rubocop:disable Metrics/ModuleLength
       def create_content_and_get_json(content_type, content_params)
         dic_content_repo = {
           'movie' => method(:save_movie),
@@ -75,6 +75,22 @@ module WebTemplate
         JSON.parse(@body).symbolize_keys
       end
 
+      def movie_details_response(movie)
+        status 200
+        {
+          :message => 'El contenido fue encontrado!',
+          :content => movie_details_to_json(movie)
+        }.to_json
+      end
+
+      def tv_show_details_response(tv_show)
+        status 200
+        {
+          :message => 'El contenido fue encontrado!',
+          :content => tv_show_details_to_json(tv_show)
+        }.to_json
+      end
+
       private
 
       def movie_to_json(movie)
@@ -103,6 +119,20 @@ module WebTemplate
           director: movie.director,
           first_actor: movie.first_actor,
           second_actor: movie.second_actor
+        }
+      end
+
+      def tv_show_details_to_json(tv_show)
+        {
+          id: tv_show.id,
+          name: tv_show.name,
+          audience: tv_show.audience,
+          duration_minutes: tv_show.duration_minutes,
+          genre: tv_show.genre.name,
+          country: tv_show.country,
+          director: tv_show.director,
+          first_actor: tv_show.first_actor,
+          second_actor: tv_show.second_actor
         }
       end
 

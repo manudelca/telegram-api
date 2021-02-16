@@ -8,4 +8,8 @@ class Season
     @id = id
     @episodes = episodes
   end
+
+  def number_of_episodes
+    episodes.size
+  end
 end
