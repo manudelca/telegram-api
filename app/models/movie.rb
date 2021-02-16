@@ -20,4 +20,8 @@ class Movie
     @second_actor = second_actor
     @id = id
   end
+
+  def type_of_content
+    'movie'
+  end
 end

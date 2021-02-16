@@ -14,21 +14,19 @@ WebTemplate::App.controllers :content, :provides => [:json] do
 
   # no encontramos manera limpia de hacerlo
   get :show, :map => '/content', :with => :id do
-    # primero se fija si es una movie
     content_id = params[:id]
     begin
-      movie = movie_repo.find(content_id)
-      movie_details_response(movie)
+      content = generic_content_repo.find(content_id)
+      dic_content_type = {
+        'movie' => method(:movie_details_response),
+        'tv_show' => method(:tv_show_details_response)
+      }
+      dic_content_type[content.type_of_content][content]
     rescue ContentNotFound => _e
-      # no hay contenido con ese id
       status 404
       {
         :message => 'Error: id no se encuentra en la coleccion'
       }.to_json
-    rescue StandardError => _e
-      # tiene que ser un tv_show
-      tv_show = tv_show_repo.find(content_id)
-      tv_show_details_response(tv_show)
     end
   end
 end

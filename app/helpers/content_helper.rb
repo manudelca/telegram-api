@@ -70,6 +70,10 @@ module WebTemplate
         Persistence::Repositories::EpisodesRepo.new(DB)
       end
 
+      def generic_content_repo
+        Persistence::Repositories::GenericContentRepo.new(DB)
+      end
+
       def content_params
         @body ||= request.body.read
         JSON.parse(@body).symbolize_keys
@@ -132,7 +136,9 @@ module WebTemplate
           country: tv_show.country,
           director: tv_show.director,
           first_actor: tv_show.first_actor,
-          second_actor: tv_show.second_actor
+          second_actor: tv_show.second_actor,
+          seasons: tv_show.number_of_seasons,
+          episodes: tv_show.number_of_episodes
         }
       end
 

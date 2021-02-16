@@ -33,4 +33,8 @@ class TvShow
     end
     n_episodes
   end
+
+  def type_of_content
+    'tv_show'
+  end
 end
