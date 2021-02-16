@@ -3,11 +3,10 @@ Feature: Register user views
     As a streaming platform
     I want to be able to register what users have seen
 
-    @wip
     Scenario: US9.1 - Movie seen by an user
-    Given the movie "Titanic", with audience "ATP", duration 195 min, genre "drama", origin country "USA", director "James Cameron", actors "Kate Winslet" and "Leonardo Dicaprio" is available with id 0
-    Given the user "john@test.com" is registered
-    When  I marked the movie with id 0 as seen for "john@test.com"
+    Given the movie "Titanic", with audience "ATP", duration 195 min, genre "drama", origin country "USA", director "James Cameron", actors "Kate Winslet" and "Leonardo Dicaprio" and release date '2020-01-01' is available
+    Given the user "john@test.com" "johncito" is registered
+    When  I marked the movie as seen for "johncito"
     Then I should get "Visto registrado exitosamente"
 
     @wip
