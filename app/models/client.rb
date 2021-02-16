@@ -6,18 +6,19 @@ class Client
     @email = email
     @username = username
     @id = id
-    @content_seen = Set.new
+    @movies_seen = []
+    @episodes_seen = []
   end
 
-  def sees_content(content)
-    @content_seen.add(content)
+  def sees_movie(movie)
+    @movies_seen << movie
   end
 
-  def amount_content_seen
-    @content_seen.size
+  def sees_episode(episode)
+    @episodes_seen << episode
   end
 
-  def saw_content?(content)
-    @content_seen.include?(content)
+  def saw_movie?(movie)
+    @movies_seen.include?(movie)
   end
 end

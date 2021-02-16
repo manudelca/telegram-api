@@ -20,24 +20,4 @@ class Movie
     @second_actor = second_actor
     @id = id
   end
-
-  def hash
-    [@id].hash # El valor segun el que hashee
-    # tiene que ser los mismos segun
-    # los que compare
-  end
-
-  def is_equal_to_episode?(_episode)
-    false
-  end
-
-  def is_equal_to_movie?(movie)
-    @id == movie.id
-  end
-
-  def eql?(other)
-    other.is_equal_to_movie?(self)
-    # Deberia chequear el id o algo mas bien de nivel de objetos
-    # como el titulo?
-  end
 end

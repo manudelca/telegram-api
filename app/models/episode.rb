@@ -7,23 +7,4 @@ class Episode
     @number = number
     @id = id
   end
-
-  def hash
-    [@id].hash # El valor segun el que hashee
-    # tiene que ser los mismos segun
-    # los que compare
-  end
-
-  def is_equal_to_episode?(episode)
-    @id == episode.id
-  end
-
-  def is_equal_to_movie?(_movie)
-    false
-  end
-
-  def eql?(other)
-    other.is_equal_to_episode?(self)
-    # misma duda que movie
-  end
 end

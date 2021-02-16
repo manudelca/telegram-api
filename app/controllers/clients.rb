@@ -8,4 +8,7 @@ WebTemplate::App.controllers :clients do
       :message => 'Bienvenido! :)'
     }.to_json
   end
+
+  patch :update, :map => '/client' do
+  end
 end
