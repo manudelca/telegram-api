@@ -13,13 +13,13 @@ describe Persistence::Repositories::SeasonsRepo do # rubocop:disable RSpec/FileP
 
   describe 'changeset' do
     it 'changeset has number == season.number' do
-      season = Season.new(tv_show, 1)
+      season = Season.new(1, tv_show.id)
       expect(repository.send(:seasons_changeset, season)[:number]).to eq \
         season.number
     end
 
     it 'changeset has tv_show_id == tv_show.id' do
-      season = Season.new(tv_show, 1)
+      season = Season.new(1, tv_show.id)
       expect(repository.send(:seasons_changeset, season)[:tv_show_id]).to eq \
         tv_show.id
     end
@@ -27,7 +27,7 @@ describe Persistence::Repositories::SeasonsRepo do # rubocop:disable RSpec/FileP
 
   describe 'save seasons' do
     it 'must save season' do
-      season = Season.new(tv_show, 1)
+      season = Season.new(1, tv_show.id)
       saved_season = repository.find_or_create(season)
       expect(repository.find(saved_season.id).number).to eq season.number
     end

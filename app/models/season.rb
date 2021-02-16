@@ -1,10 +1,11 @@
 class Season
-  attr_reader :tv_show, :number
+  attr_reader :number, :tv_show_id, :episodes
   attr_accessor :id
 
-  def initialize(tv_show, number, id = nil)
-    @tv_show = tv_show
+  def initialize(number, tv_show_id, id = nil, episodes = [])
     @number = number
+    @tv_show_id = tv_show_id
     @id = id
+    @episodes = episodes
   end
 end

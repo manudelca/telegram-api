@@ -11,7 +11,7 @@ module Persistence
       end
 
       def find(id)
-        episodes_relation = episodes.combine(:seasons).by_pk(id)
+        episodes_relation = episodes.by_pk(id)
         (episodes_relation >> episode_mapper).first
       end
 
@@ -20,7 +20,7 @@ module Persistence
       def episodes_changeset(episode)
         {
           number: episode.number,
-          season_id: episode.season.id
+          season_id: episode.season_id
         }
       end
 
