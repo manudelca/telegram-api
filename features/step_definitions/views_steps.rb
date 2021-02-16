@@ -26,3 +26,7 @@ Then('I should get {string}') do |string|
   answer = JSON.parse(@response.body)
   expect(answer['message']).to eq(string)
 end
+
+Given('there is no movie with id {int}') do |int|
+  @content_id = int
+end

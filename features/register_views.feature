@@ -9,11 +9,10 @@ Feature: Register user views
     When  I marked the movie as seen for "johncito"
     Then I should get "Visto registrado exitosamente"
 
-    @wip
     Scenario: Non-existing movie
-    Given there is no movie with id 0
-    Given the user "john@test.com" is registered
-    When I marked the movie with id 0 as seen
+    Given there is no movie with id 8989
+    Given the user "john@test.com" "johncito" is registered
+    When I marked the movie as seen for "johncito"
     Then I should get "Error: la pelicula con id 0 no se encuentra registrada"
 
     @wip
