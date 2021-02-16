@@ -14,8 +14,8 @@ describe Movie do
     genre = Genre.new('Comedy')
     id = 0
     tv_show = TvShow.new('Titanic: La serie', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', id)
-    season = Season.new(tv_show, 1, id)
-    episode = Episode.new(season, 1, id)
+    season = Season.new(1, tv_show.id, id)
+    episode = Episode.new(1, season.id, id)
     movie = described_class.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', id)
 
     expect(movie.eql?(episode)).to eq(false)
