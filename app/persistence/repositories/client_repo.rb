@@ -15,8 +15,8 @@ module Persistence
         clients_relation.one
       end
 
-      def find_by_email(email)
-        clients_relation = clients.where(email: email).combine(contents: :genres)
+      def find_by_username(username)
+        clients_relation = clients.where(username: username).combine(contents: :genres)
         clients_relation = (clients_relation >> client_mapper)
         clients_relation.first
       end
