@@ -1,3 +1,4 @@
+require 'byebug'
 WebTemplate::App.controllers :clients do
   post :create, :map => '/register' do
     client = Client.new(client_params[:email], client_params[:username])
@@ -23,6 +24,11 @@ WebTemplate::App.controllers :clients do
       status 404
       {
         :message => 'Error: la pelicula con id 0 no se encuentra registrada'
+      }.to_json
+    rescue ClientNotFound
+      status 404
+      {
+        :message => "Error: el usario con username #{client_params[:username]} no se encuentra registrado"
       }.to_json
     end
   end
