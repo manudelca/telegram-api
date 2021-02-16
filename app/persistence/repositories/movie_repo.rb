@@ -12,7 +12,10 @@ module Persistence
 
       def find(id)
         contents_relation = (contents.combine(:genres).by_pk(id) >> movie_mapper)
-        contents_relation.one
+        movie = contents_relation.one
+        raise ContentNotFound if movie.nil?
+
+        movie
       end
 
       private

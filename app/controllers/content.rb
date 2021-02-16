@@ -13,13 +13,20 @@ WebTemplate::App.controllers :content, :provides => [:json] do
   end
 
   get :show, :map => '/content', :with => :id do
-    content_id = params[:id]
-    movie = movie_repo.find(content_id)
+    begin
+      content_id = params[:id]
+      movie = movie_repo.find(content_id)
 
-    status 200
-    {
-      :message => 'El contenido fue encontrado!',
-      :content => movie_details_to_json(movie)
-    }.to_json
+      status 200
+      {
+        :message => 'El contenido fue encontrado!',
+        :content => movie_details_to_json(movie)
+      }.to_json
+    rescue ContentNotFound => _e
+      status 404
+      {
+        :message => 'Error: id no se encuentra en la coleccion'
+      }.to_json
+    end
   end
 end

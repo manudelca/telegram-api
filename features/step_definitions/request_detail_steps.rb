@@ -13,3 +13,7 @@ end
 When('I get the last movie created') do
   @response = Faraday.get(get_content_url(@content_id))
 end
+
+When('I request details about the a none existant content') do
+  @response = Faraday.get(get_content_url(-1))
+end

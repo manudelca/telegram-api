@@ -8,11 +8,9 @@ Feature: Request detail
     When I get the last movie created
     Then I should receive "El contenido fue encontrado!" message
 
-    @wip
     Scenario: US3.1.2 - Request none existant content details
-    Given the content with id 90 doesn't exist
-    When I request details about the content with id 90
-    Then I should recieve a "Error: id no se encuentra en la coleccion" message
+    When I request details about the a none existant content
+    Then I should receive "Error: id no se encuentra en la coleccion" message
 
     @wip
     Scenario: US3.2 - Request tv show details
