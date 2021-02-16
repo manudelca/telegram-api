@@ -64,8 +64,16 @@ def create_genre_url
   "#{BASE_URL}/genre"
 end
 
+def create_content_url
+  "#{BASE_URL}/content"
+end
+
 def client_url
   "#{BASE_URL}/register"
+end
+
+def get_content_url(content_id)
+  "#{BASE_URL}/content/#{content_id}"
 end
 
 After do |_scenario|

@@ -10,6 +10,14 @@ module Persistence
         genre
       end
 
+      def find_by_genre_name(name, &when_not_found)
+        genre_relation = genres.where(name: name)
+        genre = (genre_relation >> genre_mapper).first
+        return when_not_found.call if genre.nil? && block_given?
+
+        genre
+      end
+
       def find(id)
         genres_relation = (genres.by_pk(id) >> genre_mapper)
         genres_relation.one

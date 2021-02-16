@@ -3,11 +3,10 @@ Feature: Request detail
     As a streaming platform user
     I want to be able to ask them
 
-    @wip
     Scenario: US3.1.1 - Request movie details
-    Given the movie "Titanic", with audience "ATP", duration 195 min, genre "drama", origin country "USA", director "James Cameron", actors "Kate Winslet" and "Leonardo Dicaprio" is available with id 0
-    When I request details about the content with id 0
-    Then I should recieve "Titanic, ATP, drama, USA, James Cameron, Kate Winslet and Leonardo Dicaprio"
+    Given the movie "Titanic", with type "movie", with audience "ATP", duration 195 min, genre "drama", origin country "USA", director "James Cameron", actors "Kate Winslet" and "Leonardo Dicaprio", release date "2021-01-01"
+    When I get the last movie created
+    Then I should receive "El contenido fue encontrado!" message
 
     @wip
     Scenario: US3.1.2 - Request none existant content details
