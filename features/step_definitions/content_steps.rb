@@ -8,6 +8,7 @@ When('I register the movie {string}, with type {string}, with audience {string},
                          audience: tv_show_audience, duration_minutes: tv_show_duration,
                          genre: tv_show_genre, country: tv_show_country,
                          director: tv_show_director, release_date: tv_show_release_date,
-                         first_actor: tv_show_first_actor, second_actor: tv_show_second_actor, season_number: season, episode_number: episode}]}.to_json
+                         first_actor: tv_show_first_actor, second_actor: tv_show_second_actor,
+                         season_number: season, episode_number: episode}]}.to_json
   @response = Faraday.post(create_content_url, @request, header)
 end

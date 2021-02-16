@@ -12,8 +12,7 @@ Feature: Request detail
     When I request details about the a none existant content
     Then I should receive "Error: id no se encuentra en la coleccion" message
 
-    @wip
     Scenario: US3.2 - Request tv show details
-    Given the tv show "The Office", with audience "No ATP", genre "comedy", origin country "USA", director "Ricky Gervais", actors "Steve Carrell" and "Rainn Wilson", seasons 7 and episodes 200 is available with id 1
-    When I request details about a content with id 1
-    Then I should recieve "The Office, No ATP, comedy, USA, Ricky Gervais, Steve Carrell and Rainn Wilson", 7 seasons and 200 episodes
+    Given the tv show "The Office", with type "tv_show", with audience "No ATP", duration 30 min, genre "comedy", origin country "USA", director "Ricky Gervais", actors "Steve Carrell" and "Rainn Wilson", release date "2004-01-01", season 1 and episode 1
+    When I get the last tv_show created
+    Then I should receive "El contenido fue encontrado!" message
