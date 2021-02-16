@@ -31,8 +31,12 @@ class Movie
     false
   end
 
+  def is_equal_to_movie?(movie)
+    @id == movie.id
+  end
+
   def eql?(other)
-    @id == other.id
+    other.is_equal_to_movie?(self)
     # Deberia chequear el id o algo mas bien de nivel de objetos
     # como el titulo?
   end

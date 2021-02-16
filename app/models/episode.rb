@@ -18,6 +18,10 @@ class Episode
     @id == episode.id
   end
 
+  def is_equal_to_movie?(movie)
+    false
+  end
+
   def eql?(other)
     other.is_equal_to_episode?(self)
     # misma duda que movie
