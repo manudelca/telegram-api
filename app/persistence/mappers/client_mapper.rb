@@ -10,7 +10,7 @@ module Persistence
       end
 
       def build_client_from(client_attributes)
-        Client.new(client_attributes.email, client_attributes.id)
+        Client.new(client_attributes.email, client_attributes.username, client_attributes.id)
       end
     end
   end

@@ -1,9 +1,10 @@
 class Client
-  attr_reader :email
+  attr_reader :email, :username
   attr_accessor :id
 
-  def initialize(email, id = nil)
+  def initialize(email, username, id = nil)
     @email = email
+    @username = username
     @id = id
   end
 end

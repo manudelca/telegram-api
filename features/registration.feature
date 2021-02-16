@@ -5,6 +5,7 @@ Feature: Registration
 
     
     Scenario: US1.1 - Successful registration
+    Given My username is "john87"
     When I register as "john@test.com"
     Then I should receive "Bienvenido! :)" message
 

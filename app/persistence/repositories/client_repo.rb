@@ -18,7 +18,7 @@ module Persistence
       private
 
       def client_changeset(client)
-        {email: client.email}
+        {email: client.email, username: client.username}
       end
 
       def client_mapper
