@@ -9,6 +9,11 @@ WebTemplate::App.controllers :clients do
     }.to_json
   end
 
-  patch :update, :map => '/client' do
+  patch :update, :map => '/clients/see_movie' do
+    client = client_repo.find_by_email(client_params[:email])
+    movie = content_repo.find_by_id(client_params[:movie_id])
+    client.sees_movie(movie)
+    client_repo.update_movies_seen(client)
+    # que devuelvo?
   end
 end

@@ -25,4 +25,12 @@ describe Persistence::Repositories::ClientRepo do # rubocop:disable RSpec/FilePa
       expect(repository.find(saved_client.id).email).to eq client.email
     end
   end
+
+  describe 'find by email' do
+    it 'must find client by email' do
+      client = Client.new('test@test.com', 'test78')
+      repository.create_client(client)
+      expect(repository.find_by_email('test@test.com').email).to eq client.email
+    end
+  end
 end

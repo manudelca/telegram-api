@@ -15,6 +15,12 @@ module Persistence
         clients_relation.one
       end
 
+      def find_by_email(email)
+        clients_relation = clients.where(email: email)
+        clients_relation = (clients_relation >> client_mapper)
+        clients_relation.first
+      end
+
       private
 
       def client_changeset(client)
