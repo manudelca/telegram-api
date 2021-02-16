@@ -13,6 +13,10 @@ class Client
     @content_seen.add(content)
   end
 
+  def amount_content_seen()
+    @content_seen.size
+  end
+
   def saw_content?(content)
     @content_seen.include?(content)
   end
