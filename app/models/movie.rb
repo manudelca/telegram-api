@@ -27,7 +27,7 @@ class Movie
     # los que compare
   end
 
-  def is_equal_to_episode?(episode)
+  def is_equal_to_episode?(_episode)
     false
   end
 

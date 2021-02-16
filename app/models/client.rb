@@ -13,7 +13,7 @@ class Client
     @content_seen.add(content)
   end
 
-  def amount_content_seen()
+  def amount_content_seen
     @content_seen.size
   end
 

@@ -19,7 +19,7 @@ describe Episode do
     season = Season.new(tv_show, 1, id)
     episode = described_class.new(season, 1, id)
     movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', id)
-    
+
     expect(episode.eql?(movie)).to eq(false)
   end
 end

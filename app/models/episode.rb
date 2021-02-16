@@ -18,7 +18,7 @@ class Episode
     @id == episode.id
   end
 
-  def is_equal_to_movie?(movie)
+  def is_equal_to_movie?(_movie)
     false
   end
 
