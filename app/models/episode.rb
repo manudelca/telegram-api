@@ -14,8 +14,12 @@ class Episode
     # los que compare
   end
 
+  def is_equal_to_episode?(episode)
+    @id == episode.id
+  end
+
   def eql?(other)
-    @id == other.id
+    other.is_equal_to_episode?(self)
     # misma duda que movie
   end
 end

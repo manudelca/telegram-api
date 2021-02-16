@@ -27,6 +27,10 @@ class Movie
     # los que compare
   end
 
+  def is_equal_to_episode?(episode)
+    false
+  end
+
   def eql?(other)
     @id == other.id
     # Deberia chequear el id o algo mas bien de nivel de objetos
