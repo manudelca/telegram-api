@@ -20,4 +20,9 @@ class Movie
     @second_actor = second_actor
     @id = id
   end
+
+  def ==(other)
+    @id == other.id # Deberia chequear titulo tambien?
+  end
+
 end
