@@ -25,4 +25,12 @@ class TvShow
   def number_of_seasons
     seasons.size
   end
+
+  def number_of_episodes
+    n_episodes = 0
+    seasons.each do |season|
+      n_episodes += season.number_of_episodes
+    end
+    n_episodes
+  end
 end
