@@ -12,9 +12,8 @@ Given('the movie {string}, with audience {string}, duration {int} min, genre {st
   @content_id = content['content'].first['id']
 end
 
-Given('the user {string} {string} is registered') do |string, string2|
-  @user_id = string2
-  @request = {email: string, user_id: string2}.to_json
+Given('the user {string} is registered') do |string|
+  @request = {email: string, user_id: 999}.to_json
   @response = Faraday.post(client_url, @request, header)
 end
 
