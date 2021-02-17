@@ -18,7 +18,7 @@ Given('the user {string} {string} is registered') do |string, string2|
 end
 
 When('I marked the movie as seen for {string}') do |string|
-  @request = {username: string, movie_id: @content_id}.to_json
+  @request = {email: string, movie_id: @content_id}.to_json
   @response = Faraday.patch(views_url, @request, header)
 end
 
