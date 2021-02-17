@@ -8,7 +8,7 @@ Feature: Registration of positive likes
 
     Scenario: US5.1 - Successful registration of positive like
     Given I saw content with id 0
-    And the user "john@test.com" "johncito" is registered
+    And the user "john@test.com" is registered
     And I haven't liked the content with id 0
     When I positive like content with id 0
     Then I should receive "Calificación registrada" message
