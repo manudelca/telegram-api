@@ -1,10 +1,10 @@
 class Client
-  attr_reader :email, :username, :movies_seen, :content_liked
+  attr_reader :email, :telegram_user_id, :movies_seen, :content_liked
   attr_accessor :id
 
-  def initialize(email, username, id = nil)
+  def initialize(email, telegram_user_id, id = nil)
     @email = email
-    @username = username
+    @telegram_user_id = telegram_user_id
     @id = id
     @movies_seen = []
     @episodes_seen = []

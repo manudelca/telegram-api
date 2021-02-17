@@ -1,7 +1,7 @@
 require 'byebug'
 WebTemplate::App.controllers :clients do
   post :create, :map => '/register' do
-    client = Client.new(client_params[:email], client_params[:username])
+    client = Client.new(client_params[:email], client_params[:telegram_user_id])
     client_repo.create_client(client)
 
     status 201
@@ -34,7 +34,7 @@ WebTemplate::App.controllers :clients do
   end
 
   post :update, :map => '/like' do
-    client = client_repo.find_by_username(client_params[:username])
+    client = client_repo.find_by_telegram_user_id(client_params[:telegram_user_id])
     content = generic_content_repo.find(client_params[:content_id])
     client.likes(content)
     client_repo.update_contents_liked(client)

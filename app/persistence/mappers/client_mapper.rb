@@ -18,7 +18,7 @@ module Persistence
       end
 
       def build_client_from(client_attributes) # rubocop:disable Metrics/AbcSize
-        client = Client.new(client_attributes.email, client_attributes.username, client_attributes.id)
+        client = Client.new(client_attributes.email, client_attributes.telegram_user_id, client_attributes.id)
         client_attributes.seen.each do |content|
           next unless content.type == 'movie'
 

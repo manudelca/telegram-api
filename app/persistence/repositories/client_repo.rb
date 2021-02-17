@@ -19,8 +19,8 @@ module Persistence
         client
       end
 
-      def find_by_username(username)
-        clients_relation = clients.where(username: username).combine(liked: :genres).combine(seen: :genres)
+      def find_by_telegram_user_id(telegram_user_id)
+        clients_relation = clients.where(telegram_user_id: telegram_user_id).combine(liked: :genres).combine(seen: :genres)
         clients_relation = (clients_relation >> client_mapper)
         client = clients_relation.first
         raise ClientNotFound if client.nil?
@@ -70,7 +70,7 @@ module Persistence
       end
 
       def client_changeset(client)
-        {email: client.email, username: client.username}
+        {email: client.email, telegram_user_id: client.telegram_user_id}
       end
 
       def clients_contents_changeset(client, content)
