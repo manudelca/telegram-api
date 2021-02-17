@@ -10,9 +10,16 @@ Given('the movie {string}, with audience {string}, duration {int} min, genre {st
   @content_id = content['content'].first['id']
 end
 
+Given('I am registered as {string}') do |email|
+  @user_id = 999
+  @email = email
+  @request = {email: @email, user_id: @user_id}.to_json
+  @response = Faraday.post(client_url, @request, header)
+end
+
 Given('I saw content with id {int}') do |_int|
-  @request = {user_id: @user_id, content_id: @content_id}.to_json
-  Faraday.patch(views_url, @request, header)
+  @request = {email: @email, user_id: @user_id}.to_json
+  @response = Faraday.post(client_url, @request, header)
 end
 
 Given('I haven\'t liked the content with id {int}') do |int|

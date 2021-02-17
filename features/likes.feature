@@ -7,8 +7,8 @@ Feature: Registration of positive likes
         Given the movie "Titanic", with audience "ATP", duration 195 min, genre "drama", origin country "USA", director "James Cameron", actors "Kate Winslet" and "Leonardo Dicaprio" is available with id 0
 
     Scenario: US5.1 - Successful registration of positive like
-    Given I saw content with id 0
-    And the user "john@test.com" is registered
+    Given I am registered as "john@test.com"
+    And I saw content with id 0
     And I haven't liked the content with id 0
     When I positive like content with id 0
     Then I should receive "Calificación registrada" message
