@@ -80,6 +80,10 @@ def get_content_url(content_id)
   "#{BASE_URL}/content/#{content_id}"
 end
 
+def like_url
+  "#{BASE_URL}/like"
+end
+
 After do |_scenario|
   Faraday.post(reset_url)
 end

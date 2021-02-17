@@ -51,7 +51,8 @@ DB = ROM.container(:sql, DATABASE_URL) do |config|
     auto_struct true
     schema(infer: true) do
       associations do
-        many_to_many :contents, through: :clients_contents
+        many_to_many :contents, as: :seen, through: :clients_contents
+        many_to_many :contents, as: :liked, through: :clients_contents_liked
       end
     end
   end
@@ -66,12 +67,23 @@ DB = ROM.container(:sql, DATABASE_URL) do |config|
     end
   end
 
+  config.relation(:clients_contents_liked) do
+    auto_struct true
+    schema(infer: true) do
+      associations do
+        belongs_to :client
+        belongs_to :content
+      end
+    end
+  end
+
   config.relation(:contents) do
     auto_struct true
     schema(infer: true) do
       associations do
         belongs_to :genres
-        many_to_many :clients, through: :clients_contents
+        many_to_many :clients, as: :seen_by, through: :clients_contents
+        many_to_many :clients, as: :liked_by, through: :clients_contents_liked
         has_many :seasons
       end
     end

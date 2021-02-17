@@ -32,4 +32,16 @@ WebTemplate::App.controllers :clients do
       }.to_json
     end
   end
+
+  post :update, :map => '/like' do
+    client = client_repo.find_by_username(client_params[:username])
+    content = generic_content_repo.find(client_params[:content_id])
+    client.likes(content)
+    client_repo.update_contents_liked(client)
+
+    status 201
+    {
+      :message => 'Calificación registrada'
+    }.to_json
+  end
 end
