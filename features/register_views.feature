@@ -18,7 +18,7 @@ Feature: Register user views
     Scenario: Non-existing user
     Given the movie "Titanic", with audience "ATP", duration 195 min, genre "drama", origin country "USA", director "James Cameron", actors "Kate Winslet" and "Leonardo Dicaprio" and release date '2020-01-01' is available
     When I marked the movie as seen for "mail_no_registrado@test.com"
-    Then I should get "Error: el usario con email mail_no_registrado@test.com no se encuentra registrado"
+    Then I should get "Error: el usuario con email mail_no_registrado@test.com no se encuentra registrado"
 
     @wip
     Scenario: US9.2 - Episode seen by an user
