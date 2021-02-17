@@ -13,6 +13,7 @@ Given('the movie {string}, with audience {string}, duration {int} min, genre {st
 end
 
 Given('the user {string} {string} is registered') do |string, string2|
+  @username = string2
   @request = {email: string, username: string2}.to_json
   @response = Faraday.post(client_url, @request, header)
 end
