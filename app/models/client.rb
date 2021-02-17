@@ -8,6 +8,7 @@ class Client
     @id = id
     @movies_seen = []
     @episodes_seen = []
+    @content_liked = []
   end
 
   def sees_movie(movie)
@@ -20,5 +21,13 @@ class Client
 
   def saw_movie?(movie)
     @movies_seen.include?(movie)
+  end
+
+  def likes(content)
+    @content_liked << content
+  end
+
+  def liked_content?(content)
+    @content_liked.include?(content)
   end
 end

@@ -37,4 +37,14 @@ describe Client do
     expect(client.saw_content?(episode)).to eq(true)
     expect(client.saw_content?(movie)).to eq(true)
   end
+
+  it 'should be able to mark content as liked' do
+    genre = Genre.new('Drama')
+    movie_id = 0
+    movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', movie_id)
+    client.sees_movie(movie)
+    client.likes(movie)
+
+    expect(client.liked_content?(movie)).to eq(true)
+  end
 end
