@@ -28,7 +28,7 @@ WebTemplate::App.controllers :clients do
     rescue ClientNotFound
       status 404
       {
-        :message => "Error: el usario con email #{client_params[:email]} no se encuentra registrado"
+        :message => "Error: el usuario con email #{client_params[:email]} no se encuentra registrado"
       }.to_json
     end
   end
@@ -52,7 +52,7 @@ WebTemplate::App.controllers :clients do
     rescue ClientNotFound
       status 404
       {
-        :message => "Error: el usario con id #{client_params[:telegram_user_id]} no se encuentra registrado"
+        :message => "Error: el usuario con id #{client_params[:telegram_user_id]} no se encuentra registrado"
       }.to_json
     end
   end
