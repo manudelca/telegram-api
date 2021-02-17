@@ -11,7 +11,7 @@ Given('the movie {string}, with audience {string}, duration {int} min, genre {st
 end
 
 Given('I saw content with id {int}') do |_int|
-  @request = {username: @username, content_id: @content_id}.to_json
+  @request = {user_id: @user_id, content_id: @content_id}.to_json
   Faraday.patch(views_url, @request, header)
 end
 
@@ -19,6 +19,6 @@ Given('I haven\'t liked the content with id {int}') do |int|
 end
 
 When('I positive like content with id {int}') do |_int|
-  @request = {username: @username, content_id: @content_id}.to_json
+  @request = {user_id: @user_id, content_id: @content_id}.to_json
   @response = Faraday.post(like_url, @request, header)
 end
