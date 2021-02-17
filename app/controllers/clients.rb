@@ -12,7 +12,7 @@ WebTemplate::App.controllers :clients do
 
   patch :update, :map => '/clients/movies_seen' do
     begin
-      client = client_repo.find_by_username(client_params[:username])
+      client = client_repo.find_by_email(client_params[:email])
       movie = movie_repo.find(client_params[:movie_id])
       client.sees_movie(movie)
       client_repo.update_movies_seen(client)
@@ -23,12 +23,12 @@ WebTemplate::App.controllers :clients do
     rescue ContentNotFound
       status 404
       {
-        :message => 'Error: la pelicula con id 0 no se encuentra registrada'
+        :message => "Error: la pelicula con id #{client_params[:movie_id]} no se encuentra registrada"
       }.to_json
     rescue ClientNotFound
       status 404
       {
-        :message => "Error: el usario con username #{client_params[:username]} no se encuentra registrado"
+        :message => "Error: el usario con email #{client_params[:email]} no se encuentra registrado"
       }.to_json
     end
   end
