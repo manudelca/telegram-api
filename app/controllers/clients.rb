@@ -34,14 +34,26 @@ WebTemplate::App.controllers :clients do
   end
 
   post :update, :map => '/like' do
-    client = client_repo.find_by_telegram_user_id(client_params[:telegram_user_id])
-    content = generic_content_repo.find(client_params[:content_id])
-    client.likes(content)
-    client_repo.update_contents_liked(client)
+    begin
+      client = client_repo.find_by_telegram_user_id(client_params[:telegram_user_id])
+      content = generic_content_repo.find(client_params[:content_id])
+      client.likes(content)
+      client_repo.update_contents_liked(client)
 
-    status 201
-    {
-      :message => 'Calificación registrada'
-    }.to_json
+      status 201
+      {
+        :message => 'Calificación registrada'
+      }.to_json
+    rescue ContentNotFound
+      status 404
+      {
+        :message => "Error: El contenido con id #{client_params[:content_id]} no se encuentra registrada"
+      }.to_json
+    rescue ClientNotFound
+      status 404
+      {
+        :message => "Error: el usario con id #{client_params[:telegram_user_id]} no se encuentra registrado"
+      }.to_json
+    end
   end
 end
