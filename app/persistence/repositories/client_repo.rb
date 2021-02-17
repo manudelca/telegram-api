@@ -1,3 +1,4 @@
+require 'byebug'
 module Persistence
   module Repositories
     class ClientRepo < ROM::Repository[:clients]
@@ -11,7 +12,7 @@ module Persistence
       end
 
       def find(id)
-        clients_relation = (clients.combine(contents: :genres).by_pk(id) >> client_mapper)
+        clients_relation = (clients.combine(liked: :genres).combine(seen: :genres).by_pk(id) >> client_mapper)
         client = clients_relation.one
         raise ClientNotFound if client.nil?
 
@@ -19,7 +20,7 @@ module Persistence
       end
 
       def find_by_username(username)
-        clients_relation = clients.where(username: username).combine(contents: :genres)
+        clients_relation = clients.where(username: username).combine(liked: :genres).combine(seen: :genres)
         clients_relation = (clients_relation >> client_mapper)
         client = clients_relation.first
         raise ClientNotFound if client.nil?
@@ -34,6 +35,13 @@ module Persistence
         end
       end
 
+      def update_contents_liked(client)
+        clients_contents_liked_relation.where(client_id: client.id).delete
+        client.content_liked.each do |content|
+          clients_contents_liked_create_command.call(clients_contents_changeset(client, content))
+        end
+      end
+
       private
 
       def clients_contents_create_command
@@ -42,6 +50,14 @@ module Persistence
 
       def clients_contents_relation
         container.relations[:clients_contents]
+      end
+
+      def clients_contents_liked_create_command
+        clients_contents_liked_relation.command(:create)
+      end
+
+      def clients_contents_liked_relation
+        container.relations[:clients_contents_liked]
       end
 
       def client_changeset(client)

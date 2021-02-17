@@ -17,13 +17,19 @@ module Persistence
         GenreMapper.new
       end
 
-      def build_client_from(client_attributes)
+      def build_client_from(client_attributes) # rubocop:disable Metrics/AbcSize
         client = Client.new(client_attributes.email, client_attributes.username, client_attributes.id)
         client_attributes.seen.each do |content|
           next unless content.type == 'movie'
 
           genre = genre_mapper.build_genre_from(content.genres)
           client.sees_movie(movie_mapper.build_movie_from(content, genre))
+        end
+        client_attributes.liked.each do |content|
+          next unless content.type == 'movie'
+
+          genre = genre_mapper.build_genre_from(content.genres)
+          client.likes(movie_mapper.build_movie_from(content, genre))
         end
         client
       end
