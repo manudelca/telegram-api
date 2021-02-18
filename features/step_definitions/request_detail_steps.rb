@@ -1,4 +1,7 @@
+require 'byebug'
 Given('the movie {string}, with type {string}, with audience {string}, duration {int} min, genre {string}, origin country {string}, director {string}, actors {string} and {string}, release date {string}') do |name, type, audience, duration, genre, country, director, first_actor, second_actor, release_date|
+  @request = {name: genre}.to_json
+  @response = Faraday.post(create_genre_url, @request, header)
   @request = {content: [{type: type, name: name, audience: audience,
                          duration_minutes: duration, genre: genre,
                          country: country, director: director,
@@ -11,6 +14,8 @@ Given('the movie {string}, with type {string}, with audience {string}, duration 
 end
 
 Given('the tv show {string}, with type {string}, with audience {string}, duration {int} min, genre {string}, origin country {string}, director {string}, actors {string} and {string}, release date {string}, season {int} and episode {int}') do |name, type, audience, duration, genre, country, director, first_actor, second_actor, release_date, season, episode|
+  @request = {name: genre}.to_json
+  @response = Faraday.post(create_genre_url, @request, header)
   @request = {content: [{type: type, name: name, audience: audience,
                          duration_minutes: duration, genre: genre,
                          country: country, director: director,
@@ -20,7 +25,7 @@ Given('the tv show {string}, with type {string}, with audience {string}, duratio
   @response = Faraday.post(create_content_url, @request, header)
 
   content = JSON.parse(@response.body)
-  @content_id = content['content'].first['id']
+  @content_id = content['content'].first['tv_show_id']
 end
 
 When('I get the last movie created') do

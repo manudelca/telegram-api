@@ -24,6 +24,10 @@ module Persistence
         (seasons_relation >> season_mapper).first
       end
 
+      def delete_all
+        seasons.delete
+      end
+
       private
 
       def seasons_changeset(season)

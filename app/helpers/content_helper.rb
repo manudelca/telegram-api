@@ -145,6 +145,7 @@ module WebTemplate
       def create_tv_show_to_json(tv_show, season, episode)
         {
           id: episode.id,
+          tv_show_id: tv_show.id,
           name: tv_show.name,
           audience: tv_show.audience,
           duration_minutes: tv_show.duration_minutes,

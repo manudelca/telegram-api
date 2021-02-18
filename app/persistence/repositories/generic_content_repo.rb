@@ -8,6 +8,10 @@ module Persistence
         contents_relation.one.first
       end
 
+      def delete_all
+        contents.delete
+      end
+
       private
 
       def generic_content_mapper

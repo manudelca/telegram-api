@@ -15,6 +15,10 @@ module Persistence
         (episodes_relation >> episode_mapper).first
       end
 
+      def delete_all
+        episodes.delete
+      end
+
       private
 
       def episodes_changeset(episode)

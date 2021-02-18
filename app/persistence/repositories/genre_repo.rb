@@ -23,6 +23,10 @@ module Persistence
         genres_relation.one
       end
 
+      def delete_all
+        genres.delete
+      end
+
       private
 
       def genre_changeset(genre)

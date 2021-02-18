@@ -51,6 +51,12 @@ module Persistence
         end
       end
 
+      def delete_all
+        clients_contents_relation.delete
+        clients_contents_liked_relation.delete
+        clients.delete
+      end
+
       private
 
       def clients_contents_create_command
