@@ -1,13 +1,20 @@
 require 'byebug'
 WebTemplate::App.controllers :clients do
   post :create, :map => '/register' do
-    client = Client.new(client_params[:email], client_params[:telegram_user_id])
-    client_repo.create_client(client)
+    begin
+      client = Client.new(client_params[:email], client_params[:telegram_user_id])
+      client_repo.create_client(client)
 
-    status 201
-    {
-      :message => 'Bienvenido! :)'
-    }.to_json
+      status 201
+      {
+        :message => 'Bienvenido! :)'
+      }.to_json
+    rescue NoEmailError
+      status 404
+      {
+        :message => 'Error: falta el campo email'
+      }.to_json
+    end
   end
 
   patch :update, :map => '/clients/movies_seen' do

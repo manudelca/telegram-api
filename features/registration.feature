@@ -9,7 +9,7 @@ Feature: Registration
     When I register as "john@test.com"
     Then I should receive "Bienvenido! :)" message
 
-    @wip
+    
     Scenario: US1.2 - Registration without email
     Given My user id is 123456789
     When I register without an email
