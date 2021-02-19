@@ -3,6 +3,8 @@ class Client
   attr_accessor :id
 
   def initialize(email, telegram_user_id, id = nil)
+    raise NoEmailError if email.nil?
+
     @email = email
     @telegram_user_id = telegram_user_id
     @id = id

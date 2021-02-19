@@ -3,14 +3,15 @@ Feature: Registration
     As a streaming platform user
     I want to be able to register
 
-    @wip
+    
     Scenario: US1.1 - Successful registration
-    Given My user id is 123_456_789
+    Given My user id is 123456789
     When I register as "john@test.com"
     Then I should receive "Bienvenido! :)" message
 
     @wip
     Scenario: US1.2 - Registration without email
+    Given My user id is 123456789
     When I register without an email
     Then I should receive "Error: falta el campo email" message
 

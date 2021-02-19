@@ -47,4 +47,10 @@ describe Client do
 
     expect(client.liked_content?(movie)).to eq(true)
   end
+
+  it 'should raise exception if initialized with nil email' do
+    email = nil
+    telegram_user_id = 1
+    expect { described_class.new(email, telegram_user_id) }.to raise_error(NoEmailError)
+  end
 end

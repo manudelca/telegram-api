@@ -1,0 +1,1 @@
+class NoEmailError < StandardError; end
