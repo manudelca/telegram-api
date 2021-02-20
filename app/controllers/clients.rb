@@ -49,6 +49,29 @@ WebTemplate::App.controllers :clients do
     end
   end
 
+  patch :update, :map => '/clients/episodes_seen' do
+    begin
+      client = client_repo.find_by_email(client_params[:email])
+      episode = episodes_repo.find(client_params[:episode_id])
+      client.sees_episode(episode)
+      client_repo.update_episodes_seen(episode)
+      status 201
+      {
+        :message => 'Visto registrado exitosamente'
+      }.to_json
+    rescue ContentNotFound
+      status 404
+      {
+        :message => "Error: el episodio con id #{client_params[:movie_id]} no se encuentra registrada"
+      }.to_json
+    rescue ClientNotFound
+      status 404
+      {
+        :message => "Error: el usuario con email #{client_params[:email]} no se encuentra registrado"
+      }.to_json
+    end
+  end
+
   post :update, :map => '/like' do
     begin
       client = client_repo.find_by_telegram_user_id(client_params[:telegram_user_id])

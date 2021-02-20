@@ -49,6 +49,25 @@ describe Persistence::Repositories::ClientRepo do # rubocop:disable RSpec/FilePa
     end
   end
 
+  describe 'update episode seen' do
+    xit 'must update episodes seen by the client' do
+      client = Client.new('test@test3.com', 456_345)
+      repository.create_client(client)
+      genre = Genre.new('Drama')
+      Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
+      tv_show = TvShow.new('Titanic', 'ATP', 195, genre, 'USA', 'James Cameron', 'Kate Winslet', 'Leonardo Dicaprio')
+      new_tv_show = Persistence::Repositories::TvShowRepo.new(DB).create_content(tv_show)
+      season = Season.new(1, new_tv_show.id)
+      new_season = Persistence::Repositories::SeasonsRepo.new(DB).create_season(season)
+      episode = Episode.new(1, new_season.id)
+      new_episode = Persistence::Repositories::EpisodesRepo.new(DB).create_episode(episode)
+      client.sees_episode(episode)
+      repository.update_episodes_seen(client)
+
+      expect(repository.find_by_telegram_user_id(456_345).episodes_seen[0].id).to eq new_episode.id
+    end
+  end
+
   describe 'update movie liked' do
     it 'must update movies liked by the client' do
       client = Client.new('test@test5.com', 978_567)

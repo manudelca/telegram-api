@@ -12,7 +12,7 @@ describe Client do
     expect(client.saw_movie?(movie)).to eq(true)
   end
 
-  xit 'should seen episodes' do
+  it 'should seen episodes' do
     genre = Genre.new('Comedy')
     id = 0
     tv_show = TvShow.new('Titanic: La serie', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', id)
