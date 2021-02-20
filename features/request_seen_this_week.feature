@@ -12,7 +12,7 @@ Feature: Request content seen this week
     And "john@test.com" saw the movie "Jurassic Park" in "2021-01-01"
     And "john@test.com" saw the movie "Matrix" in "2021-01-02"
     And "john@test.com" saw the movie "Titanic" in "2021-01-03"
-    And "john@test.com" saw the movie "Sherlock" in "2021-01-04"
+    And "john@test.com" saw the tv show "Sherlock", season 1 episode 1 in "2021-01-04"
     And I haven't qualified any content
     And it is "2021-01-05"
     When I request content seen this week
