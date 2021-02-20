@@ -1,18 +1,22 @@
-require 'byebug'
 WebTemplate::App.controllers :clients do
   post :create, :map => '/register' do
     begin
       client = Client.new(client_params[:email], client_params[:telegram_user_id])
-      client_repo.create_client(client)
-
-      status 201
+      client_repo.find_by_email(client_params[:email])
+      status 404
       {
-        :message => 'Bienvenido! :)'
+        :message => 'Error: este email ya se encuentra registrado'
       }.to_json
     rescue NoEmailError
       status 404
       {
         :message => 'Error: falta el campo email'
+      }.to_json
+    rescue ClientNotFound
+      client_repo.create_client(client)
+      status 201
+      {
+        :message => 'Bienvenido! :)'
       }.to_json
     end
   end

@@ -15,9 +15,8 @@ Feature: Registration
     When I register without an email
     Then I should receive "Error: falta el campo email" message
 
-    @wip
     Scenario: US1.3 - Registration with repeated mail
-    Given someone has registered as "john@test.com" 
+    Given someone with id 123 registered as "john@test.com"
     When I register as "john@test.com"
     Then I should receive "Error: este email ya se encuentra registrado" message
 
