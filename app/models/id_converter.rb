@@ -5,7 +5,8 @@ class IdConverter
 
   def initialize
     @repos = {'00' => Persistence::Repositories::MovieRepo.new(DB),
-              '01' => Persistence::Repositories::TvShowRepo.new(DB)}
+              '01' => Persistence::Repositories::TvShowRepo.new(DB),
+              '02' => Persistence::Repositories::EpisodesRepo.new(DB)}
   end
 
   def get_repo(id)

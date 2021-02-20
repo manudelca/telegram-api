@@ -15,10 +15,10 @@ describe IdConverter do
     expect(repo).to be_instance_of(Persistence::Repositories::TvShowRepo)
   end
 
-  xit 'should return episode repo when first 2 digits are 02' do
+  it 'should return episode repo when first 2 digits are 02' do
     id = '02123'
     repo = converter.get_repo(id)
-    expect(repo).to be_instance_of(EpisodesRepo)
+    expect(repo).to be_instance_of(Persistence::Repositories::EpisodesRepo)
   end
 
   xit 'should parse id removing first 2 digits' do
