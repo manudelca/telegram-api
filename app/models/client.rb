@@ -2,8 +2,10 @@ class Client
   attr_reader :email, :telegram_user_id, :movies_seen, :content_liked
   attr_accessor :id
 
-  def initialize(email, telegram_user_id, id = nil)
+  def initialize(email, telegram_user_id, id = nil, email_validator = EmailValidator.new)
     raise NoEmailError if email.nil?
+
+    email_validator.validate(email)
 
     @email = email
     @telegram_user_id = telegram_user_id
