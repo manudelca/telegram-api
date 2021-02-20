@@ -14,4 +14,8 @@ class IdConverter
     last_int = repo_id_s[repo_id_s.length - 2, repo_id_s.length].to_i
     @repos[last_int]
   end
+
+  def parse_id(_id)
+    123
+  end
 end

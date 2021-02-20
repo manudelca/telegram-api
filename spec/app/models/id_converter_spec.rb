@@ -21,9 +21,9 @@ describe IdConverter do
     expect(repo).to be_instance_of(Persistence::Repositories::EpisodesRepo)
   end
 
-  xit 'should parse id removing last 2 digits' do
+  it 'should parse id removing last 2 digits' do
     id = 12_300
-    expect(converter.parse_id(id)).to eq('123')
+    expect(converter.parse_id(id)).to eq(123)
   end
 
   xit 'should add 00 to movie created' do
