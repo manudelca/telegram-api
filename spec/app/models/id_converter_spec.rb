@@ -3,41 +3,41 @@ require 'spec_helper'
 describe IdConverter do
   let(:converter) { described_class.new }
 
-  it 'should return movie repo when first 2 digits are 00' do
-    id = '00123'
+  it 'should return movie repo when last 2 digits are 00' do
+    id = 12_300
     repo = converter.get_repo(id)
     expect(repo).to be_instance_of(Persistence::Repositories::MovieRepo)
   end
 
-  it 'should return tv show repo when first 2 digits are 01' do
-    id = '01123'
+  it 'should return tv show repo when last 2 digits are 01' do
+    id = 112_301
     repo = converter.get_repo(id)
     expect(repo).to be_instance_of(Persistence::Repositories::TvShowRepo)
   end
 
-  it 'should return episode repo when first 2 digits are 02' do
-    id = '02123'
+  it 'should return episode repo when last 2 digits are 02' do
+    id = 212_302
     repo = converter.get_repo(id)
     expect(repo).to be_instance_of(Persistence::Repositories::EpisodesRepo)
   end
 
-  xit 'should parse id removing first 2 digits' do
-    id = '00123'
-    expect(converter.parse_id(id)).to eq(123)
+  xit 'should parse id removing last 2 digits' do
+    id = 12_300
+    expect(converter.parse_id(id)).to eq('123')
   end
 
   xit 'should add 00 to movie created' do
-    id = '1123'
-    expect(converter.parse_movie_id(id)).to eq(0o01123)
+    id = 1123
+    expect(converter.parse_movie_id(id)).to eq(112_300)
   end
 
   xit 'should add 01 to tv show created' do
-    id = '1123'
-    expect(converter.parse_movie_id(id)).to eq(0o11123)
+    id = 1123
+    expect(converter.parse_movie_id(id)).to eq(112_301)
   end
 
   xit 'should add 02 to episode created' do
-    id = '1123'
-    expect(converter.parse_movie_id(id)).to eq(0o21123)
+    id = 1123
+    expect(converter.parse_movie_id(id)).to eq(112_302)
   end
 end
