@@ -29,4 +29,7 @@ WebTemplate::App.controllers :content, :provides => [:json] do
       }.to_json
     end
   end
+
+  get :show, :map => '/content/releases' do
+  end
 end

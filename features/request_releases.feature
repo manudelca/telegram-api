@@ -10,7 +10,7 @@ Feature: Request releases
     And the movie "Titanic", with audience "ATP", duration 195 min, genre "drama", origin country "USA", director "James Cameron", actors "Kate Winslet" and "Leonardo Dicaprio", release date "2021-01-01"
     And the episode  the tv show "Sherlock", with audience "ATP", duration 90 min, genre "mystery", origin country "England", director "Paul McGuigan", actors "Benedict Cumberbatch" and "Martin Freeman", season 1 and episode 1, release date "2010-07-25"
     When I request releases
-    Then I should receive name, 2 actors, el director, genre and season (if tv show) from "Matrix", "Titanic". "Sherlock"
+    Then I should receive id, name, 2 actors, el director, genre and season (if tv show) from "Matrix", "Titanic". "Sherlock"
 
     @wip
     Scenario: US2.2 - It doesn't return future releases
@@ -19,20 +19,20 @@ Feature: Request releases
     And the episode  the tv show "Sherlock", with audience "ATP", duration 90 min, genre "mystery", origin country "England", director "Paul McGuigan", actors "Benedict Cumberbatch" and "Martin Freeman", season 1 and episode 1, release date "2010-07-25" 
     And the movie "Matrix", with audience "ATP", duration 150 min, genre "action", origin country "USA", director "Lana Wachowski", actors "Keanu Reeves" and "Carrie-Anne Moss", release date "1999-06-10"
     When I request releases
-    Then I should receive name, 2 actors, el director, genre and season (if tv show) from "Matrix", "Titanic", "Sherlock"
+    Then I should receive id, name, 2 actors, el director, genre and season (if tv show) from "Matrix", "Titanic", "Sherlock"
 
     @wip
     Scenario: US2.3 - Request releases with 2 contents
     Given the movie "Matrix", with audience "ATP", duration 150 min, genre "action", origin country "USA", director "Lana Wachowski", actors "Keanu Reeves" and "Carrie-Anne Moss", release date "1999-06-10"
     And the episode  the tv show "Sherlock", with audience "ATP", duration 90 min, genre "mystery", origin country "England", director "Paul McGuigan", actors "Benedict Cumberbatch" and "Martin Freeman", season 1 and episode 1, release date "2010-07-25" 
     When I request releases
-    Then I should receive name, 2 actors, el director, genre and season (if tv show) from "Matrix", "Sherlock"
+    Then I should receive id, name, 2 actors, el director, genre and season (if tv show) from "Matrix", "Sherlock"
 
     @wip
     Scenario: US2.4 - Request releases with 1 future content
     Given the movie "Matrix IV", with audience "ATP", duration 150 min, genre "action", origin country "USA", director "Lana Wachowski", actors "Keanu Reeves" and "Carrie-Anne Moss", release date "2030-06-10"
     When I request releases
-    Then I should receive name, 2 actors, el director, genre and season (if tv show) from "Matrix IV", as future release
+    Then I should receive id, name, 2 actors, el director, genre and season (if tv show) from "Matrix IV", as future release
 
     @wip
     Scenario: US2.5 - Request releases with 0 content

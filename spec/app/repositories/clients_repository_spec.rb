@@ -1,8 +1,11 @@
 require 'spec_helper'
-# require_relative '../../../app/persistence/repositories/genre_repo'
 
 describe Persistence::Repositories::ClientRepo do # rubocop:disable RSpec/FilePath
   let(:repository) { described_class.new(DB) }
+
+  after(:each) do
+    described_class.new(DB).delete_all
+  end
 
   describe 'changeset' do
     it 'changeset has email == client.email' do

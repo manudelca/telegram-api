@@ -18,6 +18,10 @@ module Persistence
         movie
       end
 
+      def delete_all
+        contents.delete
+      end
+
       private
 
       def movie_changeset(movie)

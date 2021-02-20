@@ -4,11 +4,19 @@ describe Persistence::Repositories::SeasonsRepo do # rubocop:disable RSpec/FileP
   let(:repository) { described_class.new(DB) }
 
   let(:tv_show) do
-    genre = Genre.new('comedy')
-    Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
+    genre_repository = Persistence::Repositories::GenreRepo.new(DB)
+    new_genre = Genre.new('drama')
+    genre = genre_repository.create_genre(new_genre)
 
+    tv_show_repository = Persistence::Repositories::TvShowRepo.new(DB)
     tv_show = TvShow.new('The Office', 'No ATP', 190, genre, 'USA', 'Ricky Gervais', '2021-01-01', 'Steve Carrell', 'Rainn Wilson')
-    Persistence::Repositories::TvShowRepo.new(DB).create_content(tv_show)
+    tv_show_repository.create_content(tv_show)
+  end
+
+  after(:each) do
+    described_class.new(DB).delete_all
+    Persistence::Repositories::TvShowRepo.new(DB).delete_all
+    Persistence::Repositories::GenreRepo.new(DB).delete_all
   end
 
   describe 'changeset' do

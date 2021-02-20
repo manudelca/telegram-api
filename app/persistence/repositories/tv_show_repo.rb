@@ -25,6 +25,10 @@ module Persistence
         contents_relation.one
       end
 
+      def delete_all
+        contents.delete
+      end
+
       private
 
       def tv_show_changeset(tv_show)
