@@ -36,7 +36,7 @@ describe IdConverter do
     expect(converter.parse_tv_show_id(id)).to eq(112_301)
   end
 
-  xit 'should add 02 to episode created' do
+  it 'should add 02 to episode created' do
     id = 1123
     expect(converter.parse_episode_id(id)).to eq(112_302)
   end

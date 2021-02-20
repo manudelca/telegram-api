@@ -34,4 +34,8 @@ class IdConverter
   def parse_tv_show_id(id)
     parse_any_id(id, @tv_show_id)
   end
+
+  def parse_episode_id(id)
+    parse_any_id(id, @episode_id)
+  end
 end
