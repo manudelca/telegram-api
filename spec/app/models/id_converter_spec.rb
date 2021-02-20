@@ -26,7 +26,7 @@ describe IdConverter do
     expect(converter.parse_id(id)).to eq(123)
   end
 
-  xit 'should add 00 to movie created' do
+  it 'should add 00 to movie created' do
     id = 1123
     expect(converter.parse_movie_id(id)).to eq(112_300)
   end

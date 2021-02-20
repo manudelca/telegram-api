@@ -19,4 +19,9 @@ class IdConverter
     repo_id_s = id.to_s
     repo_id_s[0, repo_id_s.length - 2].to_i
   end
+
+  def parse_movie_id(id)
+    repo_id_s = "#{id}00"
+    repo_id_s.to_i
+  end
 end
