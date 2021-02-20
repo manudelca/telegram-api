@@ -12,6 +12,11 @@ WebTemplate::App.controllers :clients do
       {
         :message => 'Error: falta el campo email'
       }.to_json
+    rescue InvalidEmailError
+      status 404
+      {
+        :message => 'Error: email inválido, ingrese un mail válido. Ej: mail@dominio.com'
+      }.to_json
     rescue ClientNotFound
       client_repo.create_client(client)
       status 201

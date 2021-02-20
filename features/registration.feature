@@ -20,7 +20,6 @@ Feature: Registration
     When I register as "john@test.com"
     Then I should receive "Error: este email ya se encuentra registrado" message
 
-    @wip
     Scenario: US1.4 - Registration with invalid mail
     When I register as "john@test"
-    Then I should receive "Error: email es inválido, por favor ingrese un mail válido. Ej: /register mail@dominio.com" message
+    Then I should receive "Error: email inválido, ingrese un mail válido. Ej: mail@dominio.com" message
