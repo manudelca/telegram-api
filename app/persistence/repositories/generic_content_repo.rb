@@ -10,7 +10,7 @@ module Persistence
 
       def find_by_desc_release_date(how_many)
         contents_relation = (contents.combine(:genres, seasons: :episodes)
-                                     .order(:release_date).limit(how_many) >> generic_content_mapper)
+                                     .order { release_date.desc }.limit(how_many) >> generic_content_mapper)
         raise ContentNotFound if contents_relation.first.nil?
 
         contents_relation.first
