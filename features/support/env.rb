@@ -76,6 +76,10 @@ def views_url
   "#{BASE_URL}/clients/movies_seen"
 end
 
+def episodes_views_url
+  "#{BASE_URL}/clients/episodes_seen"
+end
+
 def get_content_url(content_id)
   "#{BASE_URL}/content/#{content_id}"
 end

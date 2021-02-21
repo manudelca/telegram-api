@@ -9,6 +9,10 @@ module Persistence
         end
       end
 
+      def episode_mapper
+        EpisodeMapper.new
+      end
+
       def movie_mapper
         MovieMapper.new
       end
@@ -30,6 +34,9 @@ module Persistence
 
           genre = genre_mapper.build_genre_from(content.genres)
           client.likes(movie_mapper.build_movie_from(content, genre))
+        end
+        client_attributes.episodes_seen.each do |episode|
+          client.sees_episode(episode_mapper.build_episode_from(episode))
         end
         client
       end

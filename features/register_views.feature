@@ -22,7 +22,7 @@ Feature: Register user views
 
     @wip
     Scenario: US9.2 - Episode seen by an user
-    Given the episode  the tv show "The Office", with audience "No ATP", genre "comedy", origin country "USA", director "Ricky Gervais", actors "Steve Carrell" and "Rainn Wilson", seasons 7 and episodes 200 is available with id 1
+    Given the episode  the tv show "The Office", with audience "No ATP", duration 20 min, genre "comedy", origin country "USA", director "Ricky Gervais", actors "Steve Carrell" and "Rainn Wilson", seasons 7 and episodes 200 and release date '2020-01-01' is available
     Given the user "john@test.com" is registered
-    When I marked the episode 1 of tv show with id 1 for "john@test.com"
+    When I marked the episode 1 of tv show "The Office" for "john@test.com"
     Then I should get "Visto registrado exitosamente"
