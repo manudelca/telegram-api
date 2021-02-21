@@ -30,10 +30,8 @@ module Persistence
       def find_by_email(email)
         clients_relation = clients.where(email: email).combine(liked: :genres).combine(seen: :genres).combine(:episodes_seen)
         clients_relation = (clients_relation >> client_mapper)
-        client = clients_relation.first
-        raise ClientNotFound if client.nil?
 
-        client
+        clients_relation.first
       end
 
       def update_movies_seen(client)

@@ -2,10 +2,13 @@ WebTemplate::App.controllers :clients do
   post :create, :map => '/register' do
     begin
       client = Client.new(client_params[:email], client_params[:telegram_user_id])
-      client_repo.find_by_email(client_params[:email])
-      status 404
+      client_with_same_email = client_repo.find_by_email(client_params[:email])
+      raise EmailRepeatedError unless client_with_same_email.nil?
+
+      client_repo.create_client(client)
+      status 201
       {
-        :message => 'Error: este email ya se encuentra registrado'
+        :message => 'Bienvenido! :)'
       }.to_json
     rescue NoEmailError
       status 404
@@ -17,11 +20,10 @@ WebTemplate::App.controllers :clients do
       {
         :message => 'Error: email inválido, ingrese un mail válido. Ej: mail@dominio.com'
       }.to_json
-    rescue ClientNotFound
-      client_repo.create_client(client)
-      status 201
+    rescue EmailRepeatedError
+      status 404
       {
-        :message => 'Bienvenido! :)'
+        :message => 'Error: este email ya se encuentra registrado'
       }.to_json
     end
   end
@@ -29,6 +31,8 @@ WebTemplate::App.controllers :clients do
   patch :update, :map => '/clients/movies_seen' do
     begin
       client = client_repo.find_by_email(client_params[:email])
+      raise ClientNotFound if client.nil?
+
       movie = find_content(client_params[:movie_id])
       client.sees_movie(movie)
       client_repo.update_movies_seen(client)
@@ -52,6 +56,8 @@ WebTemplate::App.controllers :clients do
   patch :update, :map => '/clients/episodes_seen' do
     begin
       client = client_repo.find_by_email(client_params[:email])
+      raise ClientNotFound if client.nil?
+
       episode = episodes_repo.find(client_params[:episode_id])
       client.sees_episode(episode)
       client_repo.update_episodes_seen(episode)
