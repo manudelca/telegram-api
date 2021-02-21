@@ -25,10 +25,16 @@ module Persistence
         contents_relation.one
       end
 
-      def find_by_desc_release_date(how_many, now_date)
+      def find_releases_without_future_ones(how_many, now_date)
         (contents.combine(:genres, seasons: :episodes)
                                      .where(type: 'tv_show').where { release_date < now_date }
                                      .order { release_date.desc }.limit(how_many) >> tv_show_mapper)
+      end
+
+      def find_releases_with_future_ones(how_many, now_date)
+        (contents.combine(:genres, seasons: :episodes)
+                 .where(type: 'tv_show').where { release_date > now_date }
+                 .order { release_date.desc }.limit(how_many) >> tv_show_mapper)
       end
 
       def delete_all

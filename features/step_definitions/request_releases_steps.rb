@@ -57,3 +57,12 @@ Given('today is {string}') do |today_date|
   @request = { date: today_date}.to_json
   @response = Faraday.post(test_date_url, @request, header)
 end
+
+Then('I should receive id, name, actors, director, genre and season \(if tv show) from {string}, as future release') do |content_name|
+  answer = JSON.parse(@response.body)['content']
+  content_names = []
+  answer.each do |content|
+    content_names << content['name']
+  end
+  expect(content_names[0]).to eq(content_name)
+end

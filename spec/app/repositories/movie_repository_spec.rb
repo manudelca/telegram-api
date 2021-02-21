@@ -45,7 +45,7 @@ describe Persistence::Repositories::MovieRepo do # rubocop:disable RSpec/FilePat
 
   describe 'find by descendant release date' do
     it 'no content returns nil' do
-      expect(repository.find_by_desc_release_date(3, @@date).first).to eq(nil)
+      expect(repository.find_releases_without_future_ones(3, @@date).first).to eq(nil)
     end
 
     it 'when 2 contents, get order by desc release_date' do
@@ -55,7 +55,7 @@ describe Persistence::Repositories::MovieRepo do # rubocop:disable RSpec/FilePat
       repository.create_content(movie_older)
       saved_movie_newer = repository.create_content(movie_newer)
 
-      expect(repository.find_by_desc_release_date(3, @@date).first.id).to eq(saved_movie_newer.id)
+      expect(repository.find_releases_without_future_ones(3, @@date).first.id).to eq(saved_movie_newer.id)
     end
 
     it 'when a content release is in future date, dont return it' do
@@ -65,7 +65,7 @@ describe Persistence::Repositories::MovieRepo do # rubocop:disable RSpec/FilePat
       saved_movie_older = repository.create_content(movie_older)
       repository.create_content(movie_newer)
 
-      expect(repository.find_by_desc_release_date(3, @@date).first.id).to eq(saved_movie_older.id)
+      expect(repository.find_releases_without_future_ones(3, @@date).first.id).to eq(saved_movie_older.id)
     end
   end
 end

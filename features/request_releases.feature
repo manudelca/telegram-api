@@ -31,7 +31,6 @@ Feature: Request releases
     When I request releases
     Then I should receive id, name, actors, director, genre and season (if tv show) from "Sherlock", "Matrix"
 
-    @wip
     Scenario: US2.4 - Request releases with 1 future content
     Given the movie "Matrix IV", with type "movie", with audience "ATP", duration 150 min, genre "action", origin country "USA", director "Lana Wachowski", actors "Keanu Reeves" and "Carrie-Anne Moss", release date "2030-06-10" is created
     When I request releases
