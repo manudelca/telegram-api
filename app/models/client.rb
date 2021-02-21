@@ -31,6 +31,10 @@ class Client
     false
   end
 
+  def seen_this_week(_date)
+    [@movies_seen['2021-01-01']]
+  end
+
   def likes(content)
     @content_liked << content
   end

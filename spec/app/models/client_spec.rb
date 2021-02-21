@@ -53,4 +53,15 @@ describe Client do
     telegram_user_id = 1
     expect { described_class.new(email, telegram_user_id) }.to raise_error(NoEmailError)
   end
+
+  it 'should return movie seen yesterday when asking for content seen this week' do
+    genre = Genre.new('Drama')
+    movie_id = 0
+    movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', movie_id)
+    seen_date = '2021-01-01'
+    today = '2021-01-02'
+    client.sees_movie(movie, seen_date)
+
+    expect(client.seen_this_week(today)).to include(movie)
+  end
 end
