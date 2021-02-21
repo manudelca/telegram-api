@@ -13,7 +13,7 @@ describe Persistence::Repositories::EpisodesRepo do # rubocop:disable RSpec/File
     tv_show = tv_show_repository.create_content(new_tv_show)
 
     seasons_repository = Persistence::Repositories::SeasonsRepo.new(DB)
-    new_season = Season.new(1, tv_show.id)
+    new_season = Season.new(1, tv_show.id, '2021-01-01')
     seasons_repository.create_season(new_season)
   end
 

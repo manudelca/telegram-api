@@ -55,7 +55,9 @@ module WebTemplate
         new_tv_show = tv_show_repo.find_or_create(tv_show)
 
         # save season
-        season = Season.new(content_params['season_number'], new_tv_show.id)
+        season = Season.new(content_params['season_number'],
+                            new_tv_show.id,
+                            content_params['release_date'])
         new_season = seasons_repo.find_or_create(season)
 
         # save episode
