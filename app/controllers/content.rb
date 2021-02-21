@@ -16,13 +16,13 @@ WebTemplate::App.controllers :content, :provides => [:json] do
   get :show, :map => '/content', :with => :id do
     content_id = params[:id]
     begin
-      content = generic_content_repo.find(content_id)
+      content = find_content(content_id)
       dic_content_type = {
         'movie' => method(:movie_details_response),
         'tv_show' => method(:tv_show_details_response)
       }
       dic_content_type[content.type_of_content][content]
-    rescue ContentNotFound => _e
+    rescue ContentNotFound, RepoNotFound => _e
       status 404
       {
         :message => 'Error: id no se encuentra en la coleccion'

@@ -1,3 +1,5 @@
+require 'byebug'
+
 WebTemplate::App.controllers :clients do
   post :create, :map => '/register' do
     begin
@@ -29,7 +31,8 @@ WebTemplate::App.controllers :clients do
   patch :update, :map => '/clients/movies_seen' do
     begin
       client = client_repo.find_by_email(client_params[:email])
-      movie = movie_repo.find(client_params[:movie_id])
+      byebug # rubocop:disable Lint/Debugger
+      movie = find_content(client_params[:movie_id])
       client.sees_movie(movie)
       client_repo.update_movies_seen(client)
       status 201
@@ -52,7 +55,7 @@ WebTemplate::App.controllers :clients do
   post :update, :map => '/like' do
     begin
       client = client_repo.find_by_telegram_user_id(client_params[:telegram_user_id])
-      content = generic_content_repo.find(client_params[:content_id])
+      content = find_content(client_params[:content_id])
       client.likes(content)
       client_repo.update_contents_liked(client)
 
