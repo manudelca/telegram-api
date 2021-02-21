@@ -39,6 +39,8 @@ WebTemplate::App.controllers :content, :provides => [:json] do
 
       number_of_releases = 3
       releases = generic_content_repo.find_by_desc_release_date(number_of_releases)
+      raise ContentNotFound if releases.nil?
+
       releases_formatted = []
       releases.each do |release|
         dic_content_type = {
@@ -52,6 +54,11 @@ WebTemplate::App.controllers :content, :provides => [:json] do
       {
         :message => 'El contenido fue encontrado exitosamente!',
         :content => releases_formatted
+      }.to_json
+    rescue ContentNotFound
+      status 200
+      {
+        :message => 'No se encontro contenido para tu query'
       }.to_json
     rescue QueryNotImplementedError
       status 400

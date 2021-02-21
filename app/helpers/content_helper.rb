@@ -147,13 +147,15 @@ module WebTemplate
       end
 
       def tv_show_as_release_to_json(tv_show)
+        last_season = tv_show.last_season
         {
           id: IdConverter.new.parse_tv_show_id(tv_show.id),
           name: tv_show.name,
           genre: tv_show.genre.name,
           director: tv_show.director,
           first_actor: tv_show.first_actor,
-          second_actor: tv_show.second_actor
+          second_actor: tv_show.second_actor,
+          season_number: last_season.number
         }
       end
 

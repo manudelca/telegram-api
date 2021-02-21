@@ -34,6 +34,10 @@ class TvShow
     n_episodes
   end
 
+  def last_season
+    seasons.select { |season| season.release_date == release_date }.first
+  end
+
   def type_of_content
     'tv_show'
   end
