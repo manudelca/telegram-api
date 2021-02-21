@@ -48,7 +48,7 @@ WebTemplate::App.controllers :content, :provides => [:json] do
     rescue ContentNotFound
       status 200
       {
-        :message => 'No se encontro contenido para tu query',
+        :message => 'No se encontro contenido!',
         :content => []
       }.to_json
     end

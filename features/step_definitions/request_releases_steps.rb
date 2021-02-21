@@ -39,3 +39,6 @@ Then('I should receive id, name, actors, director, genre and season \(if tv show
   expect(content_names[1]).to eq(content_name_two)
   expect(content_names[2]).to eq(content_name_three)
 end
+
+Given('No content is available') do
+end

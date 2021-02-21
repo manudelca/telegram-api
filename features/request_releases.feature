@@ -38,8 +38,7 @@ Feature: Request releases
     When I request releases
     Then I should receive id, name, actors, director, genre and season (if tv show) from "Matrix IV", as future release
 
-    @wip
     Scenario: US2.5 - Request releases with 0 content
     Given No content is available
     When I request releases
-    Then I should receive "No content available" message
+    Then I should receive "No se encontro contenido!" message
