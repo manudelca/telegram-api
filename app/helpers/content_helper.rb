@@ -3,6 +3,13 @@
 module WebTemplate
   class App
     module ContentHelper # rubocop:disable Metrics/ModuleLength
+      def find_content(content_id)
+        id_conversor = IdConverter.new
+        repo = id_conversor.get_repo(content_id)
+        repo.find(id_conversor.parse_id(content_id))
+        pp repo.find(id_conversor.parse_id(content_id))
+      end
+
       def create_content_and_get_json(content_type, content_params)
         dic_content_repo = {
           'movie' => method(:save_movie),
@@ -99,7 +106,7 @@ module WebTemplate
 
       def movie_to_json(movie)
         {
-          id: movie.id,
+          id: IdConverter.new.parse_movie_id(movie.id),
           name: movie.name,
           audience: movie.audience,
           duration_minutes: movie.duration_minutes,
@@ -114,7 +121,7 @@ module WebTemplate
 
       def movie_details_to_json(movie)
         {
-          id: movie.id,
+          id: IdConverter.new.parse_movie_id(movie.id),
           name: movie.name,
           audience: movie.audience,
           duration_minutes: movie.duration_minutes,
@@ -128,7 +135,7 @@ module WebTemplate
 
       def tv_show_details_to_json(tv_show)
         {
-          id: tv_show.id,
+          id: IdConverter.new.parse_tv_show_id(tv_show.id),
           name: tv_show.name,
           audience: tv_show.audience,
           duration_minutes: tv_show.duration_minutes,
@@ -142,10 +149,10 @@ module WebTemplate
         }
       end
 
-      def create_tv_show_to_json(tv_show, season, episode)
+      def create_tv_show_to_json(tv_show, season, episode) # rubocop:disable Metrics/AbcSize
         {
-          id: episode.id,
-          tv_show_id: tv_show.id,
+          id: IdConverter.new.parse_episode_id(episode.id),
+          tv_show_id: IdConverter.new.parse_tv_show_id(tv_show.id),
           name: tv_show.name,
           audience: tv_show.audience,
           duration_minutes: tv_show.duration_minutes,

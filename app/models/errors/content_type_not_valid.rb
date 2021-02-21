@@ -1,0 +1,1 @@
+class ContentTypeNotValid < StandardError; end
