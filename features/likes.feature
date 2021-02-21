@@ -4,7 +4,7 @@ Feature: Registration of positive likes
     I want to be able to like one
 
     Background:
-        Given the movie "Titanic", with audience "ATP", duration 195 min, genre "drama", origin country "USA", director "James Cameron", actors "Kate Winslet" and "Leonardo Dicaprio" is available with id 0
+        Given the movie "Titanic", with type "movie", with audience "ATP", duration 195 min, genre "drama", origin country "USA", director "James Cameron", actors "Kate Winslet" and "Leonardo Dicaprio", release date "2021-01-01"
 
     Scenario: US5.1 - Successful registration of positive like
     Given I am registered as "john@test.com"
