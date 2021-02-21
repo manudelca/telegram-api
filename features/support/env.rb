@@ -92,6 +92,10 @@ def like_url
   "#{BASE_URL}/like"
 end
 
+def test_date_url
+  "#{BASE_URL}/date"
+end
+
 After do |_scenario|
   Faraday.post(reset_url)
 end

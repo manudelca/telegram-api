@@ -32,8 +32,8 @@ WebTemplate::App.controllers :content, :provides => [:json] do
   get :show, :map => '/releases' do
     begin
       number_of_releases = 3
-      movie_releases = movie_repo.find_by_desc_release_date(number_of_releases)
-      tv_show_releases = tv_show_repo.find_by_desc_release_date(number_of_releases)
+      movie_releases = movie_repo.find_by_desc_release_date(number_of_releases, @@date)
+      tv_show_releases = tv_show_repo.find_by_desc_release_date(number_of_releases, @@date)
 
       releases = []
       releases += movie_releases unless movie_releases.nil?

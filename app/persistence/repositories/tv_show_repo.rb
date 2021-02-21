@@ -25,9 +25,9 @@ module Persistence
         contents_relation.one
       end
 
-      def find_by_desc_release_date(how_many)
+      def find_by_desc_release_date(how_many, now_date)
         (contents.combine(:genres, seasons: :episodes)
-                                     .where(type: 'tv_show')
+                                     .where(type: 'tv_show').where { release_date < now_date }
                                      .order { release_date.desc }.limit(how_many) >> tv_show_mapper)
       end
 

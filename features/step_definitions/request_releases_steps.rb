@@ -52,3 +52,8 @@ end
 
 Given('No content is available') do
 end
+
+Given('today is {string}') do |today_date|
+  @request = { date: today_date}.to_json
+  @response = Faraday.post(test_date_url, @request, header)
+end

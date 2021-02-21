@@ -1,3 +1,5 @@
+@@date = Time.now.strftime('%Y/%m/%d') # rubocop:disable Style/ClassVars
+
 module WebTemplate
   class App < Padrino::Application
     register Padrino::Mailer
@@ -18,6 +20,7 @@ module WebTemplate
         task_repo.delete_all
         tag_repo.delete_all
         user_repo.delete_all
+        @@date = Time.now.strftime('%Y/%m/%d') # rubocop:disable Style/ClassVars
 
         status 200
         {message: 'reset ok'}.to_json
@@ -25,6 +28,14 @@ module WebTemplate
         status 403
         {message: 'reset not enabled'}.to_json
       end
+    end
+
+    post '/date' do
+      input = JSON.parse(request.body.read)
+      @@date = input['date'] # rubocop:disable Style/ClassVars
+
+      status 200
+      {message: 'ok'}.to_json
     end
 
     get :docs, map: '/docs' do
