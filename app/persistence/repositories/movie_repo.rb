@@ -18,6 +18,12 @@ module Persistence
         movie
       end
 
+      def find_by_desc_release_date(how_many)
+        (contents.combine(:genres, seasons: :episodes)
+                                     .where(type: 'movie')
+                                     .order { release_date.desc }.limit(how_many) >> movie_mapper)
+      end
+
       def delete_all
         contents.delete
       end

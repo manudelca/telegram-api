@@ -40,5 +40,15 @@ Then('I should receive id, name, actors, director, genre and season \(if tv show
   expect(content_names[2]).to eq(content_name_three)
 end
 
+Then('I should receive id, name, actors, director, genre and season \(if tv show) from {string}, {string}') do |content_name_one, content_name_two|
+  answer = JSON.parse(@response.body)['content']
+  content_names = []
+  answer.each do |content|
+    content_names << content['name']
+  end
+  expect(content_names[0]).to eq(content_name_one)
+  expect(content_names[1]).to eq(content_name_two)
+end
+
 Given('No content is available') do
 end

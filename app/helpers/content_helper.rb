@@ -79,10 +79,6 @@ module WebTemplate
         Persistence::Repositories::EpisodesRepo.new(DB)
       end
 
-      def generic_content_repo
-        Persistence::Repositories::GenericContentRepo.new(DB)
-      end
-
       def content_params
         @body ||= request.body.read
         JSON.parse(@body).symbolize_keys

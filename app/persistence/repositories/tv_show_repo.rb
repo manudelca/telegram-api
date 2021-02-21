@@ -25,6 +25,12 @@ module Persistence
         contents_relation.one
       end
 
+      def find_by_desc_release_date(how_many)
+        (contents.combine(:genres, seasons: :episodes)
+                                     .where(type: 'tv_show')
+                                     .order { release_date.desc }.limit(how_many) >> tv_show_mapper)
+      end
+
       def delete_all
         contents.delete
       end

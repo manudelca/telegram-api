@@ -32,11 +32,18 @@ WebTemplate::App.controllers :content, :provides => [:json] do
   get :show, :map => '/releases' do
     begin
       number_of_releases = 3
-      releases = generic_content_repo.find_by_desc_release_date(number_of_releases)
-      raise ContentNotFound if releases.nil?
+      movie_releases = movie_repo.find_by_desc_release_date(number_of_releases)
+      tv_show_releases = tv_show_repo.find_by_desc_release_date(number_of_releases)
 
+      releases = []
+      releases += movie_releases unless movie_releases.nil?
+      releases += tv_show_releases unless tv_show_releases.nil?
+
+      raise ContentNotFound if releases.empty?
+
+      last_releases = releases.sort_by(&:release_date).reverse!.first(number_of_releases)
       releases_formatted = []
-      releases.each do |release|
+      last_releases.each do |release|
         releases_formatted << release.as_release
       end
 

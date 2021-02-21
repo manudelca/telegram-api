@@ -12,7 +12,8 @@ module WebTemplate
         client_repo.delete_all
         episodes_repo.delete_all
         seasons_repo.delete_all
-        generic_content_repo.delete_all
+        movie_repo.delete_all
+        tv_show_repo.delete_all
         genre_repo.delete_all
         task_repo.delete_all
         tag_repo.delete_all
