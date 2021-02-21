@@ -12,7 +12,7 @@ module Persistence
       end
 
       def find(id)
-        clients_relation = (clients.combine(liked: :genres).combine(seen: :genres).by_pk(id) >> client_mapper)
+        clients_relation = (clients.combine(liked: :genres).combine(seen: :genres).combine(:seen_date).by_pk(id) >> client_mapper)
         client = clients_relation.one
         raise ClientNotFound if client.nil?
 
@@ -20,7 +20,7 @@ module Persistence
       end
 
       def find_by_telegram_user_id(telegram_user_id)
-        clients_relation = clients.where(telegram_user_id: telegram_user_id).combine(liked: :genres).combine(seen: :genres)
+        clients_relation = clients.where(telegram_user_id: telegram_user_id).combine(liked: :genres).combine(seen: :genres).combine(:seen_date)
         clients_relation = (clients_relation >> client_mapper)
         client = clients_relation.first
         raise ClientNotFound if client.nil?
@@ -29,7 +29,7 @@ module Persistence
       end
 
       def find_by_email(email)
-        clients_relation = clients.where(email: email).combine(liked: :genres).combine(seen: :genres)
+        clients_relation = clients.where(email: email).combine(liked: :genres).combine(seen: :genres).combine(:seen_date)
         clients_relation = (clients_relation >> client_mapper)
         client = clients_relation.first
         raise ClientNotFound if client.nil?
@@ -39,15 +39,15 @@ module Persistence
 
       def update_movies_seen(client)
         clients_contents_relation.where(client_id: client.id).delete
-        client.movies_seen.each do |movie|
-          clients_contents_create_command.call(clients_contents_changeset(client, movie))
+        client.movies_seen.each do |date, movie|
+          clients_contents_create_command.call(clients_contents_changeset(client, movie, date))
         end
       end
 
       def update_contents_liked(client)
         clients_contents_liked_relation.where(client_id: client.id).delete
         client.content_liked.each do |content|
-          clients_contents_liked_create_command.call(clients_contents_changeset(client, content))
+          clients_contents_liked_create_command.call(clients_contents_liked_changeset(client, content))
         end
       end
 
@@ -79,7 +79,11 @@ module Persistence
         {email: client.email, telegram_user_id: client.telegram_user_id}
       end
 
-      def clients_contents_changeset(client, content)
+      def clients_contents_changeset(client, content, date)
+        {client_id: client.id, content_id: content.id, date: date}
+      end
+
+      def clients_contents_liked_changeset(client, content)
         {client_id: client.id, content_id: content.id}
       end
 

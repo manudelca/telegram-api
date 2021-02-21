@@ -10,13 +10,13 @@ class Client
     @email = email
     @telegram_user_id = telegram_user_id
     @id = id
-    @movies_seen = []
+    @movies_seen = {}
     @episodes_seen = []
     @content_liked = []
   end
 
-  def sees_movie(movie)
-    @movies_seen << movie
+  def sees_movie(movie, date)
+    @movies_seen[date] = movie
   end
 
   def sees_episode(episode)
@@ -24,7 +24,11 @@ class Client
   end
 
   def saw_movie?(movie)
-    @movies_seen.include?(movie)
+    @movies_seen.each do |_date, content|
+      return true if content == movie
+    end
+
+    false
   end
 
   def likes(content)

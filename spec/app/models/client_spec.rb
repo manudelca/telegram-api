@@ -7,7 +7,7 @@ describe Client do
     genre = Genre.new('Drama')
     movie_id = 0
     movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', movie_id)
-    client.sees_movie(movie)
+    client.sees_movie(movie, Time.now)
 
     expect(client.saw_movie?(movie)).to eq(true)
   end
@@ -42,7 +42,7 @@ describe Client do
     genre = Genre.new('Drama')
     movie_id = 0
     movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', movie_id)
-    client.sees_movie(movie)
+    client.sees_movie(movie, Time.now)
     client.likes(movie)
 
     expect(client.liked_content?(movie)).to eq(true)

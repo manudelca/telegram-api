@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'byebug'
 # require_relative '../../../app/persistence/repositories/genre_repo'
 
 describe Persistence::Repositories::ClientRepo do # rubocop:disable RSpec/FilePath
@@ -36,16 +37,17 @@ describe Persistence::Repositories::ClientRepo do # rubocop:disable RSpec/FilePa
 
   describe 'update movie seen' do
     it 'must update movies seen by the client' do
-      client = Client.new('test@test3.com', 456_345)
+      client = Client.new('test@test9.com', 456_347)
       repository.create_client(client)
       genre = Genre.new('Drama')
       movie = Movie.new('Titanic', 'No ATP', 190, genre, 'USA', 'James Cameron', '2021-01-01', 'Kate Winslet', 'Leonardo Dicaprio')
       Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
       Persistence::Repositories::MovieRepo.new(DB).create_content(movie)
-      client.sees_movie(movie)
+      date = '2021-01-14'
+      client.sees_movie(movie, date)
       repository.update_movies_seen(client)
 
-      expect(repository.find_by_telegram_user_id(456_345).movies_seen[0].name).to eq movie.name
+      expect(repository.find_by_telegram_user_id(456_347).movies_seen[date].name).to eq movie.name
     end
   end
 
@@ -57,7 +59,8 @@ describe Persistence::Repositories::ClientRepo do # rubocop:disable RSpec/FilePa
       movie = Movie.new('Titanic', 'No ATP', 190, genre, 'USA', 'James Cameron', '2021-01-01', 'Kate Winslet', 'Leonardo Dicaprio')
       Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
       Persistence::Repositories::MovieRepo.new(DB).create_content(movie)
-      client.sees_movie(movie)
+      date = '2021-01-14'
+      client.sees_movie(movie, date)
       repository.update_movies_seen(client)
       client.likes(movie)
       repository.update_contents_liked(client)

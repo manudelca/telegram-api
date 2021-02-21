@@ -30,7 +30,7 @@ WebTemplate::App.controllers :clients do
     begin
       client = client_repo.find_by_email(client_params[:email])
       movie = find_content(client_params[:movie_id])
-      client.sees_movie(movie)
+      client.sees_movie(movie, Time.now)
       client_repo.update_movies_seen(client)
       status 201
       {
