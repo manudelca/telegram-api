@@ -35,7 +35,7 @@ module Persistence
           release_date: movie.release_date,
           first_actor: movie.first_actor,
           second_actor: movie.second_actor,
-          type: movie.type_of_content
+          type: 'movie'
         }
       end
 

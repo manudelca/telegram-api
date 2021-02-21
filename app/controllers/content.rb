@@ -12,19 +12,16 @@ WebTemplate::App.controllers :content, :provides => [:json] do
     }.to_json
   end
 
-  # no encontramos manera limpia de hacerlo
   get :show, :map => '/content', :with => :id do
     content_id = params[:id]
     begin
       content = find_content(content_id)
-      dic_content_type = {
-        'movie' => method(:movie_details_response),
-        'tv_show' => method(:tv_show_details_response)
-      }
-      raise ContentTypeNotValid unless dic_content_type.include?(content.type_of_content)
-
-      dic_content_type[content.type_of_content][content]
-    rescue ContentNotFound, RepoNotFound, ContentTypeNotValid => _e
+      status 200
+      {
+        :message => 'El contenido fue encontrado!',
+        :content => content.details
+      }.to_json
+    rescue ContentNotFound, RepoNotFound => _e
       status 404
       {
         :message => 'Error: id no se encuentra en la coleccion'
@@ -32,7 +29,7 @@ WebTemplate::App.controllers :content, :provides => [:json] do
     end
   end
 
-  get :show, :map => '/content' do
+  get :show, :map => '/content' do # rubocop:disable Metrics/BlockLength
     begin
       query_type = content_params[:query_type]
       raise QueryNotImplementedError unless query_type.eql?('releases')
@@ -43,11 +40,7 @@ WebTemplate::App.controllers :content, :provides => [:json] do
 
       releases_formatted = []
       releases.each do |release|
-        dic_content_type = {
-          'movie' => method(:movie_as_release_to_json),
-          'tv_show' => method(:tv_show_as_release_to_json)
-        }
-        releases_formatted << dic_content_type[release.type_of_content][release]
+        releases_formatted << release.as_release
       end
 
       status 200
@@ -58,7 +51,8 @@ WebTemplate::App.controllers :content, :provides => [:json] do
     rescue ContentNotFound
       status 200
       {
-        :message => 'No se encontro contenido para tu query'
+        :message => 'No se encontro contenido para tu query',
+        :contet => []
       }.to_json
     rescue QueryNotImplementedError
       status 400

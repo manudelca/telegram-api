@@ -16,8 +16,8 @@ describe Persistence::Repositories::GenericContentRepo do # rubocop:disable RSpe
   end
 
   describe 'find by descendant release date' do
-    it 'no content returns an empty list of content' do
-      expect(repository.find_by_desc_release_date(3).size).to eq(0)
+    it 'no content returns nil' do
+      expect(repository.find_by_desc_release_date(3).nil?).to eq(true)
     end
 
     it 'when 2 contents, get order by desc release_date' do
