@@ -12,7 +12,10 @@ module Persistence
 
       def find(id)
         episodes_relation = episodes.by_pk(id)
-        (episodes_relation >> episode_mapper).first
+        episode = (episodes_relation >> episode_mapper).first
+        raise ContentNotFound if episode.nil?
+
+        episode
       end
 
       def delete_all
