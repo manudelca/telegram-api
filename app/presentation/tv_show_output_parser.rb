@@ -42,7 +42,8 @@ class TvShowOutputParser
       director: tv_show.director,
       first_actor: tv_show.first_actor,
       second_actor: tv_show.second_actor,
-      season_number: last_season.number
+      season_number: last_season.number,
+      release_date: tv_show.release_date
     }
   end
 end

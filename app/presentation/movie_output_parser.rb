@@ -35,7 +35,8 @@ class MovieOutputParser
       genre: movie.genre.name,
       director: movie.director,
       first_actor: movie.first_actor,
-      second_actor: movie.second_actor
+      second_actor: movie.second_actor,
+      release_date: movie.release_date
     }
   end
 end
