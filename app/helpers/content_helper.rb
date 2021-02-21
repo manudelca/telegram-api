@@ -133,6 +133,28 @@ module WebTemplate
         }
       end
 
+      def movie_as_release_to_json(movie)
+        {
+          id: IdConverter.new.parse_movie_id(movie.id),
+          name: movie.name,
+          genre: movie.genre.name,
+          director: movie.director,
+          first_actor: movie.first_actor,
+          second_actor: movie.second_actor
+        }
+      end
+
+      def tv_show_as_release_to_json(tv_show)
+        {
+          id: IdConverter.new.parse_tv_show_id(tv_show.id),
+          name: tv_show.name,
+          genre: tv_show.genre.name,
+          director: tv_show.director,
+          first_actor: tv_show.first_actor,
+          second_actor: tv_show.second_actor
+        }
+      end
+
       def tv_show_details_to_json(tv_show)
         {
           id: IdConverter.new.parse_tv_show_id(tv_show.id),

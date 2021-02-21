@@ -32,6 +32,32 @@ WebTemplate::App.controllers :content, :provides => [:json] do
     end
   end
 
-  get :show, :map => '/content/releases' do
+  get :show, :map => '/content' do
+    begin
+      query_type = content_params[:query_type]
+      raise QueryNotImplementedError unless query_type.eql?('releases')
+
+      number_of_releases = 3
+      releases = generic_content_repo.find_by_desc_release_date(number_of_releases)
+      releases_formatted = []
+      releases.each do |release|
+        dic_content_type = {
+          'movie' => method(:movie_as_release_to_json),
+          'tv_show' => method(:tv_show_as_release_to_json)
+        }
+        releases_formatted << dic_content_type[release.type_of_content][release]
+      end
+
+      status 200
+      {
+        :message => 'El contenido fue encontrado exitosamente!',
+        :content => releases_formatted
+      }.to_json
+    rescue QueryNotImplementedError
+      status 400
+      {
+        :message => 'Error: invalid query type'
+      }.to_json
+    end
   end
 end
