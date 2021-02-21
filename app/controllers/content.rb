@@ -21,8 +21,10 @@ WebTemplate::App.controllers :content, :provides => [:json] do
         'movie' => method(:movie_details_response),
         'tv_show' => method(:tv_show_details_response)
       }
+      raise ContentTypeNotValid unless dic_content_type.include?(content.type_of_content)
+
       dic_content_type[content.type_of_content][content]
-    rescue ContentNotFound, RepoNotFound => _e
+    rescue ContentNotFound, RepoNotFound, ContentTypeNotValid => _e
       status 404
       {
         :message => 'Error: id no se encuentra en la coleccion'
