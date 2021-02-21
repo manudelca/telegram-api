@@ -7,4 +7,8 @@ class Episode
     @number = number
     @id = id
   end
+
+  def type_of_content
+    'episode'
+  end
 end

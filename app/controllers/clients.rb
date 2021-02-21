@@ -29,14 +29,14 @@ WebTemplate::App.controllers :clients do
   patch :update, :map => '/clients/movies_seen' do
     begin
       client = client_repo.find_by_email(client_params[:email])
-      movie = movie_repo.find(client_params[:movie_id])
+      movie = find_content(client_params[:movie_id])
       client.sees_movie(movie)
       client_repo.update_movies_seen(client)
       status 201
       {
         :message => 'Visto registrado exitosamente'
       }.to_json
-    rescue ContentNotFound
+    rescue ContentNotFound, RepoNotFound
       status 404
       {
         :message => "Error: la pelicula con id #{client_params[:movie_id]} no se encuentra registrada"
@@ -75,7 +75,7 @@ WebTemplate::App.controllers :clients do
   post :update, :map => '/like' do
     begin
       client = client_repo.find_by_telegram_user_id(client_params[:telegram_user_id])
-      content = generic_content_repo.find(client_params[:content_id])
+      content = find_content(client_params[:content_id])
       client.likes(content)
       client_repo.update_contents_liked(client)
 
@@ -83,7 +83,7 @@ WebTemplate::App.controllers :clients do
       {
         :message => 'Calificación registrada'
       }.to_json
-    rescue ContentNotFound
+    rescue ContentNotFound, RepoNotFound
       status 404
       {
         :message => "Error: El contenido con id #{client_params[:content_id]} no se encuentra registrada"

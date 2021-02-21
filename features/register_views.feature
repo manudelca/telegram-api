@@ -10,10 +10,10 @@ Feature: Register user views
     Then I should get "Visto registrado exitosamente"
 
     Scenario: Non-existing movie
-    Given there is no movie with id 1234567
+    Given there is no movie with id 123456700
     Given the user "john@test.com" is registered
     When I marked the movie as seen for "john@test.com"
-    Then I should get "Error: la pelicula con id 1234567 no se encuentra registrada"
+    Then I should get "Error: la pelicula con id 123456700 no se encuentra registrada"
 
     Scenario: Non-existing user
     Given the movie "Titanic", with audience "ATP", duration 195 min, genre "drama", origin country "USA", director "James Cameron", actors "Kate Winslet" and "Leonardo Dicaprio" and release date '2020-01-01' is available

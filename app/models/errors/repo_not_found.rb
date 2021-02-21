@@ -1,0 +1,1 @@
+class RepoNotFound < StandardError; end
