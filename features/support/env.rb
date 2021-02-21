@@ -68,6 +68,10 @@ def create_content_url
   "#{BASE_URL}/content"
 end
 
+def get_releases_url
+  "#{BASE_URL}/releases"
+end
+
 def client_url
   "#{BASE_URL}/register"
 end

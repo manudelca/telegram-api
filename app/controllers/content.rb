@@ -29,11 +29,8 @@ WebTemplate::App.controllers :content, :provides => [:json] do
     end
   end
 
-  get :show, :map => '/content' do # rubocop:disable Metrics/BlockLength
+  get :show, :map => '/releases' do
     begin
-      query_type = content_params[:query_type]
-      raise QueryNotImplementedError unless query_type.eql?('releases')
-
       number_of_releases = 3
       releases = generic_content_repo.find_by_desc_release_date(number_of_releases)
       raise ContentNotFound if releases.nil?
@@ -52,12 +49,7 @@ WebTemplate::App.controllers :content, :provides => [:json] do
       status 200
       {
         :message => 'No se encontro contenido para tu query',
-        :contet => []
-      }.to_json
-    rescue QueryNotImplementedError
-      status 400
-      {
-        :message => 'Error: invalid query type'
+        :content => []
       }.to_json
     end
   end

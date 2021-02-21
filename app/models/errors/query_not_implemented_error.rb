@@ -1,1 +1,0 @@
-class QueryNotImplementedError < StandardError; end
