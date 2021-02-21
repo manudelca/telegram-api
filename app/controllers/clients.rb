@@ -1,5 +1,3 @@
-require 'byebug'
-
 WebTemplate::App.controllers :clients do
   post :create, :map => '/register' do
     begin
@@ -31,7 +29,6 @@ WebTemplate::App.controllers :clients do
   patch :update, :map => '/clients/movies_seen' do
     begin
       client = client_repo.find_by_email(client_params[:email])
-      byebug # rubocop:disable Lint/Debugger
       movie = find_content(client_params[:movie_id])
       client.sees_movie(movie)
       client_repo.update_movies_seen(client)
@@ -39,7 +36,7 @@ WebTemplate::App.controllers :clients do
       {
         :message => 'Visto registrado exitosamente'
       }.to_json
-    rescue ContentNotFound
+    rescue ContentNotFound, RepoNotFound
       status 404
       {
         :message => "Error: la pelicula con id #{client_params[:movie_id]} no se encuentra registrada"
@@ -63,7 +60,7 @@ WebTemplate::App.controllers :clients do
       {
         :message => 'Calificación registrada'
       }.to_json
-    rescue ContentNotFound
+    rescue ContentNotFound, RepoNotFound
       status 404
       {
         :message => "Error: El contenido con id #{client_params[:content_id]} no se encuentra registrada"
