@@ -108,4 +108,15 @@ describe Client do
 
     expect(client.seen_this_week(today)).not_to include(movie1)
   end
+
+  it 'should not return liked content this week when asking for content seen this week' do
+    genre = Genre.new('Drama')
+    movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', 0)
+    seen_date = Time.parse('2021-01-05')
+    today = Time.parse('2021-01-08')
+    client.sees_movie(movie, seen_date)
+    client.likes(movie)
+
+    expect(client.seen_this_week(today)).not_to include(movie)
+  end
 end

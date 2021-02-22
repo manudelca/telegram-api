@@ -34,12 +34,8 @@ class Client
   end
 
   def seen_this_week(today)
-    seven_days = 7 * 24 * 60 * 60
-    this_week = []
     last_three = []
-    @movies_seen.each do |date, _content|
-      this_week.append(date) if date > today - seven_days
-    end
+    this_week = this_week_seen_and_not_liked_dates(today)
     this_week.sort!
     i = 0
     while i < @seen_this_with_amount && !this_week.empty?
@@ -55,5 +51,16 @@ class Client
 
   def liked_content?(content)
     @content_liked.include?(content)
+  end
+
+  private
+
+  def this_week_seen_and_not_liked_dates(today)
+    seven_days = 7 * 24 * 60 * 60
+    this_week = []
+    @movies_seen.each do |date, content|
+      this_week.append(date) if date > today - seven_days && !@content_liked.include?(content)
+    end
+    this_week
   end
 end
