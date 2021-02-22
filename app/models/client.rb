@@ -31,11 +31,12 @@ class Client
     false
   end
 
-  def seen_this_week(date)
+  def seen_this_week(today)
     seven_days = 7 * 24 * 60 * 60
-    content_date = Time.parse('2021-01-01')
     contents = []
-    contents.append(@movies_seen[content_date]) if content_date > date - seven_days
+    @movies_seen.each do |date, content|
+      contents.append(content) if date > today - seven_days
+    end
     contents
   end
 

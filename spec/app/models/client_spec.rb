@@ -75,4 +75,15 @@ describe Client do
 
     expect(client.seen_this_week(today)).not_to include(movie)
   end
+
+  it 'should return movie seen 7 days ago when asking for content seen this week' do
+    genre = Genre.new('Drama')
+    movie_id = 0
+    movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', movie_id)
+    seen_date = Time.parse('2021-01-02')
+    today = Time.parse('2021-01-08')
+    client.sees_movie(movie, seen_date)
+
+    expect(client.seen_this_week(today)).to include(movie)
+  end
 end
