@@ -13,4 +13,8 @@ class Season
   def number_of_episodes
     episodes.size
   end
+
+  def update_release_date(new_release_date)
+    @release_date = new_release_date
+  end
 end

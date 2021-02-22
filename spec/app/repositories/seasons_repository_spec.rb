@@ -46,4 +46,13 @@ describe Persistence::Repositories::SeasonsRepo do # rubocop:disable RSpec/FileP
       expect(repository.find(saved_season.id).number).to eq season.number
     end
   end
+
+  describe 'update season' do
+    it 'update season release_date' do
+      season = Season.new(1, tv_show.id, '2021-01-01')
+      saved_season = repository.find_or_create(season)
+      saved_season.update_release_date('2022-01-01')
+      expect(repository.update_season(saved_season).release_date).to eq('2022-01-01')
+    end
+  end
 end

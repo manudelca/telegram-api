@@ -1,7 +1,7 @@
 module Persistence
   module Repositories
     class SeasonsRepo < ROM::Repository[:seasons]
-      commands :create
+      commands :create, update: :by_pk
 
       def create_season(season)
         season_struct = create(seasons_changeset(season))
@@ -22,6 +22,12 @@ module Persistence
       def find(id)
         seasons_relation = seasons.combine(:episodes).by_pk(id)
         (seasons_relation >> season_mapper).first
+      end
+
+      def update_season(season)
+        update(season.id, seasons_changeset(season))
+
+        season
       end
 
       def delete_all
