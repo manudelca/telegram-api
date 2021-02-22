@@ -54,6 +54,7 @@ DB = ROM.container(:sql, DATABASE_URL) do |config|
         many_to_many :contents, as: :seen, through: :clients_contents
         many_to_many :contents, as: :liked, through: :clients_contents_liked
         many_to_many :episodes, as: :episodes_seen, through: :clients_episodes
+        many_to_many :episodes, as: :episodes_liked, through: :clients_episodes_liked
         has_many :clients_contents, as: :movies_seen_date
         has_many :clients_episodes, as: :episodes_seen_date
       end
@@ -90,6 +91,16 @@ DB = ROM.container(:sql, DATABASE_URL) do |config|
     end
   end
 
+  config.relation(:clients_episodes_liked) do
+    auto_struct true
+    schema(infer: true) do
+      associations do
+        belongs_to :client
+        belongs_to :episode
+      end
+    end
+  end
+
   config.relation(:contents) do
     auto_struct true
     schema(infer: true) do
@@ -117,6 +128,8 @@ DB = ROM.container(:sql, DATABASE_URL) do |config|
     schema(infer: true) do
       associations do
         belongs_to :seasons
+        many_to_many :clients, as: :seen_by, through: :clients_episodes
+        many_to_many :clients, as: :liked_by, through: :clients_episodes_liked
       end
     end
   end

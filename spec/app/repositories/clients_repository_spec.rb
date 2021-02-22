@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'byebug'
 
 describe Persistence::Repositories::ClientRepo do # rubocop:disable RSpec/FilePath
   let(:repository) { described_class.new(DB) }
@@ -72,7 +73,7 @@ describe Persistence::Repositories::ClientRepo do # rubocop:disable RSpec/FilePa
     end
   end
 
-  describe 'update movie liked' do
+  describe 'update content liked' do
     it 'must update movies liked by the client' do
       client = Client.new('test@test5.com', 978_567)
       repository.create_client(client)
@@ -80,10 +81,32 @@ describe Persistence::Repositories::ClientRepo do # rubocop:disable RSpec/FilePa
       movie = Movie.new('Titanic', 'No ATP', 190, genre, 'USA', 'James Cameron', '2021-01-01', 'Kate Winslet', 'Leonardo Dicaprio')
       Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
       Persistence::Repositories::MovieRepo.new(DB).create_content(movie)
-      date = '2021-01-14'
+      date = Time.parse('2021-01-14')
       client.sees_movie(movie, date)
       repository.update_movies_seen(client)
       client.likes(movie)
+      repository.update_contents_liked(client)
+
+      expect(repository.find(client.id).content_liked[0].name).to eq movie.name
+    end
+
+    xit 'must update episode liked by the client' do
+      client = Client.new('test@test6.com', 978_568)
+      repository.create_client(client)
+
+      genre = Genre.new('Drama')
+      Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
+      tv_show = TvShow.new('Titanic', 'ATP', 195, genre, 'USA', 'James Cameron', '2021-01-01', 'Kate Winslet', 'Leonardo Dicaprio')
+      new_tv_show = Persistence::Repositories::TvShowRepo.new(DB).create_content(tv_show)
+      season = Season.new(1, new_tv_show.id, '2021-01-01')
+      new_season = Persistence::Repositories::SeasonsRepo.new(DB).create_season(season)
+      episode = Episode.new(1, new_season.id)
+      new_episode = Persistence::Repositories::EpisodesRepo.new(DB).create_episode(episode)
+
+      date = Time.parse('2021-01-14')
+      client.sees_episode(new_episode, date)
+      repository.update_episodes_seen(client)
+      client.likes(new_episode)
       repository.update_contents_liked(client)
 
       expect(repository.find(client.id).content_liked[0].name).to eq movie.name

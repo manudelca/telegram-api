@@ -60,6 +60,7 @@ module Persistence
         clients_episodes_relation.delete
         clients_contents_relation.delete
         clients_contents_liked_relation.delete
+        clients_episodes_liked_relation.delete
         clients.delete
       end
 
@@ -87,6 +88,10 @@ module Persistence
 
       def clients_contents_liked_relation
         container.relations[:clients_contents_liked]
+      end
+
+      def clients_episodes_liked_relation
+        container.relations[:clients_episodes_liked]
       end
 
       def client_changeset(client)
