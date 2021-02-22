@@ -19,7 +19,8 @@ describe Client do
     tv_show = TvShow.new('Titanic: La serie', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', id)
     season = Season.new(tv_show, 1, id)
     episode = Episode.new(season, 1, 0)
-    client.sees_episode(episode)
+    today = Time.parse('2021-01-02')
+    client.sees_episode(episode, today)
 
     expect(client.saw_episode?(episode)).to eq(true)
   end
@@ -28,7 +29,8 @@ describe Client do
     genre = Genre.new('Drama')
     movie_id = 0
     movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', movie_id)
-    client.sees_movie(movie, Time.now)
+    today = Time.parse('2021-01-02')
+    client.sees_movie(movie, today)
     client.likes(movie)
 
     expect(client.liked_content?(movie)).to eq(true)

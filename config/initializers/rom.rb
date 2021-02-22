@@ -54,7 +54,8 @@ DB = ROM.container(:sql, DATABASE_URL) do |config|
         many_to_many :contents, as: :seen, through: :clients_contents
         many_to_many :contents, as: :liked, through: :clients_contents_liked
         many_to_many :episodes, as: :episodes_seen, through: :clients_episodes
-        has_many :clients_contents, as: :seen_date
+        has_many :clients_contents, as: :movies_seen_date
+        has_many :clients_episodes, as: :episodes_seen_date
       end
     end
   end

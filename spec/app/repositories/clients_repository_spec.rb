@@ -1,9 +1,4 @@
 require 'spec_helper'
-<<<<<<< HEAD
-require 'byebug'
-# require_relative '../../../app/persistence/repositories/genre_repo'
-=======
->>>>>>> bebc0c4f1c442eabf379b9cc3264100efe092e8f
 
 describe Persistence::Repositories::ClientRepo do # rubocop:disable RSpec/FilePath
   let(:repository) { described_class.new(DB) }
@@ -53,7 +48,7 @@ describe Persistence::Repositories::ClientRepo do # rubocop:disable RSpec/FilePa
       date = Time.parse('2021-01-14')
       client.sees_movie(movie_created, date)
       repository.update_movies_seen(client)
-      expect(repository.find(client.id).movies_seen[0].name).to eq movie.name
+      expect(repository.find(client.id).movies_seen[date].name).to eq movie.name
     end
   end
 
@@ -69,7 +64,8 @@ describe Persistence::Repositories::ClientRepo do # rubocop:disable RSpec/FilePa
       new_season = Persistence::Repositories::SeasonsRepo.new(DB).create_season(season)
       episode = Episode.new(1, new_season.id)
       new_episode = Persistence::Repositories::EpisodesRepo.new(DB).create_episode(episode)
-      client.sees_episode(new_episode)
+      date = Time.parse('2021-01-14')
+      client.sees_episode(new_episode, date)
       repository.update_episodes_seen(client)
 
       expect(repository.find(client.id).episodes_seen[date].id).to eq new_episode.id

@@ -11,7 +11,7 @@ module Persistence
       end
 
       def find(id)
-        clients_relation = (clients.combine(liked: :genres).combine(seen: :genres).combine(:episodes_seen).combine(:seen_date).by_pk(id) >> client_mapper)
+        clients_relation = (clients.combine(liked: :genres).combine(seen: :genres).combine(:episodes_seen).combine(:movies_seen_date).combine(:episodes_seen_date).by_pk(id) >> client_mapper)
         client = clients_relation.one
         raise ClientNotFound if client.nil?
 
@@ -19,7 +19,8 @@ module Persistence
       end
 
       def find_by_telegram_user_id(telegram_user_id)
-        clients_relation = clients.where(telegram_user_id: telegram_user_id).combine(liked: :genres).combine(seen: :genres).combine(:episodes_seen).combine(:seen_date)
+        clients_relation = clients.where(telegram_user_id: telegram_user_id).combine(liked: :genres).combine(seen: :genres).combine(:episodes_seen).combine(:movies_seen_date)\
+                                  .combine(:episodes_seen_date)
         clients_relation = (clients_relation >> client_mapper)
         client = clients_relation.first
         raise ClientNotFound if client.nil?
@@ -28,7 +29,7 @@ module Persistence
       end
 
       def find_by_email(email)
-        clients_relation = clients.where(email: email).combine(liked: :genres).combine(seen: :genres).combine(:episodes_seen).combine(:seen_date)
+        clients_relation = clients.where(email: email).combine(liked: :genres).combine(seen: :genres).combine(:episodes_seen).combine(:movies_seen_date).combine(:episodes_seen_date)
         clients_relation = (clients_relation >> client_mapper)
 
         clients_relation.first
@@ -43,8 +44,8 @@ module Persistence
 
       def update_episodes_seen(client)
         clients_episodes_relation.where(client_id: client.id).delete
-        client.episodes_seen.each do |episode|
-          clients_episodes_create_command.call(clients_episodes_changeset(client, episode))
+        client.episodes_seen.each do |date, episode|
+          clients_episodes_create_command.call(clients_episodes_changeset(client, episode, date))
         end
       end
 
@@ -100,8 +101,8 @@ module Persistence
         {client_id: client.id, content_id: content.id}
       end
 
-      def clients_episodes_changeset(client, episode)
-        {client_id: client.id, episode_id: episode.id}
+      def clients_episodes_changeset(client, episode, date)
+        {client_id: client.id, episode_id: episode.id, date: date}
       end
 
       def client_mapper

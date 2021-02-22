@@ -12,7 +12,7 @@ class Client
     @telegram_user_id = telegram_user_id
     @id = id
     @movies_seen = {}
-    @episodes_seen = []
+    @episodes_seen = {}
     @content_liked = []
     @seen_this_with_amount = 3
   end
@@ -21,8 +21,8 @@ class Client
     @movies_seen[date] = movie
   end
 
-  def sees_episode(episode)
-    @episodes_seen << episode
+  def sees_episode(episode, date)
+    @episodes_seen[date] = episode
   end
 
   def saw_movie?(movie)
@@ -46,7 +46,11 @@ class Client
   end
 
   def saw_episode?(episode)
-    @episodes_seen.include?(episode)
+    @episodes_seen.each do |_date, content|
+      return true if content == episode
+    end
+
+    false
   end
 
   def likes(content)
