@@ -32,7 +32,7 @@ module Persistence
           next unless content.type == 'movie'
 
           genre = genre_mapper.build_genre_from(content.genres)
-          client.sees_movie(movie_mapper.build_movie_from(content, genre), dates[content.id].pop)
+          client.sees_movie(movie_mapper.build_movie_from(content, genre), Time.parse(dates[content.id].pop))
         end
         client_attributes.liked.each do |content|
           next unless content.type == 'movie'

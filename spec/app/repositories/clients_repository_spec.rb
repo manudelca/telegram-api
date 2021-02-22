@@ -43,7 +43,7 @@ describe Persistence::Repositories::ClientRepo do # rubocop:disable RSpec/FilePa
       movie = Movie.new('Titanic', 'No ATP', 190, genre, 'USA', 'James Cameron', '2021-01-01', 'Kate Winslet', 'Leonardo Dicaprio')
       Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
       Persistence::Repositories::MovieRepo.new(DB).create_content(movie)
-      date = '2021-01-14'
+      date = Time.parse('2021-01-14')
       client.sees_movie(movie, date)
       repository.update_movies_seen(client)
 

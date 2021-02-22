@@ -31,8 +31,12 @@ class Client
     false
   end
 
-  def seen_this_week(_date)
-    [@movies_seen['2021-01-01']]
+  def seen_this_week(date)
+    seven_days = 7 * 24 * 60 * 60
+    content_date = Time.parse('2021-01-01')
+    contents = []
+    contents.append(@movies_seen[content_date]) if content_date > date - seven_days
+    contents
   end
 
   def likes(content)
