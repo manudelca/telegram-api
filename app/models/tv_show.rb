@@ -53,4 +53,8 @@ class TvShow
   def last_season
     seasons.select { |season| season.release_date == release_date }.first
   end
+
+  def update_release_date(new_release_date)
+    @release_date = new_release_date
+  end
 end

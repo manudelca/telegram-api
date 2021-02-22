@@ -1,7 +1,7 @@
 module Persistence
   module Repositories
     class TvShowRepo < ROM::Repository[:contents]
-      commands :create
+      commands :create, update: :by_pk
 
       def create_content(tv_show)
         tv_show_struct = create(tv_show_changeset(tv_show))
@@ -35,6 +35,12 @@ module Persistence
         (contents.combine(:genres, seasons: :episodes)
                  .where(type: 'tv_show').where { release_date > now_date }
                  .order { release_date.desc }.limit(how_many) >> tv_show_mapper)
+      end
+
+      def update_tv_show(tv_show)
+        update(tv_show.id, tv_show_changeset(tv_show))
+
+        tv_show
       end
 
       def delete_all

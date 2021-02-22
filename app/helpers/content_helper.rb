@@ -53,6 +53,11 @@ module WebTemplate
                              content_params['first_actor'],
                              content_params['second_actor'])
         new_tv_show = tv_show_repo.find_or_create(tv_show)
+        # update release date if necessary
+        if new_tv_show.release_date < content_params['release_date']
+          new_tv_show.update_release_date(content_params['release_date'])
+          tv_show_repo.update_tv_show(tv_show)
+        end
 
         # save season
         season = Season.new(content_params['season_number'],
