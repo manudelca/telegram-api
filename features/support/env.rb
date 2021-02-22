@@ -68,6 +68,10 @@ def create_content_url
   "#{BASE_URL}/content"
 end
 
+def get_releases_url
+  "#{BASE_URL}/releases"
+end
+
 def client_url
   "#{BASE_URL}/register"
 end
@@ -76,12 +80,20 @@ def views_url
   "#{BASE_URL}/clients/movies_seen"
 end
 
+def episodes_views_url
+  "#{BASE_URL}/clients/episodes_seen"
+end
+
 def get_content_url(content_id)
   "#{BASE_URL}/content/#{content_id}"
 end
 
 def like_url
   "#{BASE_URL}/like"
+end
+
+def test_date_url
+  "#{BASE_URL}/date"
 end
 
 After do |_scenario|

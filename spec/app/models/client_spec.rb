@@ -13,7 +13,7 @@ describe Client do
     expect(client.saw_movie?(movie)).to eq(true)
   end
 
-  xit 'should seen episodes' do
+  it 'should seen episodes' do
     genre = Genre.new('Comedy')
     id = 0
     tv_show = TvShow.new('Titanic: La serie', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', id)
@@ -22,21 +22,6 @@ describe Client do
     client.sees_episode(episode)
 
     expect(client.saw_episode?(episode)).to eq(true)
-  end
-
-  xit 'should considered seen 1 episode and 1 movie' do
-    genre = Genre.new('Comedy')
-    id = 0
-    tv_show = TvShow.new('Titanic: La serie', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', id)
-    season = Season.new(tv_show, 1, id)
-    episode = Episode.new(season, 1, 0)
-    movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', id)
-    client.sees_content(episode)
-    client.sees_content(movie)
-
-    expect(client.amount_content_seen).to eq(2)
-    expect(client.saw_content?(episode)).to eq(true)
-    expect(client.saw_content?(movie)).to eq(true)
   end
 
   it 'should be able to mark content as liked' do

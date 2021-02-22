@@ -33,7 +33,8 @@ module Persistence
       def seasons_changeset(season)
         {
           number: season.number,
-          tv_show_id: season.tv_show_id
+          tv_show_id: season.tv_show_id,
+          release_date: season.release_date
         }
       end
 

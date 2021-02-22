@@ -1,3 +1,5 @@
+require_relative '../presentation/tv_show_output_parser'
+
 class TvShow
   attr_reader :name, :audience, :duration_minutes,
               :genre, :country, :director,
@@ -8,7 +10,8 @@ class TvShow
   def initialize(name, audience, duration_minutes,
                  genre, country, director,
                  release_date, first_actor,
-                 second_actor = nil, id = nil, seasons = [])
+                 second_actor = nil, id = nil,
+                 seasons = [], output_parser = TvShowOutputParser.new)
     @name = name
     @audience = audience
     @duration_minutes = duration_minutes
@@ -20,6 +23,19 @@ class TvShow
     @second_actor = second_actor
     @id = id
     @seasons = seasons
+    @output_parser = output_parser
+  end
+
+  def full_details(season, episode)
+    @output_parser.full_json(self, season, episode)
+  end
+
+  def details
+    @output_parser.details_json(self)
+  end
+
+  def as_release
+    @output_parser.release_json(self)
   end
 
   def number_of_seasons
@@ -34,7 +50,7 @@ class TvShow
     n_episodes
   end
 
-  def type_of_content
-    'tv_show'
+  def last_season
+    seasons.select { |season| season.release_date == release_date }.first
   end
 end

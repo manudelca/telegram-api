@@ -1,9 +1,16 @@
 require 'spec_helper'
+<<<<<<< HEAD
 require 'byebug'
 # require_relative '../../../app/persistence/repositories/genre_repo'
+=======
+>>>>>>> bebc0c4f1c442eabf379b9cc3264100efe092e8f
 
 describe Persistence::Repositories::ClientRepo do # rubocop:disable RSpec/FilePath
   let(:repository) { described_class.new(DB) }
+
+  after(:each) do
+    described_class.new(DB).delete_all
+  end
 
   describe 'changeset' do
     it 'changeset has email == client.email' do
@@ -42,12 +49,30 @@ describe Persistence::Repositories::ClientRepo do # rubocop:disable RSpec/FilePa
       genre = Genre.new('Drama')
       movie = Movie.new('Titanic', 'No ATP', 190, genre, 'USA', 'James Cameron', '2021-01-01', 'Kate Winslet', 'Leonardo Dicaprio')
       Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
-      Persistence::Repositories::MovieRepo.new(DB).create_content(movie)
+      movie_created = Persistence::Repositories::MovieRepo.new(DB).create_content(movie)
       date = Time.parse('2021-01-14')
-      client.sees_movie(movie, date)
+      client.sees_movie(movie_created, date)
       repository.update_movies_seen(client)
+      expect(repository.find(client.id).movies_seen[0].name).to eq movie.name
+    end
+  end
 
-      expect(repository.find_by_telegram_user_id(456_347).movies_seen[date].name).to eq movie.name
+  describe 'update episode seen' do
+    it 'must update episodes seen by the client' do
+      client = Client.new('test@test3.com', 456_345)
+      repository.create_client(client)
+      genre = Genre.new('Drama')
+      Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
+      tv_show = TvShow.new('Titanic', 'ATP', 195, genre, 'USA', 'James Cameron', '2021-01-01', 'Kate Winslet', 'Leonardo Dicaprio')
+      new_tv_show = Persistence::Repositories::TvShowRepo.new(DB).create_content(tv_show)
+      season = Season.new(1, new_tv_show.id, '2021-01-01')
+      new_season = Persistence::Repositories::SeasonsRepo.new(DB).create_season(season)
+      episode = Episode.new(1, new_season.id)
+      new_episode = Persistence::Repositories::EpisodesRepo.new(DB).create_episode(episode)
+      client.sees_episode(new_episode)
+      repository.update_episodes_seen(client)
+
+      expect(repository.find(client.id).episodes_seen[date].id).to eq new_episode.id
     end
   end
 
@@ -65,7 +90,7 @@ describe Persistence::Repositories::ClientRepo do # rubocop:disable RSpec/FilePa
       client.likes(movie)
       repository.update_contents_liked(client)
 
-      expect(repository.find_by_telegram_user_id(978_567).content_liked[0].name).to eq movie.name
+      expect(repository.find(client.id).content_liked[0].name).to eq movie.name
     end
   end
 end

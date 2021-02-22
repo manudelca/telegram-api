@@ -30,3 +30,23 @@ end
 Given('there is no movie with id {int}') do |int|
   @content_id = int
 end
+
+Given('the episode  the tv show {string}, with audience {string}, duration {int} min, genre {string}, origin country {string}, director {string}, actors {string} and {string}, seasons {int} and episodes {int} and release date {string} is available') do |string, string2, int, string3, string4, string5, string6, string7, int2, int3, string8|
+  @request = {name: string3}.to_json
+  @response = Faraday.post(create_genre_url, @request, header)
+  @request = {content: [{type: 'tv_show', name: string,
+                         audience: string2, duration_minutes: int,
+                         genre: string3, country: string4,
+                         director: string5, release_date: string8,
+                         first_actor: string6, second_actor: string7,
+                         season_number: int2, episode_number: int3 }]}.to_json
+  @response = Faraday.post(create_content_url, @request, header)
+
+  content = JSON.parse(@response.body)
+  @episode_id = content['content'].first['id']
+end
+
+When('I marked the episode {int} of tv show {string} for {string}') do |_int, _string, string2|
+  @request = {email: string2, movie_id: @episode_id}.to_json
+  @response = Faraday.patch(episodes_views_url, @request, header)
+end

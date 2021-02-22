@@ -18,6 +18,22 @@ module Persistence
         movie
       end
 
+      def find_releases_without_future_ones(how_many, now_date)
+        (contents.combine(:genres, seasons: :episodes)
+                                     .where(type: 'movie').where { release_date < now_date }
+                                     .order { release_date.desc }.limit(how_many) >> movie_mapper)
+      end
+
+      def find_releases_with_future_ones(how_many, now_date)
+        (contents.combine(:genres, seasons: :episodes)
+                 .where(type: 'movie').where { release_date > now_date }
+                 .order { release_date.desc }.limit(how_many) >> movie_mapper)
+      end
+
+      def delete_all
+        contents.delete
+      end
+
       private
 
       def movie_changeset(movie)
@@ -31,7 +47,7 @@ module Persistence
           release_date: movie.release_date,
           first_actor: movie.first_actor,
           second_actor: movie.second_actor,
-          type: movie.type_of_content
+          type: 'movie'
         }
       end
 

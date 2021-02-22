@@ -2,17 +2,26 @@ require 'spec_helper'
 
 describe Persistence::Repositories::EpisodesRepo do # rubocop:disable RSpec/FilePath
   let(:repository) { described_class.new(DB) }
-  let(:genre) do
-    genre = Genre.new('drama')
-    Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
-  end
 
   let(:season) do
-    tv_show = TvShow.new('Titanic', 'ATP', 195, genre, 'USA', 'James Cameron', 'Kate Winslet', 'Leonardo Dicaprio')
-    new_tv_show = Persistence::Repositories::TvShowRepo.new(DB).create_content(tv_show)
+    genre_repository = Persistence::Repositories::GenreRepo.new(DB)
+    new_genre = Genre.new('drama')
+    genre = genre_repository.create_genre(new_genre)
 
-    season = Season.new(1, new_tv_show.id)
-    Persistence::Repositories::SeasonsRepo.new(DB).create_season(season)
+    tv_show_repository = Persistence::Repositories::TvShowRepo.new(DB)
+    new_tv_show = TvShow.new('The Office', 'No ATP', 190, genre, 'USA', 'Ricky Gervais', '2021-01-01', 'Steve Carrell', 'Rainn Wilson')
+    tv_show = tv_show_repository.create_content(new_tv_show)
+
+    seasons_repository = Persistence::Repositories::SeasonsRepo.new(DB)
+    new_season = Season.new(1, tv_show.id, '2021-01-01')
+    seasons_repository.create_season(new_season)
+  end
+
+  after(:each) do
+    described_class.new(DB).delete_all
+    Persistence::Repositories::SeasonsRepo.new(DB).delete_all
+    Persistence::Repositories::TvShowRepo.new(DB).delete_all
+    Persistence::Repositories::GenreRepo.new(DB).delete_all
   end
 
   describe 'changeset' do

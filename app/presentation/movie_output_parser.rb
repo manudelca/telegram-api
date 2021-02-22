@@ -1,0 +1,42 @@
+class MovieOutputParser
+  def full_json(movie)
+    {
+      id: IdConverter.new.parse_movie_id(movie.id),
+      name: movie.name,
+      audience: movie.audience,
+      duration_minutes: movie.duration_minutes,
+      genre: movie.genre.name,
+      country: movie.country,
+      director: movie.director,
+      release_date: movie.release_date,
+      first_actor: movie.first_actor,
+      second_actor: movie.second_actor
+    }
+  end
+
+  def details_json(movie)
+    {
+      id: IdConverter.new.parse_movie_id(movie.id),
+      name: movie.name,
+      audience: movie.audience,
+      duration_minutes: movie.duration_minutes,
+      genre: movie.genre.name,
+      country: movie.country,
+      director: movie.director,
+      first_actor: movie.first_actor,
+      second_actor: movie.second_actor
+    }
+  end
+
+  def release_json(movie)
+    {
+      id: IdConverter.new.parse_movie_id(movie.id),
+      name: movie.name,
+      genre: movie.genre.name,
+      director: movie.director,
+      first_actor: movie.first_actor,
+      second_actor: movie.second_actor,
+      release_date: movie.release_date
+    }
+  end
+end

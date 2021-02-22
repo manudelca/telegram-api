@@ -2,7 +2,7 @@
 
 module WebTemplate
   class App
-    module ContentHelper # rubocop:disable Metrics/ModuleLength
+    module ContentHelper
       def find_content(content_id)
         id_conversor = IdConverter.new
         repo = id_conversor.get_repo(content_id)
@@ -32,7 +32,7 @@ module WebTemplate
                           content_params['first_actor'],
                           content_params['second_actor'])
         new_movie = movie_repo.create_content(movie)
-        movie_to_json(new_movie)
+        new_movie.full_details
       end
 
       def movie_repo
@@ -55,14 +55,36 @@ module WebTemplate
         new_tv_show = tv_show_repo.find_or_create(tv_show)
 
         # save season
-        season = Season.new(content_params['season_number'], new_tv_show.id)
+        season = Season.new(content_params['season_number'],
+                            new_tv_show.id,
+                            content_params['release_date'])
         new_season = seasons_repo.find_or_create(season)
 
         # save episode
         episode = Episode.new(content_params['episode_number'], new_season.id)
         new_episode = episodes_repo.create_episode(episode)
 
-        create_tv_show_to_json(new_tv_show, new_season, new_episode)
+        new_tv_show.full_details(new_season, new_episode)
+      end
+
+      def find_releases_without_future(now_date)
+        movie_releases = movie_repo.find_releases_without_future_ones(query_content_quantity, now_date)
+        tv_show_releases = tv_show_repo.find_releases_without_future_ones(query_content_quantity, now_date)
+
+        releases = []
+        releases += movie_releases unless movie_releases.nil?
+        releases += tv_show_releases unless tv_show_releases.nil?
+        releases
+      end
+
+      def find_releases_with_future(now_date)
+        movie_releases = movie_repo.find_releases_with_future_ones(query_content_quantity, now_date)
+        tv_show_releases = tv_show_repo.find_releases_with_future_ones(query_content_quantity, now_date)
+
+        releases = []
+        releases += movie_releases unless movie_releases.nil?
+        releases += tv_show_releases unless tv_show_releases.nil?
+        releases
       end
 
       def tv_show_repo
@@ -77,94 +99,13 @@ module WebTemplate
         Persistence::Repositories::EpisodesRepo.new(DB)
       end
 
-      def generic_content_repo
-        Persistence::Repositories::GenericContentRepo.new(DB)
-      end
-
       def content_params
         @body ||= request.body.read
         JSON.parse(@body).symbolize_keys
       end
 
-      def movie_details_response(movie)
-        status 200
-        {
-          :message => 'El contenido fue encontrado!',
-          :content => movie_details_to_json(movie)
-        }.to_json
-      end
-
-      def tv_show_details_response(tv_show)
-        status 200
-        {
-          :message => 'El contenido fue encontrado!',
-          :content => tv_show_details_to_json(tv_show)
-        }.to_json
-      end
-
-      private
-
-      def movie_to_json(movie)
-        {
-          id: IdConverter.new.parse_movie_id(movie.id),
-          name: movie.name,
-          audience: movie.audience,
-          duration_minutes: movie.duration_minutes,
-          genre: movie.genre.name,
-          country: movie.country,
-          director: movie.director,
-          release_date: movie.release_date,
-          first_actor: movie.first_actor,
-          second_actor: movie.second_actor
-        }
-      end
-
-      def movie_details_to_json(movie)
-        {
-          id: IdConverter.new.parse_movie_id(movie.id),
-          name: movie.name,
-          audience: movie.audience,
-          duration_minutes: movie.duration_minutes,
-          genre: movie.genre.name,
-          country: movie.country,
-          director: movie.director,
-          first_actor: movie.first_actor,
-          second_actor: movie.second_actor
-        }
-      end
-
-      def tv_show_details_to_json(tv_show)
-        {
-          id: IdConverter.new.parse_tv_show_id(tv_show.id),
-          name: tv_show.name,
-          audience: tv_show.audience,
-          duration_minutes: tv_show.duration_minutes,
-          genre: tv_show.genre.name,
-          country: tv_show.country,
-          director: tv_show.director,
-          first_actor: tv_show.first_actor,
-          second_actor: tv_show.second_actor,
-          seasons: tv_show.number_of_seasons,
-          episodes: tv_show.number_of_episodes
-        }
-      end
-
-      def create_tv_show_to_json(tv_show, season, episode) # rubocop:disable Metrics/AbcSize
-        {
-          id: IdConverter.new.parse_episode_id(episode.id),
-          tv_show_id: IdConverter.new.parse_tv_show_id(tv_show.id),
-          name: tv_show.name,
-          audience: tv_show.audience,
-          duration_minutes: tv_show.duration_minutes,
-          genre: tv_show.genre.name,
-          country: tv_show.country,
-          director: tv_show.director,
-          release_date: tv_show.release_date,
-          first_actor: tv_show.first_actor,
-          second_actor: tv_show.second_actor,
-          season_number: season.number,
-          episode_number: episode.number
-        }
+      def query_content_quantity
+        3
       end
     end
 

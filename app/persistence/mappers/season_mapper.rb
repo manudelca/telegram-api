@@ -14,7 +14,11 @@ module Persistence
       end
 
       def build_season_from(season_attributes, episodes)
-        Season.new(season_attributes.number, season_attributes.tv_show_id, season_attributes.id, episodes)
+        Season.new(season_attributes.number,
+                   season_attributes.tv_show_id,
+                   season_attributes.release_date,
+                   season_attributes.id,
+                   episodes)
       end
 
       def episodes_mapper

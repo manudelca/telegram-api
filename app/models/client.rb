@@ -1,6 +1,6 @@
 require 'byebug'
 class Client
-  attr_reader :email, :telegram_user_id, :movies_seen, :content_liked
+  attr_reader :email, :telegram_user_id, :movies_seen, :episodes_seen, :content_liked
   attr_accessor :id
 
   def initialize(email, telegram_user_id, id = nil, email_validator = EmailValidator.new)
@@ -43,6 +43,10 @@ class Client
       i += 1
     end
     last_three
+  end
+
+  def saw_episode?(episode)
+    @episodes_seen.include?(episode)
   end
 
   def likes(content)

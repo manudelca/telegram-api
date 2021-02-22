@@ -1,0 +1,1 @@
+class EmailRepeatedError < StandardError; end
