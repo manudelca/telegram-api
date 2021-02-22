@@ -1,3 +1,4 @@
+require 'byebug'
 class Client
   attr_reader :email, :telegram_user_id, :movies_seen, :content_liked
   attr_accessor :id
@@ -13,6 +14,7 @@ class Client
     @movies_seen = {}
     @episodes_seen = []
     @content_liked = []
+    @seen_this_with_amount = 3
   end
 
   def sees_movie(movie, date)
@@ -33,11 +35,18 @@ class Client
 
   def seen_this_week(today)
     seven_days = 7 * 24 * 60 * 60
-    contents = []
-    @movies_seen.each do |date, content|
-      contents.append(content) if date > today - seven_days
+    this_week = []
+    last_three = []
+    @movies_seen.each do |date, _content|
+      this_week.append(date) if date > today - seven_days
     end
-    contents
+    this_week.sort!
+    i = 0
+    while i < @seen_this_with_amount && !this_week.empty?
+      last_three.append(@movies_seen[this_week.pop])
+      i += 1
+    end
+    last_three
   end
 
   def likes(content)
