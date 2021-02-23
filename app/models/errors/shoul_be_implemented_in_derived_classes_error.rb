@@ -1,0 +1,1 @@
+class ShoulBeImplementedInDerivedClassesError < StandardError; end

@@ -5,8 +5,7 @@ class Content
     @id = id
   end
 
-  # esto deberia quedar asi
-  # def is_viewable
-  #   raise ShoulBeImplementedInDerivedClassesError
-  # end
+  def is_viewable
+    raise ShoulBeImplementedInDerivedClassesError
+  end
 end
