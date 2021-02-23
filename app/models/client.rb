@@ -22,7 +22,6 @@ class Client
     @contents_seen[date] = content
   end
 
-  # asi deberia quedar
   # def sees_content(content, date, client_repo)
   #   raise NotViewableContentError unless content.is_viewable
   #   @contents_seen << View.new(self, content, date)
