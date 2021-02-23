@@ -1,6 +1,7 @@
 require_relative '../presentation/tv_show_output_parser'
+require_relative 'content'
 
-class TvShow
+class TvShow < Content
   attr_reader :name, :audience, :duration_minutes,
               :genre, :country, :director,
               :release_date, :first_actor,
@@ -12,6 +13,7 @@ class TvShow
                  release_date, first_actor,
                  second_actor = nil, id = nil,
                  seasons = [], output_parser = TvShowOutputParser.new)
+    super(id)
     @name = name
     @audience = audience
     @duration_minutes = duration_minutes
@@ -21,7 +23,6 @@ class TvShow
     @release_date = release_date
     @first_actor = first_actor
     @second_actor = second_actor
-    @id = id
     @seasons = seasons
     @output_parser = output_parser
   end

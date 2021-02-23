@@ -1,4 +1,5 @@
 require 'spec_helper'
+require_relative '../../../app/presentation/tv_show_output_parser'
 
 describe TvShow do
   it 'tv_show number of seasons is 3' do

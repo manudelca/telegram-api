@@ -1,6 +1,7 @@
 require_relative '../presentation/movie_output_parser'
+require_relative 'content'
 
-class Movie
+class Movie < Content
   attr_reader :name, :audience, :duration_minutes,
               :genre, :country, :director,
               :release_date, :first_actor,
@@ -11,6 +12,7 @@ class Movie
                  genre, country, director,
                  release_date, first_actor, second_actor = nil,
                  id = nil, output_parser = MovieOutputParser.new)
+    super(id)
     @name = name
     @audience = audience
     @duration_minutes = duration_minutes
@@ -20,7 +22,6 @@ class Movie
     @release_date = release_date
     @first_actor = first_actor
     @second_actor = second_actor
-    @id = id
     @output_parser = output_parser
   end
 

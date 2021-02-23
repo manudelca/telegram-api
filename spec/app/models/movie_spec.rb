@@ -1,4 +1,5 @@
 require 'spec_helper'
+require_relative '../../../app/presentation/movie_output_parser'
 
 describe Movie do
   let(:genre) { Genre.new('Drama') }
