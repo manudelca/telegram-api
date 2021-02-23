@@ -3,13 +3,6 @@
 module WebTemplate
   class App
     module ContentHelper
-      def find_content(content_id)
-        id_conversor = IdConverter.new
-        repo = id_conversor.get_repo(content_id)
-        repo.find(id_conversor.parse_id(content_id))
-        pp repo.find(id_conversor.parse_id(content_id))
-      end
-
       def create_content_and_get_json(content_type, content_params)
         dic_content_repo = {
           'movie' => method(:save_movie),

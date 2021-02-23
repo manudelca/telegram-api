@@ -1,7 +1,7 @@
 class MovieOutputParser
   def full_json(movie)
     {
-      id: IdConverter.new.parse_movie_id(movie.id),
+      id: movie.id,
       name: movie.name,
       audience: movie.audience,
       duration_minutes: movie.duration_minutes,
@@ -16,7 +16,7 @@ class MovieOutputParser
 
   def details_json(movie)
     {
-      id: IdConverter.new.parse_movie_id(movie.id),
+      id: movie.id,
       name: movie.name,
       audience: movie.audience,
       duration_minutes: movie.duration_minutes,
@@ -30,7 +30,7 @@ class MovieOutputParser
 
   def release_json(movie)
     {
-      id: IdConverter.new.parse_movie_id(movie.id),
+      id: movie.id,
       name: movie.name,
       genre: movie.genre.name,
       director: movie.director,

@@ -35,15 +35,10 @@ WebTemplate::App.controllers :clients do
       client = client_repo.find_by_email(params[:email])
       raise ClientNotFound if client.nil?
 
-      # asi deberia quedar
-      # client = client_repo.find_by_email(client_params[:email])
-      # raise ClientNotFound if client.nil?
-      # content = content_repo.find_by_id(client_params[:content_id])
-      # client.sees_content(content, @@date, client_repo)
+      content = content_repo.find(params[:content_id])
+      raise ContentNotFound if content.nil?
 
-      content = find_content(params[:content_id])
       client.sees_content(content, @@date, client_repo)
-      client_repo.update_contents_seen(client)
       status 201
       {
         :message => 'Visto registrado exitosamente'
@@ -64,7 +59,7 @@ WebTemplate::App.controllers :clients do
   post :update, :map => '/like' do
     begin
       client = client_repo.find_by_telegram_user_id(client_params[:telegram_user_id])
-      content = find_content(client_params[:content_id])
+      content = content_repo.find(client_params[:content_id])
       client.likes(content)
       client_repo.update_contents_liked(client)
 

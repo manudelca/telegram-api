@@ -7,6 +7,10 @@ module WebTemplate
         Persistence::Repositories::ClientRepo.new(DB)
       end
 
+      def content_repo
+        Persistence::Repositories::ContentRepo.new(DB)
+      end
+
       def client_params
         @body ||= request.body.read
         JSON.parse(@body).symbolize_keys

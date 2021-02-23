@@ -15,7 +15,9 @@ WebTemplate::App.controllers :content, :provides => [:json] do
   get :show, :map => '/content', :with => :id do
     content_id = params[:id]
     begin
-      content = find_content(content_id)
+      content = content_repo.find(content_id)
+      raise ContentNotFound if content.nil?
+
       status 200
       {
         :message => 'El contenido fue encontrado!',
