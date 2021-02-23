@@ -41,10 +41,6 @@ class Client
   end
 
   def likes(content)
-    content.be_liked_by(self)
-  end
-
-  def likes_movie(content)
     @movies_liked << content
   end
 

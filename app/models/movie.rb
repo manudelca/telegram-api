@@ -35,8 +35,4 @@ class Movie
   def as_release
     @output_parser.release_json(self)
   end
-
-  def be_liked_by(client)
-    client.likes_movie(self)
-  end
 end
