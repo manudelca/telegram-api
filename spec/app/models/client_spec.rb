@@ -8,9 +8,9 @@ describe Client do
     genre = Genre.new('Drama')
     movie_id = 0
     movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', movie_id)
-    client.sees_movie(movie, Time.now)
+    client.sees_content(movie, Time.now)
 
-    expect(client.saw_movie?(movie)).to eq(true)
+    expect(client.saw_content?(movie)).to eq(true)
   end
 
   it 'should seen episodes' do
@@ -20,9 +20,9 @@ describe Client do
     season = Season.new(tv_show, 1, id)
     episode = Episode.new(season, 1, 0)
     today = Time.parse('2021-01-02')
-    client.sees_episode(episode, today)
+    client.sees_content(episode, today)
 
-    expect(client.saw_episode?(episode)).to eq(true)
+    expect(client.saw_content?(episode)).to eq(true)
   end
 
   it 'should be able to mark content as liked' do
@@ -30,7 +30,7 @@ describe Client do
     movie_id = 0
     movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', movie_id)
     today = Time.parse('2021-01-02')
-    client.sees_movie(movie, today)
+    client.sees_content(movie, today)
     client.likes(movie)
 
     expect(client.liked_content?(movie)).to eq(true)
@@ -48,7 +48,7 @@ describe Client do
     movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', movie_id)
     seen_date = Time.parse('2021-01-01')
     today = Time.parse('2021-01-02')
-    client.sees_movie(movie, seen_date)
+    client.sees_content(movie, seen_date)
 
     expect(client.seen_this_week(today)).to include(movie)
   end
@@ -59,7 +59,7 @@ describe Client do
     movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', movie_id)
     seen_date = Time.parse('2021-01-01')
     today = Time.parse('2021-01-08')
-    client.sees_movie(movie, seen_date)
+    client.sees_content(movie, seen_date)
 
     expect(client.seen_this_week(today)).not_to include(movie)
   end
@@ -70,7 +70,7 @@ describe Client do
     movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', movie_id)
     seen_date = Time.parse('2021-01-02')
     today = Time.parse('2021-01-08')
-    client.sees_movie(movie, seen_date)
+    client.sees_content(movie, seen_date)
 
     expect(client.seen_this_week(today)).to include(movie)
   end
@@ -88,10 +88,10 @@ describe Client do
     seen_date3 = Time.parse('2021-01-04')
     seen_date4 = Time.parse('2021-01-05')
     today = Time.parse('2021-01-08')
-    client.sees_movie(movie1, seen_date1)
-    client.sees_movie(movie2, seen_date2)
-    client.sees_movie(episode1, seen_date3)
-    client.sees_movie(episode2, seen_date4)
+    client.sees_content(movie1, seen_date1)
+    client.sees_content(movie2, seen_date2)
+    client.sees_content(episode1, seen_date3)
+    client.sees_content(episode2, seen_date4)
 
     expect(client.seen_this_week(today)).not_to include(movie1)
   end
@@ -101,7 +101,7 @@ describe Client do
     movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', 0)
     seen_date = Time.parse('2021-01-05')
     today = Time.parse('2021-01-08')
-    client.sees_movie(movie, seen_date)
+    client.sees_content(movie, seen_date)
     client.likes(movie)
 
     expect(client.seen_this_week(today)).not_to include(movie)
@@ -111,7 +111,7 @@ describe Client do
     genre = Genre.new('Drama')
     movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', 0)
     seen_date = Time.parse('2021-01-05')
-    client.sees_movie(movie, seen_date)
+    client.sees_content(movie, seen_date)
     client.likes_movie(movie)
 
     expect(client.movies_liked).to include(movie)

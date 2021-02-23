@@ -16,17 +16,13 @@ class Client
     @seen_this_with_amount = 3
   end
 
-  def sees_movie(movie, date)
-    @contents_seen[date] = movie
+  def sees_content(content, date)
+    @contents_seen[date] = content
   end
 
-  def sees_episode(episode, date)
-    @contents_seen[date] = episode
-  end
-
-  def saw_movie?(movie)
-    @contents_seen.each do |_date, content|
-      return true if content == movie
+  def saw_content?(content)
+    @contents_seen.each do |_date, content_seen|
+      return true if content_seen == content
     end
 
     false
@@ -42,14 +38,6 @@ class Client
       i += 1
     end
     last_three
-  end
-
-  def saw_episode?(episode)
-    @contents_seen.each do |_date, content|
-      return true if content == episode
-    end
-
-    false
   end
 
   def likes(content)
