@@ -17,9 +17,6 @@ module WebTemplate
         movie_repo.delete_all
         tv_show_repo.delete_all
         genre_repo.delete_all
-        task_repo.delete_all
-        tag_repo.delete_all
-        user_repo.delete_all
         @@date = Time.now.strftime('%Y/%m/%d') # rubocop:disable Style/ClassVars
 
         status 200
