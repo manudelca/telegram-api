@@ -64,24 +64,12 @@ module Persistence
         container.relations[:clients_contents]
       end
 
-      def clients_episodes_create_command
-        clients_episodes_relation.command(:create)
-      end
-
-      def clients_episodes_relation
-        container.relations[:clients_episodes]
-      end
-
       def clients_contents_liked_create_command
         clients_contents_liked_relation.command(:create)
       end
 
       def clients_contents_liked_relation
         container.relations[:clients_contents_liked]
-      end
-
-      def clients_episodes_liked_relation
-        container.relations[:clients_episodes_liked]
       end
 
       def client_changeset(client)
@@ -94,10 +82,6 @@ module Persistence
 
       def clients_contents_liked_changeset(client, content)
         {client_id: client.id, content_id: content.id}
-      end
-
-      def clients_episodes_changeset(client, episode, date)
-        {client_id: client.id, episode_id: episode.id, date: date}
       end
 
       def client_mapper

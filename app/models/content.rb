@@ -5,11 +5,7 @@ class Content
     @id = id
   end
 
-  # def seen(client_id, date)
-  #   raise NotViewableContentError unless is_viewable
-  #   View.new(id, client_id, date)
-  # end
-
+  # esto deberia quedar asi
   # def is_viewable
   #   raise ShoulBeImplementedInDerivedClassesError
   # end

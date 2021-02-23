@@ -12,6 +12,8 @@ class Client
     @telegram_user_id = telegram_user_id
     @id = id
     @contents_seen = {}
+    # asi deberia quedar
+    # @contents_seen = []
     @contents_liked = []
     @seen_this_with_amount = 3
   end
@@ -19,6 +21,13 @@ class Client
   def sees_content(content, date)
     @contents_seen[date] = content
   end
+
+  # asi deberia quedar
+  # def sees_content(content, date, client_repo)
+  #   raise NotViewableContentError unless content.is_viewable
+  #   @contents_seen << View.new(self, content, date)
+  #   client_repo.update_contents_seen(self)
+  # end
 
   def saw_content?(content)
     @contents_seen.each do |_date, content_seen|
