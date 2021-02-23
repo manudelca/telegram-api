@@ -11,26 +11,20 @@ class Client
     @email = email
     @telegram_user_id = telegram_user_id
     @id = id
-    @contents_seen = {}
-    # asi deberia quedar
-    # @contents_seen = []
+    @contents_seen = []
     @contents_liked = []
     @seen_this_with_amount = 3
   end
 
-  def sees_content(content, date)
-    @contents_seen[date] = content
+  def sees_content(content, date, client_repo)
+    # raise NotViewableContentError unless content.is_viewable
+    @contents_seen << View.new(self, content, date)
+    client_repo.update_contents_seen(self)
   end
 
-  # def sees_content(content, date, client_repo)
-  #   raise NotViewableContentError unless content.is_viewable
-  #   @contents_seen << View.new(self, content, date)
-  #   client_repo.update_contents_seen(self)
-  # end
-
   def saw_content?(content)
-    @contents_seen.each do |_date, content_seen|
-      return true if content_seen == content
+    @contents_seen.each do |view|
+      return true if view.content == content
     end
 
     false
@@ -39,10 +33,10 @@ class Client
   def seen_this_week(today)
     last_three = []
     this_week = this_week_seen_and_not_liked_dates(today)
-    this_week.sort!
+    # this_week.sort!
     i = 0
     while i < @seen_this_with_amount && !this_week.empty?
-      last_three.append(@contents_seen[this_week.pop])
+      last_three.append(this_week.pop)
       i += 1
     end
     last_three
@@ -61,8 +55,8 @@ class Client
   def this_week_seen_and_not_liked_dates(today)
     seven_days = 7 * 24 * 60 * 60
     this_week = []
-    @contents_seen.each do |date, content|
-      this_week.append(date) if date > today - seven_days && !@contents_liked.include?(content)
+    @contents_seen.each do |view|
+      this_week.append(view.content) if view.date > today - seven_days && !@contents_liked.include?(view.content)
     end
     this_week
   end

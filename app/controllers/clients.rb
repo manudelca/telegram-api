@@ -40,7 +40,7 @@ WebTemplate::App.controllers :clients do
       # client.sees_content(content, @@date, client_repo)
 
       movie = find_content(client_params[:movie_id])
-      client.sees_content(movie, @@date)
+      client.sees_content(movie, @@date, client_repo)
       client_repo.update_contents_seen(client)
       status 201
       {
@@ -65,7 +65,7 @@ WebTemplate::App.controllers :clients do
       raise ClientNotFound if client.nil?
 
       episode = episodes_repo.find(client_params[:episode_id])
-      client.sees_content(episode, @@date)
+      client.sees_content(episode, @@date, client_repo)
       client_repo.update_contents_seen(client)
       status 201
       {

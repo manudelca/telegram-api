@@ -36,8 +36,8 @@ module Persistence
 
       def update_contents_seen(client)
         clients_contents_relation.where(client_id: client.id).delete
-        client.contents_seen.each do |date, movie|
-          clients_contents_create_command.call(clients_contents_changeset(client, movie, date))
+        client.contents_seen.each do |view|
+          clients_contents_create_command.call(clients_contents_changeset(view))
         end
       end
 
@@ -76,8 +76,8 @@ module Persistence
         {email: client.email, telegram_user_id: client.telegram_user_id}
       end
 
-      def clients_contents_changeset(client, content, date)
-        {client_id: client.id, content_id: content.id, date: date}
+      def clients_contents_changeset(view)
+        {client_id: view.client.id, content_id: view.content.id, date: view.date}
       end
 
       def clients_contents_liked_changeset(client, content)
