@@ -1,6 +1,6 @@
 require 'byebug'
 class Client
-  attr_reader :email, :telegram_user_id, :movies_seen, :episodes_seen, :content_liked
+  attr_reader :email, :telegram_user_id, :movies_seen, :episodes_seen, :movies_liked
   attr_accessor :id
 
   def initialize(email, telegram_user_id, id = nil, email_validator = EmailValidator.new)
@@ -13,7 +13,7 @@ class Client
     @id = id
     @movies_seen = {}
     @episodes_seen = {}
-    @content_liked = []
+    @movies_liked = []
     @seen_this_with_amount = 3
   end
 
@@ -54,11 +54,15 @@ class Client
   end
 
   def likes(content)
-    @content_liked << content
+    content.be_liked_by(self)
+  end
+
+  def likes_movie(content)
+    @movies_liked << content
   end
 
   def liked_content?(content)
-    @content_liked.include?(content)
+    @movies_liked.include?(content)
   end
 
   private
@@ -67,7 +71,7 @@ class Client
     seven_days = 7 * 24 * 60 * 60
     this_week = []
     @movies_seen.each do |date, content|
-      this_week.append(date) if date > today - seven_days && !@content_liked.include?(content)
+      this_week.append(date) if date > today - seven_days && !@movies_liked.include?(content)
     end
     this_week
   end

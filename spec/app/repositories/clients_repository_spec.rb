@@ -87,7 +87,7 @@ describe Persistence::Repositories::ClientRepo do # rubocop:disable RSpec/FilePa
       client.likes(movie)
       repository.update_contents_liked(client)
 
-      expect(repository.find(client.id).content_liked[0].name).to eq movie.name
+      expect(repository.find(client.id).movies_liked[0].name).to eq movie.name
     end
 
     xit 'must update episode liked by the client' do
@@ -109,7 +109,7 @@ describe Persistence::Repositories::ClientRepo do # rubocop:disable RSpec/FilePa
       client.likes(new_episode)
       repository.update_contents_liked(client)
 
-      expect(repository.find(client.id).content_liked[0].name).to eq movie.name
+      expect(repository.find(client.id).movies_liked[0].name).to eq movie.name
     end
   end
 end

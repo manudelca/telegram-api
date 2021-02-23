@@ -51,7 +51,7 @@ module Persistence
 
       def update_contents_liked(client)
         clients_contents_liked_relation.where(client_id: client.id).delete
-        client.content_liked.each do |content|
+        client.movies_liked.each do |content|
           clients_contents_liked_create_command.call(clients_contents_liked_changeset(client, content))
         end
       end
