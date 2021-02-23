@@ -49,4 +49,15 @@ describe TvShow do
 
     expect(tv_show.last_season.number).to eq(3)
   end
+
+  it 'tv_show is not viewable' do
+    genre = Genre.new('comedy')
+    tv_show_id = 1
+    seasons = []
+    tv_show = described_class.new('The Office', 'No ATP', 190, genre,
+                                  'USA', 'Ricky Gervais', '2021-01-01',
+                                  'Steve Carrell', 'Rainn Wilson', tv_show_id,
+                                  seasons)
+    expect(tv_show.is_viewable).to eq(false)
+  end
 end
