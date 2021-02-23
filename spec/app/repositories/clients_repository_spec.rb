@@ -48,8 +48,8 @@ describe Persistence::Repositories::ClientRepo do # rubocop:disable RSpec/FilePa
       movie_created = Persistence::Repositories::MovieRepo.new(DB).create_content(movie)
       date = Time.parse('2021-01-14')
       client.sees_movie(movie_created, date)
-      repository.update_movies_seen(client)
-      expect(repository.find(client.id).movies_seen[date].name).to eq movie.name
+      repository.add_content_seen(client, movie_created, date)
+      expect(repository.find(client.id).contents_seen[date].name).to eq movie.name
     end
   end
 
@@ -67,9 +67,9 @@ describe Persistence::Repositories::ClientRepo do # rubocop:disable RSpec/FilePa
       new_episode = Persistence::Repositories::EpisodesRepo.new(DB).create_episode(episode)
       date = Time.parse('2021-01-14')
       client.sees_episode(new_episode, date)
-      repository.update_episodes_seen(client)
+      repository.add_content_seen(client, new_episode, date)
 
-      expect(repository.find(client.id).episodes_seen[date].id).to eq new_episode.id
+      expect(repository.find(client.id).contents_seen[date].id).to eq new_episode.id
     end
   end
 
@@ -83,7 +83,7 @@ describe Persistence::Repositories::ClientRepo do # rubocop:disable RSpec/FilePa
       Persistence::Repositories::MovieRepo.new(DB).create_content(movie)
       date = Time.parse('2021-01-14')
       client.sees_movie(movie, date)
-      repository.update_movies_seen(client)
+      repository.add_content_seen(client, movie, date)
       client.likes(movie)
       repository.update_contents_liked(client)
 
@@ -105,7 +105,7 @@ describe Persistence::Repositories::ClientRepo do # rubocop:disable RSpec/FilePa
 
       date = Time.parse('2021-01-14')
       client.sees_episode(new_episode, date)
-      repository.update_episodes_seen(client)
+      repository.add_content_seen(client, new_episode, date)
       client.likes(new_episode)
       repository.update_contents_liked(client)
 

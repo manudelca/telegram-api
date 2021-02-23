@@ -1,6 +1,6 @@
 module Persistence
   module Repositories
-    class EpisodesRepo < ROM::Repository[:episodes]
+    class EpisodesRepo < ROM::Repository[:contents]
       commands :create
 
       def create_episode(episode)
@@ -11,7 +11,7 @@ module Persistence
       end
 
       def find(id)
-        episodes_relation = episodes.by_pk(id)
+        episodes_relation = contents.by_pk(id)
         episode = (episodes_relation >> episode_mapper).first
         raise ContentNotFound if episode.nil?
 
@@ -26,8 +26,9 @@ module Persistence
 
       def episodes_changeset(episode)
         {
-          number: episode.number,
-          season_id: episode.season_id
+          episode_number: episode.number,
+          season: episode.season_id,
+          type: 'episode'
         }
       end
 

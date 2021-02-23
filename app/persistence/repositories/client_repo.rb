@@ -11,7 +11,7 @@ module Persistence
       end
 
       def find(id)
-        clients_relation = (clients.combine(liked: :genres).combine(seen: :genres).combine(:episodes_seen).combine(:movies_seen_date).combine(:episodes_seen_date).by_pk(id) >> client_mapper)
+        clients_relation = (clients.combine(liked: :genres).combine(seen: :genres).combine(:contents_seen_date).by_pk(id) >> client_mapper)
         client = clients_relation.one
         raise ClientNotFound if client.nil?
 
@@ -19,8 +19,7 @@ module Persistence
       end
 
       def find_by_telegram_user_id(telegram_user_id)
-        clients_relation = clients.where(telegram_user_id: telegram_user_id).combine(liked: :genres).combine(seen: :genres).combine(:episodes_seen).combine(:movies_seen_date)\
-                                  .combine(:episodes_seen_date)
+        clients_relation = clients.where(telegram_user_id: telegram_user_id).combine(liked: :genres).combine(seen: :genres).combine(:contents_seen_date)
         clients_relation = (clients_relation >> client_mapper)
         client = clients_relation.first
         raise ClientNotFound if client.nil?
@@ -29,7 +28,7 @@ module Persistence
       end
 
       def find_by_email(email)
-        clients_relation = clients.where(email: email).combine(liked: :genres).combine(seen: :genres).combine(:episodes_seen).combine(:movies_seen_date).combine(:episodes_seen_date)
+        clients_relation = clients.where(email: email).combine(liked: :genres).combine(seen: :genres).combine(:contents_seen_date)
         clients_relation = (clients_relation >> client_mapper)
 
         clients_relation.first
@@ -49,6 +48,10 @@ module Persistence
         end
       end
 
+      def add_content_seen(client, content, date)
+        clients_contents_create_command.call(clients_contents_changeset(client, content, date))
+      end
+
       def update_contents_liked(client)
         clients_contents_liked_relation.where(client_id: client.id).delete
         client.movies_liked.each do |content|
@@ -57,10 +60,8 @@ module Persistence
       end
 
       def delete_all
-        clients_episodes_relation.delete
         clients_contents_relation.delete
         clients_contents_liked_relation.delete
-        clients_episodes_liked_relation.delete
         clients.delete
       end
 

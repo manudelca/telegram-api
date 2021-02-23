@@ -27,13 +27,13 @@ describe Persistence::Repositories::EpisodesRepo do # rubocop:disable RSpec/File
   describe 'changeset' do
     it 'changeset has number == episode.number' do
       episode = Episode.new(1, season.id)
-      expect(repository.send(:episodes_changeset, episode)[:number]).to eq \
+      expect(repository.send(:episodes_changeset, episode)[:episode_number]).to eq \
         episode.number
     end
 
     it 'changeset has season_id == season.id' do
       episode = Episode.new(1, season.id)
-      expect(repository.send(:episodes_changeset, episode)[:season_id]).to eq \
+      expect(repository.send(:episodes_changeset, episode)[:season]).to eq \
         season.id
     end
   end

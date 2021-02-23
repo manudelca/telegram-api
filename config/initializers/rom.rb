@@ -53,10 +53,7 @@ DB = ROM.container(:sql, DATABASE_URL) do |config|
       associations do
         many_to_many :contents, as: :seen, through: :clients_contents
         many_to_many :contents, as: :liked, through: :clients_contents_liked
-        many_to_many :episodes, as: :episodes_seen, through: :clients_episodes
-        many_to_many :episodes, as: :episodes_liked, through: :clients_episodes_liked
-        has_many :clients_contents, as: :movies_seen_date
-        has_many :clients_episodes, as: :episodes_seen_date
+        has_many :clients_contents, as: :contents_seen_date
       end
     end
   end
