@@ -33,14 +33,15 @@ WebTemplate::App.controllers :clients do
       client = client_repo.find_by_email(client_params[:email])
       raise ClientNotFound if client.nil?
 
-      # asi deberia quedar para mi
-      # content = content_repo.find_by_id(client_params[:co_id])
-      # view = content.seen(client.id)
-      # views_repo.create_view(view)
+      # asi deberia quedar
+      # client = client_repo.find_by_email(client_params[:email])
+      # raise ClientNotFound if client.nil?
+      # content = content_repo.find_by_id(client_params[:content_id])
+      # client.sees_content(content, @@date, client_repo)
 
       movie = find_content(client_params[:movie_id])
-      client.sees_content(movie, Time.now)
-      client_repo.add_content_seen(client, movie, @@date)
+      client.sees_content(movie, @@date)
+      client_repo.update_contents_seen(client)
       status 201
       {
         :message => 'Visto registrado exitosamente'
@@ -65,7 +66,7 @@ WebTemplate::App.controllers :clients do
 
       episode = episodes_repo.find(client_params[:episode_id])
       client.sees_content(episode, @@date)
-      client_repo.add_content_seen(client, episode, @@date)
+      client_repo.update_contents_seen(client)
       status 201
       {
         :message => 'Visto registrado exitosamente'

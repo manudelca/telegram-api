@@ -26,7 +26,7 @@ module Persistence
         client = Client.new(client_attributes.email, client_attributes.telegram_user_id, client_attributes.id)
         contents_seen_dates = contents_seen_dates(client_attributes)
         add_contents_seen(client_attributes, client, contents_seen_dates)
-        add_movies_liked(client_attributes, client)
+        add_contents_liked(client_attributes, client)
         client
       end
 
@@ -54,12 +54,15 @@ module Persistence
         end
       end
 
-      def add_movies_liked(client_attributes, client)
+      def add_contents_liked(client_attributes, client)
         client_attributes.liked.each do |content|
-          next unless content.type == 'movie'
-
-          genre = genre_mapper.build_genre_from(content.genres)
-          client.likes(movie_mapper.build_movie_from(content, genre))
+          case content.type
+          when 'movie'
+            genre = genre_mapper.build_genre_from(content.genres)
+            client.likes(movie_mapper.build_movie_from(content, genre))
+          when 'episode'
+            client.likes(episode_mapper.build_episode_from(content))
+          end
         end
       end
     end

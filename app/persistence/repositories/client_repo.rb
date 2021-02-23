@@ -34,27 +34,16 @@ module Persistence
         clients_relation.first
       end
 
-      def update_movies_seen(client)
+      def update_contents_seen(client)
         clients_contents_relation.where(client_id: client.id).delete
-        client.movies_seen.each do |date, movie|
+        client.contents_seen.each do |date, movie|
           clients_contents_create_command.call(clients_contents_changeset(client, movie, date))
         end
       end
 
-      def update_episodes_seen(client)
-        clients_episodes_relation.where(client_id: client.id).delete
-        client.episodes_seen.each do |date, episode|
-          clients_episodes_create_command.call(clients_episodes_changeset(client, episode, date))
-        end
-      end
-
-      def add_content_seen(client, content, date)
-        clients_contents_create_command.call(clients_contents_changeset(client, content, date))
-      end
-
       def update_contents_liked(client)
         clients_contents_liked_relation.where(client_id: client.id).delete
-        client.movies_liked.each do |content|
+        client.contents_liked.each do |content|
           clients_contents_liked_create_command.call(clients_contents_liked_changeset(client, content))
         end
       end

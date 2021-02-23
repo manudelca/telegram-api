@@ -48,7 +48,7 @@ describe Persistence::Repositories::ClientRepo do # rubocop:disable RSpec/FilePa
       movie_created = Persistence::Repositories::MovieRepo.new(DB).create_content(movie)
       date = Time.parse('2021-01-14')
       client.sees_content(movie_created, date)
-      repository.add_content_seen(client, movie_created, date)
+      repository.update_contents_seen(client)
       expect(repository.find(client.id).contents_seen[date].name).to eq movie.name
     end
   end
@@ -67,7 +67,7 @@ describe Persistence::Repositories::ClientRepo do # rubocop:disable RSpec/FilePa
       new_episode = Persistence::Repositories::EpisodesRepo.new(DB).create_episode(episode)
       date = Time.parse('2021-01-14')
       client.sees_content(new_episode, date)
-      repository.add_content_seen(client, new_episode, date)
+      repository.update_contents_seen(client)
 
       expect(repository.find(client.id).contents_seen[date].id).to eq new_episode.id
     end
@@ -83,14 +83,14 @@ describe Persistence::Repositories::ClientRepo do # rubocop:disable RSpec/FilePa
       Persistence::Repositories::MovieRepo.new(DB).create_content(movie)
       date = Time.parse('2021-01-14')
       client.sees_content(movie, date)
-      repository.add_content_seen(client, movie, date)
+      repository.update_contents_seen(client)
       client.likes(movie)
       repository.update_contents_liked(client)
 
-      expect(repository.find(client.id).movies_liked[0].name).to eq movie.name
+      expect(repository.find(client.id).contents_liked[0].name).to eq movie.name
     end
 
-    xit 'must update episode liked by the client' do
+    it 'must update episode liked by the client' do
       client = Client.new('test@test6.com', 978_568)
       repository.create_client(client)
 
@@ -105,11 +105,11 @@ describe Persistence::Repositories::ClientRepo do # rubocop:disable RSpec/FilePa
 
       date = Time.parse('2021-01-14')
       client.sees_content(new_episode, date)
-      repository.add_content_seen(client, new_episode, date)
+      repository.update_contents_seen(client)
       client.likes(new_episode)
       repository.update_contents_liked(client)
 
-      expect(repository.find(client.id).movies_liked[0].name).to eq movie.name
+      expect(repository.find(client.id).contents_liked[0].id).to eq new_episode.id
     end
   end
 end
