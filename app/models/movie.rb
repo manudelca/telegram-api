@@ -35,4 +35,8 @@ class Movie
   def as_release
     @output_parser.release_json(self)
   end
+
+  def is_viewable
+    true
+  end
 end
