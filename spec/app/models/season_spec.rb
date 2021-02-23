@@ -14,4 +14,14 @@ describe Season do
 
     expect(season.number_of_episodes).to eq(3)
   end
+
+  it 'season is not viewable' do
+    tv_show_id = 1
+    season_id = 1
+    season_one = 1
+    season_one_episodes = []
+    season = described_class.new(season_one, tv_show_id, '2021-01-01',
+                                 season_id, season_one_episodes)
+    expect(season.is_viewable).to eq(false)
+  end
 end
