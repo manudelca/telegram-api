@@ -4,10 +4,14 @@ module Persistence
   module Mappers
     class MovieMapper
       def call(contents)
-        contents.map do |movie|
-          genre = genre_mapper.build_genre_from(movie.genres)
-          build_movie_from(movie, genre)
+        contents.map do |movie_attributes|
+          build_content_from_attributes(movie_attributes)
         end
+      end
+
+      def build_content_from_attributes(movie_attributes)
+        genre = genre_mapper.build_genre_from(movie_attributes.genres)
+        build_movie_from(movie_attributes, genre)
       end
 
       def build_movie_from(movie_attributes, genre)

@@ -76,12 +76,8 @@ def client_url
   "#{BASE_URL}/register"
 end
 
-def views_url
-  "#{BASE_URL}/clients/movies_seen"
-end
-
-def episodes_views_url
-  "#{BASE_URL}/clients/episodes_seen"
+def views_url(email, content_id)
+  "#{BASE_URL}/clients/#{email}/contents/#{content_id}/seen"
 end
 
 def get_content_url(content_id)

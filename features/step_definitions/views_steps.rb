@@ -17,9 +17,8 @@ Given('the user {string} is registered') do |string|
   @response = Faraday.post(client_url, @request, header)
 end
 
-When('I marked the movie as seen for {string}') do |string|
-  @request = {email: string, movie_id: @content_id}.to_json
-  @response = Faraday.patch(views_url, @request, header)
+When('I marked the movie as seen for {string}') do |email|
+  @response = Faraday.patch(views_url(email, @content_id), header)
 end
 
 Then('I should get {string}') do |string|
@@ -47,6 +46,5 @@ Given('the episode  the tv show {string}, with audience {string}, duration {int}
 end
 
 When('I marked the episode {int} of tv show {string} for {string}') do |_int, _string, string2|
-  @request = {email: string2, movie_id: @episode_id}.to_json
-  @response = Faraday.patch(episodes_views_url, @request, header)
+  @response = Faraday.patch(views_url(string2, @episode_id), header)
 end

@@ -28,9 +28,11 @@ WebTemplate::App.controllers :clients do
     end
   end
 
-  patch :update, :map => '/clients/movies_seen' do
+  # /clients/client_id/contents/content_id/seen
+
+  patch :update, :map => '/clients/:email/contents/:content_id/seen' do
     begin
-      client = client_repo.find_by_email(client_params[:email])
+      client = client_repo.find_by_email(params[:email])
       raise ClientNotFound if client.nil?
 
       # asi deberia quedar
@@ -39,47 +41,22 @@ WebTemplate::App.controllers :clients do
       # content = content_repo.find_by_id(client_params[:content_id])
       # client.sees_content(content, @@date, client_repo)
 
-      movie = find_content(client_params[:movie_id])
-      client.sees_content(movie, @@date, client_repo)
+      content = find_content(params[:content_id])
+      client.sees_content(content, @@date, client_repo)
       client_repo.update_contents_seen(client)
       status 201
       {
         :message => 'Visto registrado exitosamente'
       }.to_json
-    rescue ContentNotFound, RepoNotFound
+    rescue ContentNotFound, RepoNotFound, NotViewableContentError
       status 404
       {
-        :message => "Error: la pelicula con id #{client_params[:movie_id]} no se encuentra registrada"
+        :message => "Error: el contenido con id #{params[:content_id]} no se encuentra registrada"
       }.to_json
     rescue ClientNotFound
       status 404
       {
-        :message => "Error: el usuario con email #{client_params[:email]} no se encuentra registrado"
-      }.to_json
-    end
-  end
-
-  patch :update, :map => '/clients/episodes_seen' do
-    begin
-      client = client_repo.find_by_email(client_params[:email])
-      raise ClientNotFound if client.nil?
-
-      episode = episodes_repo.find(client_params[:episode_id])
-      client.sees_content(episode, @@date, client_repo)
-      client_repo.update_contents_seen(client)
-      status 201
-      {
-        :message => 'Visto registrado exitosamente'
-      }.to_json
-    rescue ContentNotFound
-      status 404
-      {
-        :message => "Error: el episodio con id #{client_params[:movie_id]} no se encuentra registrada"
-      }.to_json
-    rescue ClientNotFound
-      status 404
-      {
-        :message => "Error: el usuario con email #{client_params[:email]} no se encuentra registrado"
+        :message => "Error: el usuario con email #{params[:email]} no se encuentra registrado"
       }.to_json
     end
   end

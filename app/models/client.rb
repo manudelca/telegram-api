@@ -17,7 +17,8 @@ class Client
   end
 
   def sees_content(content, date, client_repo)
-    # raise NotViewableContentError unless content.is_viewable
+    raise NotViewableContentError unless content.is_viewable
+
     @contents_seen << View.new(self, content, date)
     client_repo.update_contents_seen(self)
   end
@@ -33,10 +34,10 @@ class Client
   def seen_this_week(today)
     last_three = []
     this_week = this_week_seen_and_not_liked_dates(today)
-    # this_week.sort!
+    this_week.sort { |a, b| a.date <=> b.date }
     i = 0
     while i < @seen_this_with_amount && !this_week.empty?
-      last_three.append(this_week.pop)
+      last_three.append(this_week.pop.content)
       i += 1
     end
     last_three
@@ -56,7 +57,7 @@ class Client
     seven_days = 7 * 24 * 60 * 60
     this_week = []
     @contents_seen.each do |view|
-      this_week.append(view.content) if view.date > today - seven_days && !@contents_liked.include?(view.content)
+      this_week.append(view) if view.date > today - seven_days && !@contents_liked.include?(view.content)
     end
     this_week
   end

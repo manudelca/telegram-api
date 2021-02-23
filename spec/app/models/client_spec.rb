@@ -125,4 +125,17 @@ describe Client do
 
     expect(client.seen_this_week(today)).not_to include(movie)
   end
+
+  it 'should raise error when seen a non-viewable content' do
+    genre = Genre.new('Comedy')
+    id = 0
+    release_date = Time.parse('2021-01-01')
+    tv_show = TvShow.new('Titanic: La serie', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', id)
+    new_tv_show = Persistence::Repositories::TvShowRepo.new(DB).create_content(tv_show)
+    season = Season.new(1, new_tv_show.id, release_date)
+    new_season = Persistence::Repositories::SeasonsRepo.new(DB).create_season(season)
+    seen_date = Time.parse('2021-01-05')
+
+    expect { client.sees_content(new_season, seen_date, repository) }.to raise_error(NotViewableContentError)
+  end
 end
