@@ -35,7 +35,7 @@ describe TvShow do
     expect(tv_show.number_of_episodes).to eq(9)
   end
 
-  it 'tv_show get last season ' do
+  it 'tv_show get last season' do
     genre = Genre.new('comedy')
 
     tv_show_id = 1
@@ -60,5 +60,22 @@ describe TvShow do
                                   'Steve Carrell', 'Rainn Wilson', tv_show_id,
                                   seasons)
     expect(tv_show.is_viewable).to eq(false)
+  end
+
+  it 'tv_show update release date' do
+    genre = Genre.new('comedy')
+
+    tv_show_id = 1
+    seasons = []
+    seasons << Season.new(1, tv_show_id, '2021-01-01')
+    seasons << Season.new(2, tv_show_id, '2021-01-02')
+    seasons << Season.new(3, tv_show_id, '2021-01-03')
+    tv_show = described_class.new('The Office', 'No ATP', 190, genre,
+                                  'USA', 'Ricky Gervais', '2021-01-03',
+                                  'Steve Carrell', 'Rainn Wilson', tv_show_id,
+                                  seasons)
+
+    tv_show.update_release_date('2022-01-01')
+    expect(tv_show.release_date).to eq('2022-01-01')
   end
 end

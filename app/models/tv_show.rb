@@ -58,4 +58,8 @@ class TvShow < Content
   def is_viewable
     false
   end
+
+  def update_release_date(new_release_date)
+    @release_date = new_release_date
+  end
 end
