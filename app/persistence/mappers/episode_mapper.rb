@@ -20,6 +20,10 @@ module Persistence
         Episode.new(episode_attributes.episode_number, episode_attributes.season_number,
                     episode_attributes.release_date, episode_attributes.id)
       end
+
+      def tv_show_repo
+        Persistence::Repositories::TvShowRepo.new(DB)
+      end
     end
   end
 end

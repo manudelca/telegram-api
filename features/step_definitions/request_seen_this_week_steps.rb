@@ -40,7 +40,7 @@ end
 Given('{string} saw the movie {string} in {string}') do |email, name, _date|
   @user_id = 0
   content_id = @contents_ids[name]['id']
-  @request = {email: email, telegram_user_id: user_id}.to_json
+  @request = {email: email, telegram_user_id: @user_id}.to_json
   @response = Faraday.post(client_url, @request, header)
   @response = Faraday.patch(views_url(email, content_id), header)
 end
@@ -48,7 +48,7 @@ end
 Given('{string} saw the tv show {string}, season {int} episode {int} in {string}') do |email, name, _season, _episode, _date|
   @user_id = 0
   content_id = @contents_ids[name]['id']
-  @request = {email: email, telegram_user_id: user_id}.to_json
+  @request = {email: email, telegram_user_id: @user_id}.to_json
   @response = Faraday.post(client_url, @request, header)
   @response = Faraday.patch(views_url(email, content_id), header)
 end
