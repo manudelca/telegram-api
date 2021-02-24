@@ -15,6 +15,15 @@ module Persistence
         contents
       end
 
+      def find_after_date_and_first_nearer_in_time(date)
+        contents_relation = (contents.combine(:genres)
+                                     .where { release_date > date }
+                                     .order { release_date.desc } >> content_mapper)
+        contents = []
+        contents_relation.each { |content| contents << content }
+        contents
+      end
+
       def delete_all
         contents.delete
       end

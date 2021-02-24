@@ -64,7 +64,7 @@ describe Persistence::Repositories::ContentRepo do # rubocop:disable RSpec/FileP
       expect(repository.find_before_date_and_first_newer(@@date).first.id).to eq(saved_movie_newer.id)
     end
 
-    it 'when a content release is in future date, dont return it' do
+    it 'when a content release is in future date, find_before_date_and_first_newer dont return it' do
       movie_older = Movie.new('Titanic 1', 'No ATP', 190, genre, 'USA', 'James Cameron', '2018-01-01', 'Kate Winslet', 'Leonardo Dicaprio')
       movie_newer = Movie.new('Titanic 2', 'No ATP', 190, genre, 'USA', 'James Cameron', '2022-01-01', 'Kate Winslet', 'Leonardo Dicaprio')
 
@@ -89,6 +89,16 @@ describe Persistence::Repositories::ContentRepo do # rubocop:disable RSpec/FileP
       content_matching_find = repository.find_before_date_and_first_newer(@@date)
       releases = content_matching_find.select(&:can_be_a_release)
       expect(releases.size).to eq(2)
+    end
+
+    it 'when a content release is in future date, find_after_date_and_first_nearer_in_time return it' do
+      movie_older = Movie.new('Titanic 1', 'No ATP', 190, genre, 'USA', 'James Cameron', '2018-01-01', 'Kate Winslet', 'Leonardo Dicaprio')
+      movie_newer = Movie.new('Titanic 2', 'No ATP', 190, genre, 'USA', 'James Cameron', '2022-01-01', 'Kate Winslet', 'Leonardo Dicaprio')
+
+      movie_repo.create_content(movie_older)
+      movie_repo.create_content(movie_newer)
+
+      expect(repository.find_after_date_and_first_nearer_in_time(@@date).size).to eq(1)
     end
   end
 end

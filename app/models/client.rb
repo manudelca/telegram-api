@@ -1,4 +1,3 @@
-require 'byebug'
 class Client
   attr_reader :email, :telegram_user_id, :contents_seen, :contents_liked
   attr_accessor :id
