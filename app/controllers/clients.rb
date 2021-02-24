@@ -58,6 +58,8 @@ WebTemplate::App.controllers :clients do
     begin
       client = client_repo.find_by_telegram_user_id(client_params[:telegram_user_id])
       content = content_repo.find(client_params[:content_id])
+      raise ContentNotFound if content.nil?
+
       client.likes(content, client_repo)
 
       status 201
