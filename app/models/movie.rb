@@ -40,8 +40,4 @@ class Movie < Content
   def is_viewable
     true
   end
-
-  def is_likeable
-    true
-  end
 end
