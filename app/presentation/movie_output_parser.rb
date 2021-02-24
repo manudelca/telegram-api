@@ -39,4 +39,15 @@ class MovieOutputParser
       release_date: movie.release_date
     }
   end
+
+  def seen_json(movie)
+    {
+      id: movie.id,
+      name: movie.name,
+      genre: movie.genre.name,
+      director: movie.director,
+      first_actor: movie.first_actor,
+      second_actor: movie.second_actor
+    }
+  end
 end

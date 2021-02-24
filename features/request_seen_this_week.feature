@@ -3,7 +3,6 @@ Feature: Request content seen this week
     As a streaming platform user
     I want to be able to request content seen by me this week
 
-    @wip
     Scenario: US10.1 - Request content seen this week successful
     Given the movie "Jurassic Park", with audience "ATP", duration 150 min, genre "action", origin country "USA", director "Lana Wachowski", actors "Keanu Reeves" and "Carrie-Anne Moss", release date "1980-06-10"
     And the movie "Matrix", with audience "ATP", duration 150 min, genre "action", origin country "USA", director "Lana Wachowski", actors "Keanu Reeves" and "Carrie-Anne Moss", release date "1999-06-10"

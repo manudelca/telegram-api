@@ -76,4 +76,26 @@ WebTemplate::App.controllers :clients do
       }.to_json
     end
   end
+
+  post :show, :map => '/seen_this_week' do
+    begin
+      client = client_repo.find_by_telegram_user_id(client_params[:telegram_user_id])
+      contents = client.seen_this_week(@@date)
+      seen_this_week = []
+      contents.each do |content|
+        seen_this_week << content.as_seen
+      end
+
+      status 201
+      {
+        :message => 'Búsqueda de contenido visto esta semana exitosa',
+        :conetnt => seen_this_week
+      }.to_json
+    rescue ClientNotFound
+      status 404
+      {
+        :message => "Error: el usuario con id #{client_params[:telegram_user_id]} no se encuentra registrado"
+      }.to_json
+    end
+  end
 end

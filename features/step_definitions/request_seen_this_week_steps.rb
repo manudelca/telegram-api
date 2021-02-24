@@ -37,12 +37,20 @@ Given('the episode  the tv show {string}, with audience {string}, duration {int}
   end
 end
 
-Given('{string} saw the movie {string} in {string}') do |email, _name, date|
-  user_id = 0
-  @request = {email: email, user_id: user_id}.to_json
+Given('{string} saw the movie {string} in {string}') do |email, name, _date|
+  @user_id = 0
+  content_id = @contents_ids[name]['id']
+  @request = {email: email, telegram_user_id: user_id}.to_json
   @response = Faraday.post(client_url, @request, header)
-  @request = {email: email, movie_id: @content_id, date: date}.to_json
-  @response = Faraday.patch(views_url, @request, header)
+  @response = Faraday.patch(views_url(email, content_id), header)
+end
+
+Given('{string} saw the tv show {string}, season {int} episode {int} in {string}') do |email, name, _season, _episode, _date|
+  @user_id = 0
+  content_id = @contents_ids[name]['id']
+  @request = {email: email, telegram_user_id: user_id}.to_json
+  @response = Faraday.post(client_url, @request, header)
+  @response = Faraday.patch(views_url(email, content_id), header)
 end
 
 Given('I haven\'t qualified any content') do
@@ -53,7 +61,7 @@ Given('it is {string}') do |date|
 end
 
 When('I request content seen this week') do
-  @request = {user_id: user_id, date: @date}.to_json
+  @request = {user_id: @user_id, date: @date}.to_json
   @response = Faraday.post(seen_this_week_url, @request, header)
 end
 
