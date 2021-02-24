@@ -78,10 +78,6 @@ module WebTemplate
         Persistence::Repositories::TvShowRepo.new(DB)
       end
 
-      def seasons_repo
-        Persistence::Repositories::SeasonsRepo.new(DB)
-      end
-
       def episodes_repo
         Persistence::Repositories::EpisodesRepo.new(DB)
       end

@@ -1,5 +1,3 @@
-require 'byebug'
-
 Given('the movie {string}, with type {string}, with audience {string}, duration {int} min, genre {string}, origin country {string}, director {string}, actors {string} and {string}, release date {string} is created') do |name, type, audience, duration, genre, country, director, first_actor, second_actor, release_date|
   @request = {content: [{type: type, name: name, audience: audience,
                          duration_minutes: duration, genre: genre,

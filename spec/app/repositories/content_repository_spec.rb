@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'byebug'
 
 describe Persistence::Repositories::ContentRepo do # rubocop:disable RSpec/FilePath
   let(:repository) { described_class.new(DB) }
@@ -48,6 +47,22 @@ describe Persistence::Repositories::ContentRepo do # rubocop:disable RSpec/FileP
       episodes_repository.create_episode(episode_two)
 
       expect(repository.find(saved_tv_show.id).episodes[0].number).to eq saved_episode.number
+    end
+  end
+
+  describe 'find by descendant release date' do
+    it 'no content returns empty array of contents' do
+      expect(repository.find_before_date_and_first_newer(@@date).empty?).to eq(true)
+    end
+
+    it 'when 2 contents, get order by desc release_date' do
+      movie_older = Movie.new('Titanic 1', 'No ATP', 190, genre, 'USA', 'James Cameron', '2018-01-01', 'Kate Winslet', 'Leonardo Dicaprio')
+      movie_newer = Movie.new('Titanic 2', 'No ATP', 190, genre, 'USA', 'James Cameron', '2019-01-01', 'Kate Winslet', 'Leonardo Dicaprio')
+
+      movie_repo.create_content(movie_older)
+      saved_movie_newer = movie_repo.create_content(movie_newer)
+
+      expect(repository.find_before_date_and_first_newer(@@date).first.id).to eq(saved_movie_newer.id)
     end
   end
 end

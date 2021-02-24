@@ -5,6 +5,10 @@ class Content
     @id = id
   end
 
+  def self.releases(content_repo, now_date)
+    content_repo.find_before_date_and_first_newer(now_date)
+  end
+
   def is_viewable
     raise ShoulBeImplementedInDerivedClassesError
   end
