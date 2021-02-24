@@ -12,10 +12,7 @@ module WebTemplate
     post '/reset', :provides => [:js] do
       if ENV['ENABLE_RESET'] == 'true'
         client_repo.delete_all
-        episodes_repo.delete_all
-        seasons_repo.delete_all
-        movie_repo.delete_all
-        tv_show_repo.delete_all
+        content_repo.delete_all
         genre_repo.delete_all
         @@date = Time.now.strftime('%Y/%m/%d') # rubocop:disable Style/ClassVars
 

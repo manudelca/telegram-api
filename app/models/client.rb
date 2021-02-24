@@ -43,8 +43,9 @@ class Client
     last_three
   end
 
-  def likes(content)
+  def likes(content, client_repo)
     @contents_liked << content
+    client_repo.update_contents_liked(self)
   end
 
   def liked_content?(content)

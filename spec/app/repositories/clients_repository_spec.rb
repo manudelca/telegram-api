@@ -59,11 +59,9 @@ describe Persistence::Repositories::ClientRepo do # rubocop:disable RSpec/FilePa
       repository.create_client(client)
       genre = Genre.new('Drama')
       Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
-      tv_show = TvShow.new('Titanic', 'ATP', 195, genre, 'USA', 'James Cameron', '2021-01-01', 'Kate Winslet', 'Leonardo Dicaprio')
+      tv_show = TvShow.new('Titanic', 'ATP', 195, genre, 'USA', 'James Cameron', 'Kate Winslet', 'Leonardo Dicaprio')
       new_tv_show = Persistence::Repositories::TvShowRepo.new(DB).create_content(tv_show)
-      season = Season.new(1, new_tv_show.id, '2021-01-01')
-      new_season = Persistence::Repositories::SeasonsRepo.new(DB).create_season(season)
-      episode = Episode.new(1, new_season.id)
+      episode = Episode.new(1, 1, '2021-01-01', new_tv_show.id)
       new_episode = Persistence::Repositories::EpisodesRepo.new(DB).create_episode(episode)
       date = Time.parse('2021-01-14')
       client.sees_content(new_episode, date, repository)
@@ -84,7 +82,7 @@ describe Persistence::Repositories::ClientRepo do # rubocop:disable RSpec/FilePa
       date = Time.parse('2021-01-14')
       client.sees_content(movie, date, repository)
       repository.update_contents_seen(client)
-      client.likes(movie)
+      client.likes(movie, repository)
       repository.update_contents_liked(client)
 
       expect(repository.find(client.id).contents_liked[0].name).to eq movie.name
@@ -96,18 +94,15 @@ describe Persistence::Repositories::ClientRepo do # rubocop:disable RSpec/FilePa
 
       genre = Genre.new('Drama')
       Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
-      tv_show = TvShow.new('Titanic', 'ATP', 195, genre, 'USA', 'James Cameron', '2021-01-01', 'Kate Winslet', 'Leonardo Dicaprio')
+      tv_show = TvShow.new('Titanic', 'ATP', 195, genre, 'USA', 'James Cameron', 'Kate Winslet', 'Leonardo Dicaprio')
       new_tv_show = Persistence::Repositories::TvShowRepo.new(DB).create_content(tv_show)
-      season = Season.new(1, new_tv_show.id, '2021-01-01')
-      new_season = Persistence::Repositories::SeasonsRepo.new(DB).create_season(season)
-      episode = Episode.new(1, new_season.id)
+      episode = Episode.new(1, 1, Time.parse('2021-01-01'), new_tv_show.id)
       new_episode = Persistence::Repositories::EpisodesRepo.new(DB).create_episode(episode)
 
       date = Time.parse('2021-01-14')
       client.sees_content(new_episode, date, repository)
       repository.update_contents_seen(client)
-      client.likes(new_episode)
-      repository.update_contents_liked(client)
+      client.likes(new_episode, repository)
 
       expect(repository.find(client.id).contents_liked[0].id).to eq new_episode.id
     end

@@ -42,32 +42,16 @@ module WebTemplate
                              genre,
                              content_params['country'],
                              content_params['director'],
-                             content_params['release_date'],
                              content_params['first_actor'],
                              content_params['second_actor'])
         new_tv_show = tv_show_repo.find_or_create(tv_show)
-        # update release date if necessary
-        if new_tv_show.release_date < content_params['release_date']
-          new_tv_show.update_release_date(content_params['release_date'])
-          tv_show_repo.update_tv_show(new_tv_show)
-        end
-
-        # save season
-        season = Season.new(content_params['season_number'],
-                            new_tv_show.id,
-                            content_params['release_date'])
-        new_season = seasons_repo.find_or_create(season)
-        # update release date if necessary
-        if new_season.release_date < content_params['release_date']
-          new_season.update_release_date(content_params['release_date'])
-          seasons_repo.update_season(new_season)
-        end
 
         # save episode
-        episode = Episode.new(content_params['episode_number'], new_season.id)
+        episode = Episode.new(content_params['episode_number'], content_params['season_number'],
+                              content_params['release_date'], new_tv_show.id)
         new_episode = episodes_repo.create_episode(episode)
 
-        new_tv_show.full_details(new_season, new_episode)
+        new_tv_show.full_details(new_episode)
       end
 
       def find_releases_without_future(now_date)

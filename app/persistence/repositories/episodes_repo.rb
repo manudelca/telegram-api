@@ -1,3 +1,5 @@
+require 'byebug'
+
 module Persistence
   module Repositories
     class EpisodesRepo < ROM::Repository[:contents]
@@ -18,8 +20,11 @@ module Persistence
         episode
       end
 
-      def delete_all
-        episodes.delete
+      def find_by_tv_show_id(tv_show_id)
+        episodes_relation = (contents.where(tv_show_id: tv_show_id) >> episode_mapper)
+        episodes = []
+        episodes_relation.each { |episode| episodes << episode }
+        episodes
       end
 
       private
@@ -27,7 +32,9 @@ module Persistence
       def episodes_changeset(episode)
         {
           episode_number: episode.number,
-          season: episode.season_id,
+          season_number: episode.season_number,
+          tv_show_id: episode.tv_show_id,
+          release_date: episode.release_date,
           type: 'episode'
         }
       end

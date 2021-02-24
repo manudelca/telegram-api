@@ -4,15 +4,13 @@ require_relative 'content'
 class TvShow < Content
   attr_reader :name, :audience, :duration_minutes,
               :genre, :country, :director,
-              :release_date, :first_actor,
-              :second_actor, :seasons
-  attr_accessor :id
+              :first_actor, :second_actor
+  attr_accessor :id, :episodes
 
   def initialize(name, audience, duration_minutes,
                  genre, country, director,
-                 release_date, first_actor,
-                 second_actor = nil, id = nil,
-                 seasons = [], output_parser = TvShowOutputParser.new)
+                 first_actor, second_actor = nil, id = nil,
+                 output_parser = TvShowOutputParser.new)
     super(id)
     @name = name
     @audience = audience
@@ -20,15 +18,14 @@ class TvShow < Content
     @genre = genre
     @country = country
     @director = director
-    @release_date = release_date
     @first_actor = first_actor
     @second_actor = second_actor
-    @seasons = seasons
+    @episodes = []
     @output_parser = output_parser
   end
 
-  def full_details(season, episode)
-    @output_parser.full_json(self, season, episode)
+  def full_details(episode)
+    @output_parser.full_json(self, episode)
   end
 
   def details
@@ -40,26 +37,14 @@ class TvShow < Content
   end
 
   def number_of_seasons
-    seasons.size
+    episodes.uniq(&:season_number).size
   end
 
   def number_of_episodes
-    n_episodes = 0
-    seasons.each do |season|
-      n_episodes += season.number_of_episodes
-    end
-    n_episodes
-  end
-
-  def last_season
-    seasons.select { |season| season.release_date == release_date }.first
+    episodes.size
   end
 
   def is_viewable
     false
-  end
-
-  def update_release_date(new_release_date)
-    @release_date = new_release_date
   end
 end

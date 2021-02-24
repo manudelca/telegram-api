@@ -47,9 +47,9 @@ module Persistence
           case content.type
           when 'movie'
             genre = genre_mapper.build_genre_from(content.genres)
-            client.sees_content(movie_mapper.build_movie_from(content, genre), Time.parse(dates[content.id].pop), Persistence::Repositories::ClientRepo.new(DB))
+            client.sees_content(movie_mapper.build_movie_from(content, genre), Time.parse(dates[content.id].pop), client_repo)
           when 'episode'
-            client.sees_content(episode_mapper.build_episode_from(content), Time.parse(dates[content.id].pop), Persistence::Repositories::ClientRepo.new(DB))
+            client.sees_content(episode_mapper.build_episode_from(content), Time.parse(dates[content.id].pop), client_repo)
           end
         end
       end
@@ -59,11 +59,15 @@ module Persistence
           case content.type
           when 'movie'
             genre = genre_mapper.build_genre_from(content.genres)
-            client.likes(movie_mapper.build_movie_from(content, genre))
+            client.likes(movie_mapper.build_movie_from(content, genre), client_repo)
           when 'episode'
-            client.likes(episode_mapper.build_episode_from(content))
+            client.likes(episode_mapper.build_episode_from(content), client_repo)
           end
         end
+      end
+
+      def client_repo
+        Persistence::Repositories::ClientRepo.new(DB)
       end
     end
   end

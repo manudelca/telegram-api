@@ -2,8 +2,8 @@ module Persistence
   module Repositories
     class ContentRepo < ROM::Repository[:contents]
       def find(id)
-        contents_relation = (contents.combine(:genres, seasons: :episodes).by_pk(id) >> content_mapper)
-        contents_relation.one
+        content_relation = (contents.combine(:genres).by_pk(id) >> content_mapper)
+        content_relation.one
       end
 
       def delete_all

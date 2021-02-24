@@ -8,7 +8,7 @@ describe Client do
   it 'should be able to mark movies as seen' do
     genre = Genre.new('Drama')
     movie_id = 0
-    movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', movie_id)
+    movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2021-01-01', 'Leonardo Di Caprio', 'Kate', movie_id)
     Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
     Persistence::Repositories::MovieRepo.new(DB).create_content(movie)
     today = Time.parse('2021-01-02')
@@ -20,11 +20,9 @@ describe Client do
   it 'should seen episodes' do
     genre = Genre.new('Comedy')
     id = 0
-    tv_show = TvShow.new('Titanic: La serie', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', id)
+    tv_show = TvShow.new('Titanic: La serie', 'ATP', 190, genre, 'USA', 'James Cameron', 'Leonardo Di Caprio', 'Kate', id)
     new_tv_show = Persistence::Repositories::TvShowRepo.new(DB).create_content(tv_show)
-    season = Season.new(1, new_tv_show.id, '2021-01-01')
-    new_season = Persistence::Repositories::SeasonsRepo.new(DB).create_season(season)
-    episode = Episode.new(1, new_season.id)
+    episode = Episode.new(1, 1, '2021-01-01', new_tv_show.id)
     Persistence::Repositories::EpisodesRepo.new(DB).create_episode(episode)
     today = Time.parse('2021-01-02')
     client.sees_content(episode, today, repository)
@@ -40,7 +38,7 @@ describe Client do
     Persistence::Repositories::MovieRepo.new(DB).create_content(movie)
     today = Time.parse('2021-01-02')
     client.sees_content(movie, today, repository)
-    client.likes(movie)
+    client.likes(movie, repository)
 
     expect(client.liked_content?(movie)).to eq(true)
   end
@@ -121,7 +119,7 @@ describe Client do
     seen_date = Time.parse('2021-01-05')
     today = Time.parse('2021-01-08')
     client.sees_content(movie, seen_date, repository)
-    client.likes(movie)
+    client.likes(movie, repository)
 
     expect(client.seen_this_week(today)).not_to include(movie)
   end
@@ -129,13 +127,10 @@ describe Client do
   it 'should raise error when seen a non-viewable content' do
     genre = Genre.new('Comedy')
     id = 0
-    release_date = Time.parse('2021-01-01')
-    tv_show = TvShow.new('Titanic: La serie', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', id)
+    tv_show = TvShow.new('Titanic: La serie', 'ATP', 190, genre, 'USA', 'James Cameron', 'Leonardo Di Caprio', 'Kate', id)
     new_tv_show = Persistence::Repositories::TvShowRepo.new(DB).create_content(tv_show)
-    season = Season.new(1, new_tv_show.id, release_date)
-    new_season = Persistence::Repositories::SeasonsRepo.new(DB).create_season(season)
     seen_date = Time.parse('2021-01-05')
 
-    expect { client.sees_content(new_season, seen_date, repository) }.to raise_error(NotViewableContentError)
+    expect { client.sees_content(new_tv_show, seen_date, repository) }.to raise_error(NotViewableContentError)
   end
 end

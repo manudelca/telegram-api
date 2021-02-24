@@ -28,8 +28,6 @@ WebTemplate::App.controllers :clients do
     end
   end
 
-  # /clients/client_id/contents/content_id/seen
-
   patch :update, :map => '/clients/:email/contents/:content_id/seen' do
     begin
       client = client_repo.find_by_email(params[:email])
@@ -60,8 +58,7 @@ WebTemplate::App.controllers :clients do
     begin
       client = client_repo.find_by_telegram_user_id(client_params[:telegram_user_id])
       content = content_repo.find(client_params[:content_id])
-      client.likes(content)
-      client_repo.update_contents_liked(client)
+      client.likes(content, client_repo)
 
       status 201
       {
