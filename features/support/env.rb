@@ -92,6 +92,10 @@ def test_date_url
   "#{BASE_URL}/date"
 end
 
+def seen_this_week_url
+  "#{BASE_URL}/seen_this_week"
+end
+
 After do |_scenario|
   Faraday.post(reset_url)
 end

@@ -17,4 +17,8 @@ class Episode < Content
   def is_viewable
     true
   end
+
+  def as_seen
+    @output_parser.seen_json(self)
+  end
 end

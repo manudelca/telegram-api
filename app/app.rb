@@ -26,7 +26,7 @@ module WebTemplate
 
     post '/date' do
       input = JSON.parse(request.body.read)
-      @@date = input['date'] # rubocop:disable Style/ClassVars
+      @@date = Time.parse(input['date']) # rubocop:disable Style/ClassVars
 
       status 200
       {message: 'ok'}.to_json

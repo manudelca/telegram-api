@@ -13,7 +13,7 @@ Feature: Request content seen this week
     And "john@test.com" saw the movie "Titanic" in "2021-01-03"
     And "john@test.com" saw the tv show "Sherlock", season 1 episode 1 in "2021-01-04"
     And I haven't qualified any content
-    And it is "2021-01-05"
+    And today is "2021-01-05"
     When I request content seen this week
     Then I should receive name, 2 actors, el director, genre and season (if tv show) from "Matrix", "Titanic". "Sherlock"
 
@@ -29,7 +29,7 @@ Feature: Request content seen this week
     And "john@test.com" saw the movie "Jurassic Park" in "2021-01-10"
     And "john@test.com" saw the movie "Titanic" in "2021-01-11"
     And I haven't qualified any content
-    And it is "2021-01-12"
+    And today is "2021-01-12"
     When I request content seen this week
     Then I should receive name, 2 actors, el director, genre and season (if tv show) from "Matrix", "Titanic". "Jurassic Park"
 
@@ -44,6 +44,6 @@ Feature: Request content seen this week
     And "john@test.com" saw the movie "Titanic" in "2021-01-03"
     And "john@test.com" saw the movie "Sherlock" in "2021-01-04"
     And I positive liked content "Sherlock"
-    And it is "2021-01-05"
+    And today is "2021-01-05"
     When I request content seen this week
     Then I should receive name, 2 actors, el director, genre and season (if tv show) from "Matrix", "Titanic". "Jurassic Park"

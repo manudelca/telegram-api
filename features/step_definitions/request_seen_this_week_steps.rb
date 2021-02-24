@@ -56,12 +56,8 @@ end
 Given('I haven\'t qualified any content') do
 end
 
-Given('it is {string}') do |date|
-  @date = date
-end
-
 When('I request content seen this week') do
-  @request = {user_id: @user_id, date: @date}.to_json
+  @request = {telegram_user_id: @user_id}.to_json
   @response = Faraday.post(seen_this_week_url, @request, header)
 end
 

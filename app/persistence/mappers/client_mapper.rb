@@ -49,7 +49,7 @@ module Persistence
             genre = genre_mapper.build_genre_from(content.genres)
             client.sees_content(movie_mapper.build_movie_from(content, genre), Time.parse(dates[content.id].pop), client_repo)
           when 'episode'
-            client.sees_content(episode_mapper.build_episode_from(content), Time.parse(dates[content.id].pop), client_repo)
+            client.sees_content(episode_mapper.build_content_from_attributes(content), Time.parse(dates[content.id].pop), client_repo)
           end
         end
       end
