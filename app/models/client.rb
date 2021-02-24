@@ -44,6 +44,7 @@ class Client
   end
 
   def likes(content, client_repo)
+    # raise NotLikeableContentError unless content.is_likeable
     @contents_liked << content
     client_repo.update_contents_liked(self)
   end

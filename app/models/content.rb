@@ -8,4 +8,8 @@ class Content
   def is_viewable
     raise ShoulBeImplementedInDerivedClassesError
   end
+
+  def is_likeable
+    raise ShoulBeImplementedInDerivedClassesError
+  end
 end
