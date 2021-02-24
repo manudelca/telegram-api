@@ -1,3 +1,4 @@
+require 'byebug'
 Given('the movie {string}, with audience {string}, duration {int} min, genre {string}, origin country {string}, director {string}, actors {string} and {string}, release date {string}') do |name, audience, duration, genre, country, director, first_actor, second_actor, release_date|
   @request = {name: genre}.to_json
   @response = Faraday.post(create_genre_url, @request, header)
@@ -59,25 +60,28 @@ end
 When('I request content seen this week') do
   @request = {telegram_user_id: @user_id}.to_json
   @response = Faraday.post(seen_this_week_url, @request, header)
+  @content = JSON.parse(@response.body)
 end
 
-Then('I should receive name, {int} actors, el director, genre and season \(if tv show) from {string}, {string}. {string}') do |_int, _name1, _name2, _name3|
-  n0 = @response[:content][0][:name]
-  n1 = @response[:content][1][:name]
-  n2 = @response[:content][2][:name]
-  assert_equal @contents_ids[n0][:first_actor], @response[:content][0][:first_actor]
-  assert_equal @contents_ids[n1][:first_actor], @response[:content][1][:first_actor]
-  assert_equal @contents_ids[n2][:first_actor], @response[:content][2][:first_actor]
-  assert_equal @contents_ids[n0][:second_actor], @response[:content][0][:second_actor]
-  assert_equal @contents_ids[n1][:second_actor], @response[:content][1][:second_actor]
-  assert_equal @contents_ids[n2][:second_actor], @response[:content][2][:second_actor]
-  assert_equal @contents_ids[n0][:director], @response[:content][0][:director]
-  assert_equal @contents_ids[n1][:director], @response[:content][1][:director]
-  assert_equal @contents_ids[n2][:director], @response[:content][2][:director]
-  assert_equal @contents_ids[n0][:genre], @response[:content][0][:genre]
-  assert_equal @contents_ids[n1][:genre], @response[:content][1][:genre]
-  assert_equal @contents_ids[n2][:genre], @response[:content][2][:genre]
-  assert_equal @contents_ids[n0][:season], @response[:content][0][:season]
-  assert_equal @contents_ids[n1][:season], @response[:content][1][:season]
-  assert_equal @contents_ids[n2][:season], @response[:content][2][:season]
+Then('I should receive name, {int} actors, el director, genre and season \(if tv show) from {string}, {string}. {string}') do |_int, name1, name2, name3|
+  n0 = @content['content'][0]['name']
+  n1 = @content['content'][1]['name']
+  n2 = @content['content'][2]['name']
+  raise "Content's names don't match" if (n0 != name1 && n0 != name2 && n0 != name3) || (n1 != name1 && n1 != name2 && n1 != name3) || (n2 != name1 && n2 != name2 && n2 != name3)
+
+  expect(@contents_ids[n0]['first_actor']).to eq(@content['content'][0]['first_actor'])
+  expect(@contents_ids[n1]['first_actor']).to eq(@content['content'][1]['first_actor'])
+  expect(@contents_ids[n2]['first_actor']).to eq(@content['content'][2]['first_actor'])
+  expect(@contents_ids[n0]['second_actor']).to eq(@content['content'][0]['second_actor'])
+  expect(@contents_ids[n1]['second_actor']).to eq(@content['content'][1]['second_actor'])
+  expect(@contents_ids[n2]['second_actor']).to eq(@content['content'][2]['second_actor'])
+  expect(@contents_ids[n0]['director']).to eq(@content['content'][0]['director'])
+  expect(@contents_ids[n1]['director']).to eq(@content['content'][1]['director'])
+  expect(@contents_ids[n2]['director']).to eq(@content['content'][2]['director'])
+  expect(@contents_ids[n0]['genre']).to eq(@content['content'][0]['genre'])
+  expect(@contents_ids[n1]['genre']).to eq(@content['content'][1]['genre'])
+  expect(@contents_ids[n2]['genre']).to eq(@content['content'][2]['genre'])
+  expect(@contents_ids[n0]['season']).to eq(@content['content'][0]['season'])
+  expect(@contents_ids[n1]['season']).to eq(@content['content'][1]['season'])
+  expect(@contents_ids[n2]['season']).to eq(@content['content'][2]['season'])
 end

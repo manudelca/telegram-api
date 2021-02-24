@@ -89,7 +89,7 @@ WebTemplate::App.controllers :clients do
       status 201
       {
         :message => 'Búsqueda de contenido visto esta semana exitosa',
-        :conetnt => seen_this_week
+        :content => seen_this_week
       }.to_json
     rescue ClientNotFound
       status 404
