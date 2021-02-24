@@ -33,7 +33,7 @@ class Client
   def seen_this_week(today)
     last_three = []
     this_week = this_week_seen_and_not_liked_dates(today)
-    this_week.sort { |a, b| a.date <=> b.date }
+    this_week = this_week.sort { |a, b| a.date <=> b.date }
     i = 0
     while i < @seen_this_with_amount && !this_week.empty?
       last_three.append(this_week.pop.content)
@@ -57,8 +57,8 @@ class Client
     seven_days = 7 * 24 * 60 * 60
     this_week = []
     @contents_seen.each do |view|
-      this_week.append(view) if view.date > today - seven_days && !@contents_liked.include?(view.content)
+      this_week.append(view) if view.date > today - seven_days && @contents_liked.none? { |content| content.id == view.content.id }
     end
-    this_week
+    this_week.uniq { |view| view.content.id }
   end
 end

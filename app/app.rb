@@ -1,4 +1,4 @@
-@@date = Time.now.strftime('%Y/%m/%d') # rubocop:disable Style/ClassVars
+@@date = Time.now # rubocop:disable Style/ClassVars
 
 module WebTemplate
   class App < Padrino::Application
@@ -14,7 +14,7 @@ module WebTemplate
         client_repo.delete_all
         content_repo.delete_all
         genre_repo.delete_all
-        @@date = Time.now.strftime('%Y/%m/%d') # rubocop:disable Style/ClassVars
+        @@date = Time.now # rubocop:disable Style/ClassVars
 
         status 200
         {message: 'reset ok'}.to_json

@@ -134,4 +134,27 @@ describe Client do
 
     expect { client.sees_content(new_tv_show, seen_date, repository) }.to raise_error(NotViewableContentError)
   end
+
+  it 'should return last 3 contents seen this week when asking for content seen this week added not in order' do
+    genre = Genre.new('Drama')
+    movie1 = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', 0)
+    movie2 = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', 1)
+    movie3 = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', 2)
+    movie4 = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', 3)
+    Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
+    Persistence::Repositories::MovieRepo.new(DB).create_content(movie1)
+    Persistence::Repositories::MovieRepo.new(DB).create_content(movie2)
+    Persistence::Repositories::MovieRepo.new(DB).create_content(movie3)
+    Persistence::Repositories::MovieRepo.new(DB).create_content(movie4)
+    seen_date1 = Time.parse('2021-01-02')
+    seen_date2 = Time.parse('2021-01-03')
+    seen_date3 = Time.parse('2021-01-04')
+    seen_date4 = Time.parse('2021-01-05')
+    client.sees_content(movie1, seen_date4, repository)
+    client.sees_content(movie2, seen_date2, repository)
+    client.sees_content(movie3, seen_date3, repository)
+    client.sees_content(movie4, seen_date1, repository)
+
+    expect(client.seen_this_week(seen_date4)).not_to include(movie4)
+  end
 end
