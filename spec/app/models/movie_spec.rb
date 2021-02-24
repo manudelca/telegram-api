@@ -9,7 +9,7 @@ describe Movie do
     expect(movie.is_viewable).to eq(true)
   end
 
-  xit 'movie is likeable' do
+  it 'movie is likeable' do
     expect(movie.is_likeable).to eq(true)
   end
 end
