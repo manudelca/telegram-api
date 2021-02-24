@@ -20,13 +20,15 @@ describe Persistence::Repositories::EpisodesRepo do # rubocop:disable RSpec/File
 
   describe 'changeset' do
     it 'changeset has number == episode.number' do
-      episode = Episode.new(1, 1, '2021-01-01', tv_show.id)
+      episode = Episode.new(1, 1, '2021-01-01')
+      episode.tv_show = tv_show
       expect(repository.send(:episodes_changeset, episode)[:episode_number]).to eq \
         episode.number
     end
 
     it 'changeset has tv_show_id == tv_show.id' do
       episode = Episode.new(1, 1, '2021-01-01', tv_show.id)
+      episode.tv_show = tv_show
       expect(repository.send(:episodes_changeset, episode)[:tv_show_id]).to eq \
         tv_show.id
     end
@@ -35,6 +37,7 @@ describe Persistence::Repositories::EpisodesRepo do # rubocop:disable RSpec/File
   describe 'save episode' do
     it 'must save episode' do
       episode = Episode.new(1, 1, '2021-01-01', tv_show.id)
+      episode.tv_show = tv_show
       saved_episode = repository.create_episode(episode)
       expect(repository.find(saved_episode.id).number).to eq episode.number
     end

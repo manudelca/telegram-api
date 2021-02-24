@@ -33,7 +33,7 @@ module Persistence
         {
           episode_number: episode.number,
           season_number: episode.season_number,
-          tv_show_id: episode.tv_show_id,
+          tv_show_id: episode.tv_show.id,
           release_date: episode.release_date,
           type: 'episode'
         }

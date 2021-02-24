@@ -48,7 +48,8 @@ module WebTemplate
 
         # save episode
         episode = Episode.new(content_params['episode_number'], content_params['season_number'],
-                              content_params['release_date'], new_tv_show.id)
+                              content_params['release_date'])
+        episode.tv_show = new_tv_show
         new_episode = episodes_repo.create_episode(episode)
 
         new_tv_show.full_details(new_episode)

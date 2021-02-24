@@ -39,10 +39,12 @@ describe Persistence::Repositories::ContentRepo do # rubocop:disable RSpec/FileP
       saved_tv_show = tv_show_repo.create_content(tv_show)
 
       episodes_repository = Persistence::Repositories::EpisodesRepo.new(DB)
-      episode = Episode.new(1, 1, Time.parse('2021-01-01'), saved_tv_show.id)
+      episode = Episode.new(1, 1, Time.parse('2021-01-01'))
+      episode.tv_show = saved_tv_show
       saved_episode = episodes_repository.create_episode(episode)
 
-      episode_two = Episode.new(2, 1, Time.parse('2021-01-02'), saved_tv_show.id)
+      episode_two = Episode.new(2, 1, Time.parse('2021-01-02'))
+      episode_two.tv_show = saved_tv_show
       episodes_repository.create_episode(episode_two)
 
       expect(repository.find(saved_tv_show.id).episodes[0].number).to eq saved_episode.number

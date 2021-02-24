@@ -22,7 +22,8 @@ describe Client do
     id = 0
     tv_show = TvShow.new('Titanic: La serie', 'ATP', 190, genre, 'USA', 'James Cameron', 'Leonardo Di Caprio', 'Kate', id)
     new_tv_show = Persistence::Repositories::TvShowRepo.new(DB).create_content(tv_show)
-    episode = Episode.new(1, 1, '2021-01-01', new_tv_show.id)
+    episode = Episode.new(1, 1, '2021-01-01')
+    episode.tv_show = new_tv_show
     Persistence::Repositories::EpisodesRepo.new(DB).create_episode(episode)
     today = Time.parse('2021-01-02')
     client.sees_content(episode, today, repository)
