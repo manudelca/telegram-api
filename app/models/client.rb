@@ -60,6 +60,6 @@ class Client
     @contents_seen.each do |view|
       this_week.append(view) if view.date > today - seven_days && !@contents_liked.include?(view.content)
     end
-    this_week
+    this_week.uniq { |view| view.content.id }
   end
 end
