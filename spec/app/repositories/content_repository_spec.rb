@@ -14,7 +14,6 @@ describe Persistence::Repositories::ContentRepo do # rubocop:disable RSpec/FileP
 
   after(:each) do
     described_class.new(DB).delete_all
-    described_class.new(DB).delete_all
     Persistence::Repositories::GenreRepo.new(DB).delete_all
   end
 
@@ -63,6 +62,33 @@ describe Persistence::Repositories::ContentRepo do # rubocop:disable RSpec/FileP
       saved_movie_newer = movie_repo.create_content(movie_newer)
 
       expect(repository.find_before_date_and_first_newer(@@date).first.id).to eq(saved_movie_newer.id)
+    end
+
+    it 'when a content release is in future date, dont return it' do
+      movie_older = Movie.new('Titanic 1', 'No ATP', 190, genre, 'USA', 'James Cameron', '2018-01-01', 'Kate Winslet', 'Leonardo Dicaprio')
+      movie_newer = Movie.new('Titanic 2', 'No ATP', 190, genre, 'USA', 'James Cameron', '2022-01-01', 'Kate Winslet', 'Leonardo Dicaprio')
+
+      movie_repo.create_content(movie_older)
+      movie_repo.create_content(movie_newer)
+
+      expect(repository.find_before_date_and_first_newer(@@date).size).to eq(1)
+    end
+
+    it 'list of contents of different type' do
+      movie = Movie.new('Titanic 1', 'No ATP', 190, genre, 'USA', 'James Cameron', '2018-01-01', 'Kate Winslet', 'Leonardo Dicaprio')
+      movie_repo.create_content(movie)
+
+      tv_show_repository = Persistence::Repositories::TvShowRepo.new(DB)
+      new_tv_show = TvShow.new('The Office', 'No ATP', 190, genre, 'USA', 'Ricky Gervais', 'Steve Carrell', 'Rainn Wilson')
+      tv_show = tv_show_repository.create_content(new_tv_show)
+
+      episode = Episode.new(1, 1, Time.parse('2021-01-01'))
+      episode.tv_show = tv_show
+      episode_repo.create_episode(episode)
+
+      content_matching_find = repository.find_before_date_and_first_newer(@@date)
+      releases = content_matching_find.select(&:can_be_a_release)
+      expect(releases.size).to eq(2)
     end
   end
 end

@@ -44,4 +44,8 @@ class Movie < Content
   def is_viewable
     true
   end
+
+  def can_be_a_release
+    true
+  end
 end
