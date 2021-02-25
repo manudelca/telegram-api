@@ -34,6 +34,7 @@ class Client
   def seen_this_week(today)
     last_three = []
     this_week = this_week_seen_and_not_liked_dates(today)
+    this_week = most_recent_each(this_week)
     this_week = this_week.sort { |a, b| a.date <=> b.date }
     i = 0
     while i < @seen_this_with_amount && !this_week.empty?
@@ -61,5 +62,10 @@ class Client
       this_week.append(view) if view.date > today - seven_days && @contents_liked.none? { |content| content.id == view.content.id }
     end
     this_week.uniq { |view| view.content.id }
+    this_week
+  end
+
+  def most_recent_each(views)
+    views.group_by { |view| view.content.id }.map { |_, view| view.max_by(&:date) }
   end
 end

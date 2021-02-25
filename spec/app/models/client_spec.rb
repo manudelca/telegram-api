@@ -157,4 +157,17 @@ describe Client do
 
     expect(client.seen_this_week(seen_date4)).not_to include(movie4)
   end
+
+  it 'should return last 3 contents seen this week not repeated when asking for content seen this week' do
+    genre = Genre.new('Drama')
+    movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', 0)
+    Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
+    Persistence::Repositories::MovieRepo.new(DB).create_content(movie)
+    seen_date1 = Time.parse('2021-01-02')
+    seen_date2 = Time.parse('2021-01-03')
+    client.sees_content(movie, seen_date1, repository)
+    client.sees_content(movie, seen_date2, repository)
+
+    expect(client.seen_this_week(seen_date2).size).to eq(1)
+  end
 end
