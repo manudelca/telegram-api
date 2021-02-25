@@ -20,7 +20,7 @@ class EpisodeOutputParser
       director: tv_show.director,
       first_actor: tv_show.first_actor,
       second_actor: tv_show.second_actor,
-      temporada: episode.season_number,
+      season_number: episode.season_number,
       release_date: episode.release_date
     }
   end
