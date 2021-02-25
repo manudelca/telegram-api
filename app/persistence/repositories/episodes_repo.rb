@@ -1,5 +1,3 @@
-require 'byebug'
-
 module Persistence
   module Repositories
     class EpisodesRepo < ROM::Repository[:contents]

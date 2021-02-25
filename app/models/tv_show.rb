@@ -32,10 +32,6 @@ class TvShow < Content
     @output_parser.details_json(self)
   end
 
-  def as_release
-    @output_parser.release_json(self)
-  end
-
   def number_of_seasons
     episodes.uniq(&:season_number).size
   end
@@ -45,6 +41,10 @@ class TvShow < Content
   end
 
   def is_viewable
+    false
+  end
+
+  def can_be_a_release
     false
   end
 end

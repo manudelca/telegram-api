@@ -33,14 +33,11 @@ WebTemplate::App.controllers :content, :provides => [:json] do
 
   get :show, :map => '/releases' do
     begin
-      releases = find_releases_without_future(@@date)
-      releases += find_releases_with_future(@@date) if releases.empty?
-
+      releases = Content.releases(content_repo, @@date)
       raise ContentNotFound if releases.empty?
 
-      last_releases = releases.sort_by(&:release_date).reverse!.first(query_content_quantity)
       releases_formatted = []
-      last_releases.each do |release|
+      releases.each do |release|
         releases_formatted << release.as_release
       end
 
@@ -50,10 +47,9 @@ WebTemplate::App.controllers :content, :provides => [:json] do
         :content => releases_formatted
       }.to_json
     rescue ContentNotFound
-      status 200
+      status 404
       {
-        :message => 'No se encontro contenido!',
-        :content => []
+        :message => 'No se encontro contenido!'
       }.to_json
     end
   end
