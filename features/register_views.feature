@@ -20,7 +20,6 @@ Feature: Register user views
     When I marked the movie as seen for "mail_no_registrado@test.com"
     Then I should get "Error: el usuario con email mail_no_registrado@test.com no se encuentra registrado"
 
-    @wip
     Scenario: US9.2 - Episode seen by an user
     Given the episode  the tv show "The Office", with audience "No ATP", duration 20 min, genre "comedy", origin country "USA", director "Ricky Gervais", actors "Steve Carrell" and "Rainn Wilson", seasons 7 and episodes 200 and release date '2020-01-01' is available
     Given the user "john@test.com" is registered
