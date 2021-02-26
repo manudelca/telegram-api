@@ -47,3 +47,9 @@ Feature: Request content seen this week
     And today is "2021-01-05"
     When I request content seen this week
     Then I should receive name, 2 actors, el director, genre and season (if tv show) from "Matrix", "Titanic". "Jurassic Park"
+
+    @wip
+    Scenario: US10.4 - No content seen
+    Given today is "2021-01-05"
+    When I request content seen this week
+    Then I should receive "No viste nada esta semana" message

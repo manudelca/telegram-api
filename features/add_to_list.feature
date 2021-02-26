@@ -16,7 +16,7 @@ Feature: Add content to list
     Scenario: US6.2 - Add content to list a non-exitant content
     Given I am registered as "john@test.com"
     When I add the content with id "Titanic" to my list
-    Then I should receive "Error: contenido no encontrado" message
+    Then I should receive "Contenido inexistente, no es posible añadirlo a la lista" message
 
     @wip
     Scenario: US6.3 - Add content that is already present in the list
@@ -24,4 +24,4 @@ Feature: Add content to list
     And I am registered as "john@test.com"
     And I add the tv show "Sherlock" to my list
     When I add the tv show "Sherlock" to my list
-    Then I should receive "Error: el contenido ya se encuentra en la lista" message
+    Then I should receive "Ya has añadido este contenido a tu lista" message

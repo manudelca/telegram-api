@@ -5,12 +5,12 @@ Feature: Security with API_KEY
 
     @wip
     Scenario: US11.1 - Valid API_KEY
-    Given the api token is "API_TOKEN"
-    When I make a request with the api key "API_TOKEN"
+    Given the api key is "API_KEY"
+    When I make a request with the api key "API_KEY"
     Then I should receive the request answer
 
     @wip
     Scenario: US11.2 - API_KEY not valid
-    Given the api token is "API_TOKEN"
-    When I make a request with the api key "FAKE_API_TOKEN"
+    Given the api key is "API_KEY"
+    When I make a request with the api key "FAKE_API_KEY"
     Then I should receive not authorized error
