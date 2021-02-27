@@ -88,6 +88,10 @@ def like_url
   "#{BASE_URL}/like"
 end
 
+def lists_url(user_id, content_id)
+  "#{BASE_URL}/clients/#{user_id}/contents/#{content_id}/list"
+end
+
 def test_date_url
   "#{BASE_URL}/date"
 end

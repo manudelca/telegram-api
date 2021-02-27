@@ -54,9 +54,9 @@ WebTemplate::App.controllers :clients do
     end
   end
 
-  patch :update, :map => '/clients/:email/contents/:content_id/list' do
+  patch :update, :map => '/clients/:telegram_user_id/contents/:content_id/list' do
     begin
-      client = client_repo.find_by_email(params[:email])
+      client = client_repo.find_by_telegram_user_id(params[:telegram_user_id])
       raise ClientNotFound if client.nil?
 
       content = content_repo.find(params[:content_id])
@@ -75,7 +75,7 @@ WebTemplate::App.controllers :clients do
     rescue ClientNotFound
       status 404
       {
-        :message => "Error: el usuario con email #{params[:email]} no se encuentra registrado"
+        :message => 'Error: el usuario no se encuentra registrado'
       }.to_json
     end
   end
