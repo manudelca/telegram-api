@@ -102,6 +102,11 @@ WebTemplate::App.controllers :clients do
       {
         :message => "Error: el usuario con id #{client_params[:telegram_user_id]} no se encuentra registrado"
       }.to_json
+    rescue ContentNotSeenError
+      status 404
+      {
+        :message => 'Error: contenido no visto'
+      }.to_json
     end
   end
 

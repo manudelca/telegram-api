@@ -21,7 +21,6 @@ Feature: Registration of positive likes
     When I positive like content with id 0
     Then I should receive "Error: contenido ya calificado" message
 
-    @wip
     Scenario: US5.3 - Positive like to a not seen content
     Given I am registered as "john@test.com"
     And I haven't seen content with id 0
