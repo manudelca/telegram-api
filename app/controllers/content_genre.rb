@@ -12,7 +12,7 @@ WebTemplate::App.controllers :genre, :provides => [:json] do
     rescue NoNameError => _e
       status 404
       {
-        :message => 'Error: falta el campo genero'
+        :message => 'Error: falta el campo nombre'
       }.to_json
     end
   end

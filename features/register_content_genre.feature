@@ -10,7 +10,7 @@ Feature: Register Content genre
 
     Scenario: US7.2 - Register invalid genre whitout a name
     When I register a genre without a name
-    Then I should receive "Error: falta el campo genero" message
+    Then I should receive "Error: falta el campo nombre" message
 
     @wip
     Scenario: US7.3 - Register an already registered genre
