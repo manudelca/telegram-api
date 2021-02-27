@@ -69,7 +69,7 @@ end
 
 Given('I positive liked content {string}') do |name|
   content_id = @contents_ids[name]['id']
-  @request = {user_id: @user_id, content_id: content_id}.to_json
+  @request = {telegram_user_id: @user_id, content_id: content_id}.to_json
   @response = Faraday.post(like_url, @request, header)
 end
 

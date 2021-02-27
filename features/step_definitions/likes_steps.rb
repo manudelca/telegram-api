@@ -13,12 +13,12 @@ end
 Given('I am registered as {string}') do |email|
   @user_id = 999
   @email = email
-  @request = {email: @email, user_id: @user_id}.to_json
+  @request = {email: @email, telegram_user_id: @user_id}.to_json
   @response = Faraday.post(client_url, @request, header)
 end
 
 Given('I saw content with id {int}') do |_int|
-  @request = {email: @email, user_id: @user_id}.to_json
+  @request = {email: @email, telegram_user_id: @user_id}.to_json
   @response = Faraday.post(client_url, @request, header)
 end
 
@@ -26,6 +26,6 @@ Given('I haven\'t liked the content with id {int}') do |int|
 end
 
 When('I positive like content with id {int}') do |_int|
-  @request = {user_id: @user_id, content_id: @content_id}.to_json
+  @request = {telegram_user_id: @user_id, content_id: @content_id}.to_json
   @response = Faraday.post(like_url, @request, header)
 end
