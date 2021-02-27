@@ -17,7 +17,6 @@ Feature: Request content seen this week
     When I request content seen this week
     Then I should receive name, 2 actors, el director, genre and season (if tv show) from "Matrix", "Titanic". "Sherlock"
 
-    @wip
     Scenario: US10.2 - Same content seen 2 times
     Given the movie "Jurassic Park", with audience "ATP", duration 150 min, genre "action", origin country "USA", director "Lana Wachowski", actors "Keanu Reeves" and "Carrie-Anne Moss", release date "1980-06-10"
     And the movie "Matrix", with audience "ATP", duration 150 min, genre "action", origin country "USA", director "Lana Wachowski", actors "Keanu Reeves" and "Carrie-Anne Moss", release date "1999-06-10"

@@ -38,7 +38,9 @@ Given('the episode  the tv show {string}, with audience {string}, duration {int}
   end
 end
 
-Given('{string} saw the movie {string} in {string}') do |email, name, _date|
+Given('{string} saw the movie {string} in {string}') do |email, name, date|
+  @request = { date: date}.to_json
+  @response = Faraday.post(test_date_url, @request, header)
   @user_id = 0
   content_id = @contents_ids[name]['id']
   @request = {email: email, telegram_user_id: @user_id}.to_json
@@ -46,7 +48,9 @@ Given('{string} saw the movie {string} in {string}') do |email, name, _date|
   @response = Faraday.patch(views_url(email, content_id), header)
 end
 
-Given('{string} saw the tv show {string}, season {int} episode {int} in {string}') do |email, name, _season, _episode, _date|
+Given('{string} saw the tv show {string}, season {int} episode {int} in {string}') do |email, name, _season, _episode, date|
+  @request = { date: date}.to_json
+  @response = Faraday.post(test_date_url, @request, header)
   @user_id = 0
   content_id = @contents_ids[name]['id']
   @request = {email: email, telegram_user_id: @user_id}.to_json
@@ -61,6 +65,12 @@ When('I request content seen this week') do
   @request = {telegram_user_id: @user_id}.to_json
   @response = Faraday.post(seen_this_week_url, @request, header)
   @content = JSON.parse(@response.body)
+end
+
+Given('I positive liked content {string}') do |name|
+  content_id = @contents_ids[name]['id']
+  @request = {user_id: @user_id, content_id: content_id}.to_json
+  @response = Faraday.post(like_url, @request, header)
 end
 
 Then('I should receive name, {int} actors, el director, genre and season \(if tv show) from {string}, {string}. {string}') do |_int, name1, name2, name3|

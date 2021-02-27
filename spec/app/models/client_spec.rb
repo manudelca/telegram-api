@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'byebug'
 
 describe Client do
-  let(:client) { described_class.new('juan@test.com', 'juan') }
+  let(:client) { described_class.new('juan@test.com', 123) }
   let(:repository) { Persistence::Repositories::ClientRepo.new(DB) }
 
   it 'should be able to mark movies as seen' do
