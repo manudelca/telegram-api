@@ -44,7 +44,7 @@ WebTemplate::App.controllers :clients do
     rescue ContentNotFound, RepoNotFound, NotViewableContentError
       status 404
       {
-        :message => "Error: el contenido con id #{params[:content_id]} no se encuentra registrada"
+        :message => "Error: el contenido con id #{params[:content_id]} no se encuentra registrado"
       }.to_json
     rescue ClientNotFound
       status 404
@@ -70,7 +70,7 @@ WebTemplate::App.controllers :clients do
     rescue ContentNotFound, NotListableContentError
       status 404
       {
-        :message => "Error: el contenido con id #{params[:content_id]} no se encuentra registrada"
+        :message => "Error: el contenido con id #{params[:content_id]} no se encuentra registrado"
       }.to_json
     rescue ClientNotFound
       status 404
