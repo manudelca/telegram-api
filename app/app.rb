@@ -1,4 +1,5 @@
 @@date = Time.now # rubocop:disable Style/ClassVars
+@@weather = WeatherProvider.new # rubocop:disable Style/ClassVars
 
 module WebTemplate
   class App < Padrino::Application
@@ -27,6 +28,14 @@ module WebTemplate
     post '/date' do
       input = JSON.parse(request.body.read)
       @@date = Time.parse(input['date']) # rubocop:disable Style/ClassVars
+
+      status 200
+      {message: 'ok'}.to_json
+    end
+
+    post '/weather' do
+      input = JSON.parse(request.body.read)
+      @@weather.define_weather(input['weather'])
 
       status 200
       {message: 'ok'}.to_json
