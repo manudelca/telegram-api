@@ -8,7 +8,6 @@ Feature: Register Content genre
     Then I should receive "Genero comedy fue registrado exitosamente!" message
     And the genre "comedy" should be created
 
-    @wip
     Scenario: US7.2 - Register invalid genre whitout a name
     When I register a genre without a name
     Then I should receive "Error: falta el campo genero" message
