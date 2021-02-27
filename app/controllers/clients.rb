@@ -83,6 +83,8 @@ WebTemplate::App.controllers :clients do
     begin
       client = client_repo.find_by_telegram_user_id(client_params[:telegram_user_id])
       contents = client.seen_this_week(@@date)
+      raise ContentNotFound if contents.empty?
+
       seen_this_week = []
       contents.each do |content|
         seen_this_week << content.as_seen
@@ -97,6 +99,11 @@ WebTemplate::App.controllers :clients do
       status 404
       {
         :message => "Error: el usuario con id #{client_params[:telegram_user_id]} no se encuentra registrado"
+      }.to_json
+    rescue ContentNotFound
+      status 404
+      {
+        :message => 'No viste nada esta semana'
       }.to_json
     end
   end
