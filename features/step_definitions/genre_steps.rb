@@ -3,6 +3,11 @@ When('I register the genre {string}') do |string|
   @response = Faraday.post(create_genre_url, @request, header)
 end
 
+When('I register a genre without a name') do
+  @request = {}.to_json
+  @response = Faraday.post(create_genre_url, @request, header)
+end
+
 Then('I should receive {string} message') do |string|
   answer = JSON.parse(@response.body)
   expect(answer['message']).to eq(string)

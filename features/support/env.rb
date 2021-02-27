@@ -96,6 +96,10 @@ def test_date_url
   "#{BASE_URL}/date"
 end
 
+def test_weather_url
+  "#{BASE_URL}/weather"
+end
+
 def seen_this_week_url
   "#{BASE_URL}/seen_this_week"
 end
