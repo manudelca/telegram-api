@@ -54,6 +54,8 @@ class Client
   end
 
   def lists(content, client_repo)
+    raise NotListableContentError unless content.is_listable
+
     @contents_listed << content
     client_repo.update_contents_listed(self)
   end

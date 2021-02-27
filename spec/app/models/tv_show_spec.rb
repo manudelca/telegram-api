@@ -63,4 +63,13 @@ describe TvShow do
                                   'Steve Carrell', 'Rainn Wilson', tv_show_id)
     expect(tv_show.is_viewable).to eq(false)
   end
+
+  it 'movie is listable' do
+    genre = Genre.new('comedy')
+    tv_show_id = 1
+    tv_show = described_class.new('The Office', 'No ATP', 190, genre,
+                                  'USA', 'Ricky Gervais',
+                                  'Steve Carrell', 'Rainn Wilson', tv_show_id)
+    expect(tv_show.is_listable).to eq(true)
+  end
 end

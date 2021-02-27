@@ -21,3 +21,8 @@ end
 When('I add the movie to my list') do
   @response = Faraday.patch(lists_url(@user_id, @content_id), header)
 end
+
+When('I add the movie to a non-existant clien list') do
+  non_existant_user_id = -1
+  @response = Faraday.patch(lists_url(non_existant_user_id, @content_id), header)
+end

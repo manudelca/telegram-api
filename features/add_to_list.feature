@@ -25,8 +25,7 @@ Feature: Add content to list
     When I add the tv show "Sherlock" to my list
     Then I should receive "Ya has añadido este contenido a tu lista" message
 
-    @wip
     Scenario: US6.4 - Add content to list of a non-existant client
     Given the movie "Titanic", with audience "ATP", duration 195 min, genre "drama", origin country "USA", director "James Cameron", actors "Kate Winslet" and "Leonardo Dicaprio", release date "2021-01-01"
-    When I add the movie to my list
+    When I add the movie to a non-existant clien list
     Then I should receive "Error: el usuario no se encuentra registrado" message

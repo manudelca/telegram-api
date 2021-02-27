@@ -181,4 +181,15 @@ describe Client do
 
     expect(client.contents_listed.size).to eq(1)
   end
+
+  it 'should not be able to mark episodes as listed' do
+    genre = Genre.new('Comedy')
+    tv_show = TvShow.new('Titanic: La serie', 'ATP', 190, genre, 'USA', 'James Cameron', 'Leonardo Di Caprio', 'Kate')
+    new_tv_show = Persistence::Repositories::TvShowRepo.new(DB).create_content(tv_show)
+    episode = Episode.new(1, 1, '2021-01-01')
+    episode.tv_show = new_tv_show
+    created_episode = Persistence::Repositories::EpisodesRepo.new(DB).create_episode(episode)
+
+    expect { client.lists(created_episode, repository) }.to raise_error(NotListableContentError)
+  end
 end

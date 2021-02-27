@@ -7,4 +7,8 @@ describe Episode do
   it 'episode is viewable' do
     expect(episode.is_viewable).to eq(true)
   end
+
+  it 'episode is not listable' do
+    expect(episode.is_listable).to eq(false)
+  end
 end

@@ -8,4 +8,8 @@ describe Movie do
   it 'movie is viewable' do
     expect(movie.is_viewable).to eq(true)
   end
+
+  it 'movie is listable' do
+    expect(movie.is_listable).to eq(true)
+  end
 end
