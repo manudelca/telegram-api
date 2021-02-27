@@ -9,4 +9,10 @@ describe WeatherProvider do
 
     expect(weather_provider.current_weather).to eq(weather)
   end
+
+  it 'should request an api when no weather was set' do
+    weather_provider.current_weather
+
+    expect(weather_provider.request_status).to eq(200)
+  end
 end
