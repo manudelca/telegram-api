@@ -25,7 +25,7 @@ class Client
 
   def saw_content?(content)
     @contents_seen.each do |view|
-      return true if view.content == content
+      return true if view.content.id == content.id
     end
 
     false
@@ -45,6 +45,8 @@ class Client
   end
 
   def likes(content, client_repo)
+    raise ContentNotSeenError unless saw_content?(content)
+
     @contents_liked << content
     client_repo.update_contents_liked(self)
   end

@@ -9,7 +9,8 @@ Given('the movie {string}, with type {string}, with audience {string}, duration 
   @response = Faraday.post(create_content_url, @request, header)
 
   content = JSON.parse(@response.body)
-  @content_id = content['content'].first['id']
+  @content_detail_id = content['content'].first['id']
+  @content_like_id = content['content'].first['id']
 end
 
 Given('the tv show {string}, with type {string}, with audience {string}, duration {int} min, genre {string}, origin country {string}, director {string}, actors {string} and {string}, release date {string}, season {int} and episode {int}') do |name, type, audience, duration, genre, country, director, first_actor, second_actor, release_date, season, episode|
@@ -24,11 +25,12 @@ Given('the tv show {string}, with type {string}, with audience {string}, duratio
   @response = Faraday.post(create_content_url, @request, header)
 
   content = JSON.parse(@response.body)
-  @content_id = content['content'].first['tv_show_id']
+  @content_detail_id = content['content'].first['tv_show_id']
+  @content_like_id = content['content'].first['id']
 end
 
 When('I get the last movie created') do
-  @response = Faraday.get(get_content_url(@content_id))
+  @response = Faraday.get(get_content_url(@content_detail_id))
 end
 
 When('I request details about the a none existant content') do
@@ -36,5 +38,5 @@ When('I request details about the a none existant content') do
 end
 
 When('I get the last tv_show created') do
-  @response = Faraday.get(get_content_url(@content_id))
+  @response = Faraday.get(get_content_url(@content_detail_id))
 end

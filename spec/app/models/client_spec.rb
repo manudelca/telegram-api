@@ -56,6 +56,16 @@ describe Client do
 
       expect(client.liked_content?(movie)).to eq(true)
     end
+
+    it 'should not be able to mark content not seen as liked' do
+      genre = Genre.new('Drama')
+      movie_id = 0
+      movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', movie_id)
+      Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
+      Persistence::Repositories::MovieRepo.new(DB).create_content(movie)
+
+      expect { client.likes(movie, repository) }.to raise_error(ContentNotSeenError)
+    end
   end
 
   describe 'validation' do
