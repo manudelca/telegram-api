@@ -25,6 +25,9 @@ end
 Given('I haven\'t liked the content with id {int}') do |int|
 end
 
+Given("I haven't seen content with id {int}") do |int|
+end
+
 When('I positive like content with id {int}') do |_int|
   @request = {telegram_user_id: @user_id, content_id: @content_id}.to_json
   @response = Faraday.post(like_url, @request, header)
