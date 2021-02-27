@@ -1,0 +1,1 @@
+class NameRepeatedError < StandardError; end
