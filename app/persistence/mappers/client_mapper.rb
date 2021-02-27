@@ -14,6 +14,10 @@ module Persistence
         EpisodeMapper.new
       end
 
+      def tv_show_mapper
+        TvShowMapper.new
+      end
+
       def movie_mapper
         MovieMapper.new
       end
@@ -27,6 +31,7 @@ module Persistence
         contents_seen_dates = contents_seen_dates(client_attributes)
         add_contents_seen(client_attributes, client, contents_seen_dates)
         add_contents_liked(client_attributes, client)
+        add_contents_listed(client_attributes, client)
         client
       end
 
@@ -62,6 +67,18 @@ module Persistence
             client.likes(movie_mapper.build_movie_from(content, genre), client_repo)
           when 'episode'
             client.likes(episode_mapper.build_episode_from(content), client_repo)
+          end
+        end
+      end
+
+      def add_contents_listed(client_attributes, client)
+        client_attributes.listed.each do |content|
+          genre = genre_mapper.build_genre_from(content.genres)
+          case content.type
+          when 'movie'
+            client.contents_listed << movie_mapper.build_movie_from(content, genre)
+          when 'tv_show'
+            client.contents_listed << tv_show_mapper.build_tv_show_from(content, genre)
           end
         end
       end

@@ -11,7 +11,11 @@ module Persistence
       end
 
       def find(id)
-        clients_relation = (clients.combine(liked: :genres).combine(seen: :genres).combine(:contents_seen_date).by_pk(id) >> client_mapper)
+        clients_relation = (clients.combine(liked: :genres)
+                                   .combine(seen: :genres)
+                                   .combine(:contents_seen_date)
+                                   .combine(listed: :genres)
+                                   .by_pk(id) >> client_mapper)
         client = clients_relation.one
         raise ClientNotFound if client.nil?
 
@@ -19,7 +23,11 @@ module Persistence
       end
 
       def find_by_telegram_user_id(telegram_user_id)
-        clients_relation = clients.where(telegram_user_id: telegram_user_id).combine(liked: :genres).combine(seen: :genres).combine(:contents_seen_date)
+        clients_relation = clients.where(telegram_user_id: telegram_user_id)
+                                  .combine(liked: :genres)
+                                  .combine(seen: :genres)
+                                  .combine(:contents_seen_date)
+                                  .combine(listed: :genres)
         clients_relation = (clients_relation >> client_mapper)
         client = clients_relation.first
         raise ClientNotFound if client.nil?
@@ -28,7 +36,11 @@ module Persistence
       end
 
       def find_by_email(email)
-        clients_relation = clients.where(email: email).combine(liked: :genres).combine(seen: :genres).combine(:contents_seen_date)
+        clients_relation = clients.where(email: email)
+                                  .combine(liked: :genres)
+                                  .combine(seen: :genres)
+                                  .combine(:contents_seen_date)
+                                  .combine(listed: :genres)
         clients_relation = (clients_relation >> client_mapper)
 
         clients_relation.first
@@ -48,9 +60,17 @@ module Persistence
         end
       end
 
+      def update_contents_listed(client)
+        clients_contents_listed_relation.where(client_id: client.id).delete
+        client.contents_listed.each do |content|
+          clients_contents_listed_create_command.call(clients_contents_listed_changeset(client, content))
+        end
+      end
+
       def delete_all
         clients_contents_relation.delete
         clients_contents_liked_relation.delete
+        clients_contents_listed_relation.delete
         clients.delete
       end
 
@@ -72,6 +92,14 @@ module Persistence
         container.relations[:clients_contents_liked]
       end
 
+      def clients_contents_listed_create_command
+        clients_contents_listed_relation.command(:create)
+      end
+
+      def clients_contents_listed_relation
+        container.relations[:clients_contents_listed]
+      end
+
       def client_changeset(client)
         {email: client.email, telegram_user_id: client.telegram_user_id}
       end
@@ -81,6 +109,10 @@ module Persistence
       end
 
       def clients_contents_liked_changeset(client, content)
+        {client_id: client.id, content_id: content.id}
+      end
+
+      def clients_contents_listed_changeset(client, content)
         {client_id: client.id, content_id: content.id}
       end
 

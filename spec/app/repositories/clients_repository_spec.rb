@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'byebug'
 
 describe Persistence::Repositories::ClientRepo do # rubocop:disable RSpec/FilePath
   let(:repository) { described_class.new(DB) }
@@ -108,5 +107,17 @@ describe Persistence::Repositories::ClientRepo do # rubocop:disable RSpec/FilePa
 
       expect(repository.find(client.id).contents_liked[0].id).to eq new_episode.id
     end
+  end
+
+  it 'must update movies listed by the client' do
+    client = Client.new('test@test5.com', 978_567)
+    repository.create_client(client)
+    genre = Genre.new('Drama')
+    movie = Movie.new('Titanic', 'No ATP', 190, genre, 'USA', 'James Cameron', '2021-01-01', 'Kate Winslet', 'Leonardo Dicaprio')
+    Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
+    Persistence::Repositories::MovieRepo.new(DB).create_content(movie)
+    client.lists(movie, repository)
+
+    expect(repository.find(client.id).contents_listed[0].name).to eq movie.name
   end
 end

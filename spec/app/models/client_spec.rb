@@ -170,4 +170,15 @@ describe Client do
 
     expect(client.seen_this_week(seen_date2).size).to eq(1)
   end
+
+  it 'should be able to mark movies as listed' do
+    genre = Genre.new('Drama')
+    movie_id = 0
+    movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2021-01-01', 'Leonardo Di Caprio', 'Kate', movie_id)
+    Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
+    Persistence::Repositories::MovieRepo.new(DB).create_content(movie)
+    client.lists(movie, repository)
+
+    expect(client.contents_listed.size).to eq(1)
+  end
 end

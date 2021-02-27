@@ -9,13 +9,13 @@ Feature: Add content to list
     Scenario: US6.1 - Add content to list
     Given the movie "Titanic", with audience "ATP", duration 195 min, genre "drama", origin country "USA", director "James Cameron", actors "Kate Winslet" and "Leonardo Dicaprio", release date "2021-01-01"
     And I am registered as "john@test.com"
-    When I add the movie "Titanic" to my list
+    When I add the movie to my list
     Then I should receive "Contenido agregado" message
 
     @wip
     Scenario: US6.2 - Add content to list a non-exitant content
     Given I am registered as "john@test.com"
-    When I add the content with id "Titanic" to my list
+    When I add a non-existant movie to my list
     Then I should receive "Contenido inexistente, no es posible añadirlo a la lista" message
 
     @wip
@@ -25,3 +25,9 @@ Feature: Add content to list
     And I add the tv show "Sherlock" to my list
     When I add the tv show "Sherlock" to my list
     Then I should receive "Ya has añadido este contenido a tu lista" message
+
+    @wip
+    Scenario: US6.4 - Add content to list of a non-existant client
+    Given the movie "Titanic", with audience "ATP", duration 195 min, genre "drama", origin country "USA", director "James Cameron", actors "Kate Winslet" and "Leonardo Dicaprio", release date "2021-01-01"
+    When I add the movie "Titanic" to my list
+    Then I should receive "Contenido agregado" message

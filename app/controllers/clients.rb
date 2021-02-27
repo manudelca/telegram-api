@@ -54,6 +54,32 @@ WebTemplate::App.controllers :clients do
     end
   end
 
+  patch :update, :map => '/clients/:email/contents/:content_id/list' do
+    begin
+      client = client_repo.find_by_email(params[:email])
+      raise ClientNotFound if client.nil?
+
+      content = content_repo.find(params[:content_id])
+      raise ContentNotFound if content.nil?
+
+      client.lists(content, client_repo)
+      status 201
+      {
+        :message => 'Contenido agregado a la lista exitosamente'
+      }.to_json
+    rescue ContentNotFound
+      status 404
+      {
+        :message => "Error: el contenido con id #{params[:content_id]} no se encuentra registrada"
+      }.to_json
+    rescue ClientNotFound
+      status 404
+      {
+        :message => "Error: el usuario con email #{params[:email]} no se encuentra registrado"
+      }.to_json
+    end
+  end
+
   post :update, :map => '/like' do
     begin
       client = client_repo.find_by_telegram_user_id(client_params[:telegram_user_id])
