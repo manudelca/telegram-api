@@ -19,7 +19,6 @@ Feature: Weather sugestion
     And I request a content weather suggestion
     Then I should receive name, 2 actors, el director, genre and season (if tv show) from "Matrix 1", "Matrix 2". "Matrix 3"
 
-    @wip
     Scenario: US4.3 - Weather sugestion with no action content
     Given the weather is "Clouds"
     And the movie "21 Jump street 1", with audience "ATP", duration 150 min, genre "comedia", origin country "USA", director "Lana Wachowski", actors "Keanu Reeves" and "Carrie-Anne Moss", release date "1997-06-10"
