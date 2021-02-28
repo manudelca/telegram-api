@@ -48,4 +48,8 @@ class Movie < Content
   def can_be_a_release
     true
   end
+
+  def can_be_a_weather_suggestion
+    true
+  end
 end

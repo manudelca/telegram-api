@@ -47,4 +47,8 @@ class TvShow < Content
   def can_be_a_release
     false
   end
+
+  def can_be_a_weather_suggestion
+    false
+  end
 end

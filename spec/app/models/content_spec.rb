@@ -7,7 +7,7 @@ describe Content do
     expect { content.is_viewable }.to raise_error(ShoulBeImplementedInDerivedClassesError)
   end
 
-  xit 'content class should return comedy content when weather is clear' do # rubocop:disable RSpec/ExampleLength, RSpec/MultipleExpectations
+  it 'content class should return comedy content when weather is clear' do # rubocop:disable RSpec/ExampleLength, RSpec/MultipleExpectations
     weather = 'Clear'
     genre_repository = Persistence::Repositories::GenreRepo.new(DB)
     movie_repo = Persistence::Repositories::MovieRepo.new(DB)
@@ -17,9 +17,9 @@ describe Content do
     genre = genre_repository.create_genre(new_genre)
     other_genre = genre_repository.create_genre(other_genre)
 
-    movie1 = Movie.new('Titanic 1', 'No ATP', 190, genre, 'USA', 'James Cameron', '2018-01-01', 'Kate Winslet', 'Leonardo Dicaprio')
-    movie2 = Movie.new('Titanic 2', 'No ATP', 190, genre, 'USA', 'James Cameron', '2019-01-01', 'Kate Winslet', 'Leonardo Dicaprio')
-    movie3 = Movie.new('Titanic 3', 'No ATP', 190, genre, 'USA', 'James Cameron', '2019-01-01', 'Kate Winslet', 'Leonardo Dicaprio')
+    movie1 = Movie.new('Titanico 1', 'No ATP', 190, genre, 'USA', 'James Cameron', '2018-01-01', 'Kate Winslet', 'Leonardo Dicaprio')
+    movie2 = Movie.new('Titanico 2', 'No ATP', 190, genre, 'USA', 'James Cameron', '2019-01-01', 'Kate Winslet', 'Leonardo Dicaprio')
+    movie3 = Movie.new('Titanico 3', 'No ATP', 190, genre, 'USA', 'James Cameron', '2019-01-01', 'Kate Winslet', 'Leonardo Dicaprio')
     movie4 = Movie.new('Amanecer de los muertos', 'No ATP', 190, other_genre, 'USA', 'James Cameron', '2019-01-01', 'Kate Winslet', 'Leonardo Dicaprio')
     movie5 = Movie.new('Amanecer de los muertos 2', 'No ATP', 190, other_genre, 'USA', 'James Cameron', '2019-01-01', 'Kate Winslet', 'Leonardo Dicaprio')
     movie6 = Movie.new('Amanecer de los muertos 3', 'No ATP', 190, other_genre, 'USA', 'James Cameron', '2019-01-01', 'Kate Winslet', 'Leonardo Dicaprio')

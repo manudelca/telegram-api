@@ -4,7 +4,7 @@ class Content
 
   attr_accessor :id
 
-  WEATHER_TO_GENRE = {'Clear': 'comedy'}.freeze
+  WEATHER_TO_GENRE = {'Clear' => 'comedia'}.freeze
 
   def initialize(id = nil)
     @id = id
@@ -19,8 +19,8 @@ class Content
                 .select(&:can_be_a_release).first(MAX_RELEASES_COUNT)
   end
 
-  def self.weather_suggestions(content_repo, _weather)
-    content_repo.find_content_with_genre(genre)
+  def self.weather_suggestions(content_repo, weather)
+    content_repo.find_by_genre_name(WEATHER_TO_GENRE[weather])
                 .select(&:can_be_a_weather_suggestion).first(MAX_WEATHER_SUGGESTIONS_COUNT)
   end
 
@@ -29,6 +29,10 @@ class Content
   end
 
   def can_be_a_release
+    raise ShoulBeImplementedInDerivedClassesError
+  end
+
+  def can_be_a_weather_suggestion
     raise ShoulBeImplementedInDerivedClassesError
   end
 end

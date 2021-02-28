@@ -11,8 +11,7 @@ module Persistence
         return [] if genre.nil?
 
         contents_relation = (contents.combine(:genres)
-                                     .where(genre_id: genre.id)
-                                     .order { release_date.desc } >> content_mapper)
+                                     .where(genre_id: genre.id) >> content_mapper)
         contents = []
         contents_relation.each { |content| contents << content }
         contents
