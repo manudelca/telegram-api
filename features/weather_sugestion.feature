@@ -27,7 +27,6 @@ Feature: Weather sugestion
     And I request a content weather suggestion
     Then I should receive name, 2 actors, el director, genre and season (if tv show) from "21 Jump street 3", "21 Jump street 2". "21 Jump street 1"
 
-    @wip
     Scenario: US4.4 - Weather sugestion default
     Given the weather is "Drizzle"
     And the movie "21 Jump street 1", with audience "ATP", duration 150 min, genre "comedia", origin country "USA", director "Lana Wachowski", actors "Keanu Reeves" and "Carrie-Anne Moss", release date "1997-06-10"
