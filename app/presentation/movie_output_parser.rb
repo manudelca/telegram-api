@@ -28,7 +28,7 @@ class MovieOutputParser
     }
   end
 
-  def release_json(movie)
+  def standard_suggestion_json(movie)
     {
       id: movie.id,
       name: movie.name,
@@ -38,6 +38,14 @@ class MovieOutputParser
       second_actor: movie.second_actor,
       release_date: movie.release_date
     }
+  end
+
+  def release_json(movie)
+    standard_suggestion_json(movie)
+  end
+
+  def weather_suggestion(movie)
+    standard_suggestion_json(movie)
   end
 
   def seen_json(movie)

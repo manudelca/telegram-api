@@ -96,6 +96,10 @@ def test_weather_url
   "#{BASE_URL}/weather"
 end
 
+def weather_suggestion_url
+  "#{BASE_URL}/weather_suggestion"
+end
+
 def seen_this_week_url
   "#{BASE_URL}/seen_this_week"
 end

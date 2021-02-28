@@ -37,6 +37,10 @@ class Movie < Content
     @output_parser.release_json(self)
   end
 
+  def as_weather_suggestion
+    @output_parser.release_json(self)
+  end
+
   def as_seen
     @output_parser.seen_json(self)
   end
