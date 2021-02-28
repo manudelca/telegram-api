@@ -4,7 +4,7 @@ class Content
 
   attr_accessor :id
 
-  WEATHER_TO_GENRE = {'Clear' => 'comedia'}.freeze
+  WEATHER_TO_GENRE = {'Clear' => 'comedia', 'Clouds' => 'accion'}.freeze
 
   def initialize(id = nil)
     @id = id
