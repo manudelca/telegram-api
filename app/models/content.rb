@@ -19,9 +19,15 @@ class Content
                 .select(&:can_be_a_release).first(MAX_RELEASES_COUNT)
   end
 
-  def self.weather_suggestions(content_repo, weather)
-    content_repo.find_by_genre_name(WEATHER_TO_GENRE[weather])
-                .select(&:can_be_a_weather_suggestion).first(MAX_WEATHER_SUGGESTIONS_COUNT)
+  def self.weather_suggestions(content_repo, weather, date)
+    return releases(content_repo, date) unless WEATHER_TO_GENRE.key?(weather)
+
+    contents = content_repo.find_by_genre_name(WEATHER_TO_GENRE[weather])
+                           .select(&:can_be_a_weather_suggestion).first(MAX_WEATHER_SUGGESTIONS_COUNT)
+
+    return releases(content_repo, date) if contents.empty?
+
+    contents
   end
 
   def is_viewable

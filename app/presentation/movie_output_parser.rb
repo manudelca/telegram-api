@@ -44,7 +44,7 @@ class MovieOutputParser
     standard_suggestion_json(movie)
   end
 
-  def weather_suggestion(movie)
+  def weather_suggestion_json(movie)
     standard_suggestion_json(movie)
   end
 

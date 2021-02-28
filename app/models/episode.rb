@@ -33,4 +33,8 @@ class Episode < Content
   def as_release
     @output_parser.release_json(self)
   end
+
+  def as_weather_suggestion
+    @output_parser.weather_suggestion_json(self)
+  end
 end
