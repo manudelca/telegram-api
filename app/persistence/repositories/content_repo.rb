@@ -1,5 +1,3 @@
-require 'byebug'
-
 module Persistence
   module Repositories
     class ContentRepo < ROM::Repository[:contents]
@@ -10,10 +8,11 @@ module Persistence
 
       def find_by_genre_name(genre_name)
         genre = genre_repo.find_by_genre_name(genre_name)
+        return [] if genre.nil?
+
         contents_relation = (contents.combine(:genres)
                                      .where(genre_id: genre.id)
                                      .order { release_date.desc } >> content_mapper)
-        # byebug
         contents = []
         contents_relation.each { |content| contents << content }
         contents

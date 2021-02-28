@@ -111,5 +111,14 @@ describe Persistence::Repositories::ContentRepo do # rubocop:disable RSpec/FileP
       saved_movie = movie_repo.create_content(movie)
       expect(repository.find_by_genre_name('comedia')[0].id).to eq saved_movie.id
     end
+
+    it 'returns empty when genre is not found' do
+      genre_repository = Persistence::Repositories::GenreRepo.new(DB)
+      new_genre = Genre.new('comedia')
+      genre_repository.create_genre(new_genre)
+      movie = Movie.new('Titanic', 'No ATP', 190, new_genre, 'USA', 'James Cameron', '2021-01-01', 'Kate Winslet', 'Leonardo Dicaprio')
+      movie_repo.create_content(movie)
+      expect(repository.find_by_genre_name('not a genre').size).to eq 0
+    end
   end
 end
