@@ -33,7 +33,7 @@ WebTemplate::App.controllers :content, :provides => [:json] do
 
   get :show, :map => '/releases' do
     begin
-      releases = Content.releases(content_repo, @@date)
+      releases = Content.releases(content_repo, @@date_provider.now)
       raise ContentNotFound if releases.empty?
 
       releases_formatted = []
