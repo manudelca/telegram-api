@@ -28,8 +28,4 @@ class EpisodeOutputParser
   def release_json(episode)
     standard_suggestion_json(episode)
   end
-
-  def weather_suggestion_json(episode)
-    standard_suggestion_json(episode)
-  end
 end

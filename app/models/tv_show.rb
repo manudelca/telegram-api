@@ -49,6 +49,10 @@ class TvShow < Content
   end
 
   def can_be_a_weather_suggestion
-    false
+    true
+  end
+
+  def as_weather_suggestion
+    @output_parser.weather_suggestion_json(self)
   end
 end

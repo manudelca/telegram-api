@@ -23,7 +23,7 @@ class Episode < Content
   end
 
   def can_be_a_weather_suggestion
-    true
+    false
   end
 
   def as_seen
@@ -32,9 +32,5 @@ class Episode < Content
 
   def as_release
     @output_parser.release_json(self)
-  end
-
-  def as_weather_suggestion
-    @output_parser.weather_suggestion_json(self)
   end
 end
