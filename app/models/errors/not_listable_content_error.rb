@@ -1,0 +1,1 @@
+class NotListableContentError < StandardError; end

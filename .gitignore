@@ -18,3 +18,4 @@ VERSION.txt
 *.logs
 /bin/
 /.bundle/
+/db/migrate/019_drop_unused_tables.rb

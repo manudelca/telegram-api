@@ -33,7 +33,7 @@ WebTemplate::App.controllers :content, :provides => [:json] do
 
   get :show, :map => '/releases' do
     begin
-      releases = Content.releases(content_repo, @@date)
+      releases = Content.releases(content_repo, @@date_provider.now)
       raise ContentNotFound if releases.empty?
 
       releases_formatted = []
@@ -56,7 +56,7 @@ WebTemplate::App.controllers :content, :provides => [:json] do
 
   get :show, :map => 'weather_suggestion' do
     begin
-      weather_suggestions = Content.weather_suggestions(content_repo, @@weather.current_weather, @@date)
+      weather_suggestions = Content.weather_suggestions(content_repo, @@weather.current_weather, @@date_provider.now)
       raise ContentNotFound if weather_suggestions.empty?
 
       weather_suggestions_formatted = []

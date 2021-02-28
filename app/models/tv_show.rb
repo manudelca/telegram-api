@@ -44,6 +44,10 @@ class TvShow < Content
     false
   end
 
+  def is_listable
+    true
+  end
+
   def can_be_a_release
     false
   end

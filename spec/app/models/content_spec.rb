@@ -148,4 +148,8 @@ describe Content do
     expect(movies[1].id).to eq(saved_movie2.id)
     expect(movies[2].id).to eq(saved_movie3.id)
   end
+
+  it 'content is listable should raise error' do
+    expect { content.is_listable }.to raise_error(ShoulBeImplementedInDerivedClassesError)
+  end
 end

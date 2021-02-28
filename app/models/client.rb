@@ -1,6 +1,6 @@
 class Client
   attr_reader :email, :telegram_user_id, :contents_seen, :contents_liked
-  attr_accessor :id
+  attr_accessor :id, :contents_listed
 
   def initialize(email, telegram_user_id, id = nil, email_validator = EmailValidator.new)
     raise NoEmailError if email.nil?
@@ -12,6 +12,7 @@ class Client
     @id = id
     @contents_seen = []
     @contents_liked = []
+    @contents_listed = []
     @seen_this_with_amount = 3
   end
 
@@ -24,7 +25,7 @@ class Client
 
   def saw_content?(content)
     @contents_seen.each do |view|
-      return true if view.content == content
+      return true if view.content.id == content.id
     end
 
     false
@@ -44,12 +45,21 @@ class Client
   end
 
   def likes(content, client_repo)
+    raise ContentNotSeenError unless saw_content?(content)
+
     @contents_liked << content
     client_repo.update_contents_liked(self)
   end
 
   def liked_content?(content)
     @contents_liked.include?(content)
+  end
+
+  def lists(content, client_repo)
+    raise NotListableContentError unless content.is_listable
+
+    @contents_listed << content
+    client_repo.update_contents_listed(self)
   end
 
   private

@@ -51,7 +51,7 @@ describe Persistence::Repositories::ContentRepo do # rubocop:disable RSpec/FileP
 
   describe 'find by descendant release date' do
     it 'no content returns empty array of contents' do
-      expect(repository.find_before_date_and_first_newer(@@date).empty?).to eq(true)
+      expect(repository.find_before_date_and_first_newer(@@date_provider.now).empty?).to eq(true)
     end
 
     it 'when 2 contents, get order by desc release_date' do
@@ -61,7 +61,7 @@ describe Persistence::Repositories::ContentRepo do # rubocop:disable RSpec/FileP
       movie_repo.create_content(movie_older)
       saved_movie_newer = movie_repo.create_content(movie_newer)
 
-      expect(repository.find_before_date_and_first_newer(@@date).first.id).to eq(saved_movie_newer.id)
+      expect(repository.find_before_date_and_first_newer(@@date_provider.now).first.id).to eq(saved_movie_newer.id)
     end
 
     it 'when a content release is in future date, find_before_date_and_first_newer dont return it' do
@@ -71,7 +71,7 @@ describe Persistence::Repositories::ContentRepo do # rubocop:disable RSpec/FileP
       movie_repo.create_content(movie_older)
       movie_repo.create_content(movie_newer)
 
-      expect(repository.find_before_date_and_first_newer(@@date).size).to eq(1)
+      expect(repository.find_before_date_and_first_newer(@@date_provider.now).size).to eq(1)
     end
 
     it 'list of contents of different type' do
@@ -86,7 +86,7 @@ describe Persistence::Repositories::ContentRepo do # rubocop:disable RSpec/FileP
       episode.tv_show = tv_show
       episode_repo.create_episode(episode)
 
-      content_matching_find = repository.find_before_date_and_first_newer(@@date)
+      content_matching_find = repository.find_before_date_and_first_newer(@@date_provider.now)
       releases = content_matching_find.select(&:can_be_a_release)
       expect(releases.size).to eq(2)
     end
@@ -98,7 +98,7 @@ describe Persistence::Repositories::ContentRepo do # rubocop:disable RSpec/FileP
       movie_repo.create_content(movie_older)
       movie_repo.create_content(movie_newer)
 
-      expect(repository.find_after_date_and_first_nearer_in_time(@@date).size).to eq(1)
+      expect(repository.find_after_date_and_first_nearer_in_time(@@date_provider.now).size).to eq(1)
     end
   end
 

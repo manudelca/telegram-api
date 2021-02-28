@@ -13,7 +13,7 @@ Feature: Register user views
     Given there is no movie with id 123456700
     Given the user "john@test.com" is registered
     When I marked the movie as seen for "john@test.com"
-    Then I should get "Error: el contenido con id 123456700 no se encuentra registrada"
+    Then I should get "Error: el contenido con id 123456700 no se encuentra registrado"
 
     Scenario: Non-existing user
     Given the movie "Titanic", with audience "ATP", duration 195 min, genre "drama", origin country "USA", director "James Cameron", actors "Kate Winslet" and "Leonardo Dicaprio" and release date '2020-01-01' is available

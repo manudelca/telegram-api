@@ -36,7 +36,7 @@ WebTemplate::App.controllers :clients do
       content = content_repo.find(params[:content_id])
       raise ContentNotFound if content.nil?
 
-      client.sees_content(content, @@date, client_repo)
+      client.sees_content(content, @@date_provider.now, client_repo)
       status 201
       {
         :message => 'Visto registrado exitosamente'
@@ -44,12 +44,38 @@ WebTemplate::App.controllers :clients do
     rescue ContentNotFound, RepoNotFound, NotViewableContentError
       status 404
       {
-        :message => "Error: el contenido con id #{params[:content_id]} no se encuentra registrada"
+        :message => "Error: el contenido con id #{params[:content_id]} no se encuentra registrado"
       }.to_json
     rescue ClientNotFound
       status 404
       {
         :message => "Error: el usuario con email #{params[:email]} no se encuentra registrado"
+      }.to_json
+    end
+  end
+
+  patch :update, :map => '/clients/:telegram_user_id/contents/:content_id/list' do
+    begin
+      client = client_repo.find_by_telegram_user_id(params[:telegram_user_id])
+      raise ClientNotFound if client.nil?
+
+      content = content_repo.find(params[:content_id])
+      raise ContentNotFound if content.nil?
+
+      client.lists(content, client_repo)
+      status 201
+      {
+        :message => 'Contenido agregado a la lista exitosamente'
+      }.to_json
+    rescue ContentNotFound, NotListableContentError
+      status 404
+      {
+        :message => "Error: el contenido con id #{params[:content_id]} no se encuentra registrado"
+      }.to_json
+    rescue ClientNotFound
+      status 404
+      {
+        :message => 'Error: el usuario no se encuentra registrado'
       }.to_json
     end
   end
@@ -76,13 +102,18 @@ WebTemplate::App.controllers :clients do
       {
         :message => "Error: el usuario con id #{client_params[:telegram_user_id]} no se encuentra registrado"
       }.to_json
+    rescue ContentNotSeenError
+      status 404
+      {
+        :message => 'Error: contenido no visto'
+      }.to_json
     end
   end
 
   post :show, :map => '/seen_this_week' do
     begin
       client = client_repo.find_by_telegram_user_id(client_params[:telegram_user_id])
-      contents = client.seen_this_week(@@date)
+      contents = client.seen_this_week(@@date_provider.now)
       raise ContentNotFound if contents.empty?
 
       seen_this_week = []

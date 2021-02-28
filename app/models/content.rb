@@ -34,6 +34,10 @@ class Content
     raise ShoulBeImplementedInDerivedClassesError
   end
 
+  def is_listable
+    raise ShoulBeImplementedInDerivedClassesError
+  end
+
   def can_be_a_release
     raise ShoulBeImplementedInDerivedClassesError
   end

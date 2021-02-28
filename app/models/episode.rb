@@ -18,6 +18,10 @@ class Episode < Content
     true
   end
 
+  def is_listable
+    false
+  end
+
   def can_be_a_release
     true
   end

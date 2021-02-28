@@ -14,6 +14,10 @@ class WeatherProvider
     @weather = weather
   end
 
+  def clean_weather
+    @weather = nil
+  end
+
   def current_weather
     return @weather unless @weather.nil?
 
