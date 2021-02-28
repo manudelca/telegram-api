@@ -53,4 +53,27 @@ WebTemplate::App.controllers :content, :provides => [:json] do
       }.to_json
     end
   end
+
+  get :show, :map => 'weather_suggestion' do
+    begin
+      weather_suggestions = Content.weather_suggestions(content_repo, @@weather.current_weather, @@date)
+      raise ContentNotFound if weather_suggestions.empty?
+
+      weather_suggestions_formatted = []
+      weather_suggestions.each do |weather_suggestion|
+        weather_suggestions_formatted << weather_suggestion.as_weather_suggestion
+      end
+      # Supongo que lo meto en content de una...
+      status 200
+      {
+        :message => 'El contenido fue encontrado exitosamente!',
+        :content => weather_suggestions_formatted
+      }.to_json
+    rescue ContentNotFound
+      status 404
+      {
+        :message => 'No se encontro contenido!'
+      }.to_json
+    end
+  end
 end
