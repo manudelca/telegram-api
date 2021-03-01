@@ -24,7 +24,7 @@ Given('the tv show episode {string}, with type {string}, with audience {string},
 end
 
 When('I request releases') do
-  @response = Faraday.get(get_releases_url)
+  @response = Faraday.get(get_releases_url, header)
 end
 
 Then('I should receive id, name, actors, director, genre and season \(if tv show) from {string}, {string}, {string}') do |content_name_one, content_name_two, content_name_three|

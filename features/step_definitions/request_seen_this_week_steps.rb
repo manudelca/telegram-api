@@ -1,4 +1,3 @@
-require 'byebug'
 Given('the movie {string}, with audience {string}, duration {int} min, genre {string}, origin country {string}, director {string}, actors {string} and {string}, release date {string}') do |name, audience, duration, genre, country, director, first_actor, second_actor, release_date|
   @request = {name: genre}.to_json
   @response = Faraday.post(create_genre_url, @request, header)
@@ -45,7 +44,7 @@ Given('{string} saw the movie {string} in {string}') do |email, name, date|
   content_id = @contents_ids[name]['id']
   @request = {email: email, telegram_user_id: @user_id}.to_json
   @response = Faraday.post(client_url, @request, header)
-  @response = Faraday.patch(views_url(email, content_id), header)
+  @response = Faraday.patch(views_url(email, content_id), nil, header)
 end
 
 Given('{string} saw the tv show {string}, season {int} episode {int} in {string}') do |email, name, _season, _episode, date|
@@ -55,7 +54,7 @@ Given('{string} saw the tv show {string}, season {int} episode {int} in {string}
   content_id = @contents_ids[name]['id']
   @request = {email: email, telegram_user_id: @user_id}.to_json
   @response = Faraday.post(client_url, @request, header)
-  @response = Faraday.patch(views_url(email, content_id), header)
+  @response = Faraday.patch(views_url(email, content_id), nil, header)
 end
 
 Given('I haven\'t qualified any content') do

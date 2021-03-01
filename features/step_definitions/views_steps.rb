@@ -18,7 +18,7 @@ Given('the user {string} is registered') do |string|
 end
 
 When('I marked the movie as seen for {string}') do |email|
-  @response = Faraday.patch(views_url(email, @content_id), header)
+  @response = Faraday.patch(views_url(email, @content_id), nil, header)
 end
 
 Then('I should get {string}') do |string|
@@ -46,5 +46,5 @@ Given('the episode  the tv show {string}, with audience {string}, duration {int}
 end
 
 When('I marked the episode {int} of tv show {string} for {string}') do |_int, _string, string2|
-  @response = Faraday.patch(views_url(string2, @episode_id), header)
+  @response = Faraday.patch(views_url(string2, @episode_id), nil, header)
 end

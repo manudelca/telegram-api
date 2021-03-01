@@ -6,7 +6,7 @@ Given('I am registered as {string}') do |email|
 end
 
 Given('I saw content with id {int}') do |_int|
-  @response = Faraday.patch(views_url(@email, @content_like_id), header)
+  @response = Faraday.patch(views_url(@email, @content_like_id), nil, header)
 end
 
 Given('I haven\'t liked the content with id {int}') do |int|
