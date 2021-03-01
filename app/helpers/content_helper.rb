@@ -54,26 +54,6 @@ module WebTemplate
         new_tv_show.full_details(new_episode)
       end
 
-      def find_releases_without_future(now_date)
-        movie_releases = movie_repo.find_releases_without_future_ones(query_content_quantity, now_date)
-        tv_show_releases = tv_show_repo.find_releases_without_future_ones(query_content_quantity, now_date)
-
-        releases = []
-        releases += movie_releases unless movie_releases.nil?
-        releases += tv_show_releases unless tv_show_releases.nil?
-        releases
-      end
-
-      def find_releases_with_future(now_date)
-        movie_releases = movie_repo.find_releases_with_future_ones(query_content_quantity, now_date)
-        tv_show_releases = tv_show_repo.find_releases_with_future_ones(query_content_quantity, now_date)
-
-        releases = []
-        releases += movie_releases unless movie_releases.nil?
-        releases += tv_show_releases unless tv_show_releases.nil?
-        releases
-      end
-
       def tv_show_repo
         Persistence::Repositories::TvShowRepo.new(DB)
       end
@@ -85,10 +65,6 @@ module WebTemplate
       def content_params
         @body ||= request.body.read
         JSON.parse(@body).symbolize_keys
-      end
-
-      def query_content_quantity
-        3
       end
     end
 
