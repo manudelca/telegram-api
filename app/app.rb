@@ -1,4 +1,3 @@
-require 'byebug'
 @@date_provider = DateProvider.new # rubocop:disable Style/ClassVars
 @@api_key_provider = ApiKeyProvider.new # rubocop:disable Style/ClassVars
 
@@ -9,12 +8,10 @@ module WebTemplate
 
     before do
       unless request.env['HTTP_AUTHORIZATION'] == @@api_key_provider.api_key || request.env['PATH_INFO'] == '/api_key'
-        byebug # rubocop:disable Lint/Debugger
         halt 401,
              {'Content-Type' => 'application/json'},
              { message: 'Not authorized Error'}.to_json
       end
-      byebug # rubocop:disable Lint/Debugger
     end
 
     get '/' do

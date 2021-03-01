@@ -1,5 +1,3 @@
-require 'byebug'
-
 Given('the api key is {string}') do |api_key|
   @request = { api_key: api_key}.to_json
   @response = Faraday.post(test_api_key_url, @request, header)
