@@ -4,7 +4,6 @@ require 'json'
 class WeatherProvider
   attr_accessor :request_status
 
-
   def initialize
     @weather = nil
     @request_status = nil
