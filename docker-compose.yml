@@ -28,6 +28,8 @@ services:
         RACK_ENV: "development"
         TEST_DB_URL: "postgres://postgres:example@test_db:5432/postgres"
         DEV_DB_URL: "postgres://postgres:example@dev_db:5432/postgres"
+        WEATHER_URL: "http://api.openweathermap.org/data/2.5/weather"
+        CITY_NAME: "Buenos Aires, AR"
     depends_on:
       - test_db
       - dev_db

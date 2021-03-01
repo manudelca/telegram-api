@@ -1,3 +1,5 @@
+require 'dotenv/load'
+
 @@weather = WeatherProvider.new # rubocop:disable Style/ClassVars
 @@date_provider = DateProvider.new # rubocop:disable Style/ClassVars
 
