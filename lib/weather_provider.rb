@@ -1,3 +1,6 @@
+require 'faraday'
+require 'json'
+
 class WeatherProvider
   attr_accessor :request_status
 
