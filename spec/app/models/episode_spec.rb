@@ -11,4 +11,8 @@ describe Episode do
   it 'episode is not listable' do
     expect(episode.is_listable).to eq(false)
   end
+
+  it 'episode tells if it was released' do
+    expect(episode.was_released?(Time.parse('2021-01-01'))).to eq(true)
+  end
 end

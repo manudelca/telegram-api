@@ -41,4 +41,8 @@ class Episode < Content
   def as_weather_suggestion
     as_release
   end
+
+  def was_released?(date)
+    date >= @release_date
+  end
 end
