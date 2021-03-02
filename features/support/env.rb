@@ -19,7 +19,7 @@ end
 def header
   {
     'Content-Type' => 'application/json',
-    'HTTP_AUTHORIZATION' => ENV['WEBAPI_API_KEY']
+    'Authorization' => ENV['WEBAPI_API_KEY']
   }
 end
 

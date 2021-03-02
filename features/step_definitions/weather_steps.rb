@@ -6,6 +6,6 @@ Given('the weather is {string}') do |string|
 end
 
 Given('I request a content weather suggestion') do
-  @response = Faraday.get(weather_suggestion_url)
+  @response = Faraday.get(weather_suggestion_url, nil, header)
   @content = JSON.parse(@response.body)
 end

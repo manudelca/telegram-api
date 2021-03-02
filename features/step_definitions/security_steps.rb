@@ -4,7 +4,7 @@ Given('the api key is {string}') do |api_key|
 end
 
 When('I make a request with the api key {string}') do |api_key|
-  @response = Faraday.get(alive_url, header_with_api_key(api_key))
+  @response = Faraday.get(alive_url, nil, header_with_api_key(api_key))
 end
 
 Then('I should receive the request answer') do

@@ -28,13 +28,13 @@ Given('the tv show {string}, with type {string}, with audience {string}, duratio
 end
 
 When('I get the last movie created') do
-  @response = Faraday.get(get_content_url(@content_detail_id), header)
+  @response = Faraday.get(get_content_url(@content_detail_id), nil, header)
 end
 
 When('I request details about the a none existant content') do
-  @response = Faraday.get(get_content_url(-1), header)
+  @response = Faraday.get(get_content_url(-1), nil, header)
 end
 
 When('I get the last tv_show created') do
-  @response = Faraday.get(get_content_url(@content_detail_id), header)
+  @response = Faraday.get(get_content_url(@content_detail_id), nil, header)
 end
