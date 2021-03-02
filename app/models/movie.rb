@@ -29,7 +29,7 @@ class Movie < FullContent
   end
 
   def was_released?(date)
-    date >= @release_date
+    date >= Time.parse(@release_date)
   end
 
   def details

@@ -43,6 +43,6 @@ class Episode < Content
   end
 
   def was_released?(date)
-    date >= @release_date
+    date >= Time.parse(@release_date)
   end
 end
