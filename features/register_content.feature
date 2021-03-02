@@ -8,7 +8,6 @@ Feature: Register content
     When I register the movie "Titanic", with type "movie", with audience "ATP", duration 195 min, genre "drama", origin country "USA", director "James Cameron", actors "Kate Winslet" and "Leonardo Dicaprio", release date "2021-01-01" and the tv show episode "Titanic: La Serie", with type "tv_show", with audience "ATP", duration 30 min, genre "drama", origin country "USA Jr", director "James Cameron Jr", actors "Kate Winslet Jr" and "Leonardo Dicaprio Jr", release date "2021-01-01", season 1 and episode 1
     Then I should receive "El contenido fue registrado exitosamente!" message
 
-    @wip
     Scenario: US8.2 - Register content with an unregistered genre
     Given I register the genre "drama"
     When I register the movies "Titanic", with type "movie", with audience "ATP", duration 195 min, genre "drama_unregistered", origin country "USA", director "James Cameron", actors "Kate Winslet" and "Leonardo Dicaprio", release date "2021-01-01" and "Titanic 2", with type "movie", with audience "ATP", duration 205 min, genre "drama", origin country "USA Jr", director "James Cameron Jr", actors "Kate Winslet Jr" and "Leonardo Dicaprio Jr", release date "2021-01-01"

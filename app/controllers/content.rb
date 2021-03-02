@@ -1,58 +1,65 @@
 WebTemplate::App.controllers :content, :provides => [:json] do
   post :create, :map => '/content' do # rubocop:disable Metrics/BlockLength
-    movies = []
-    tv_shows = []
+    begin
+      movies = []
+      tv_shows = []
 
-    content_params[:content].each do |content| # rubocop:disable Metrics/BlockLength
-      genre = genre_repo.find_by_genre_name(content['genre'])
-      case content['type']
-      when 'movie'
-        movie = Movie.new(content['name'],
-                          content['audience'],
-                          content['duration_minutes'],
-                          genre,
-                          content['country'],
-                          content['director'],
-                          content['release_date'],
-                          content['first_actor'],
-                          content['second_actor'])
-        movies << movie
-      when 'tv_show'
-        tv_show = TvShow.new(content['name'],
-                             content['audience'],
-                             content['duration_minutes'],
-                             genre,
-                             content['country'],
-                             content['director'],
-                             content['first_actor'],
-                             content['second_actor'])
+      content_params[:content].each do |content| # rubocop:disable Metrics/BlockLength
+        genre = genre_repo.find_by_genre_name(content['genre'])
+        case content['type']
+        when 'movie'
+          movie = Movie.new(content['name'],
+                            content['audience'],
+                            content['duration_minutes'],
+                            genre,
+                            content['country'],
+                            content['director'],
+                            content['release_date'],
+                            content['first_actor'],
+                            content['second_actor'])
+          movies << movie
+        when 'tv_show'
+          tv_show = TvShow.new(content['name'],
+                               content['audience'],
+                               content['duration_minutes'],
+                               genre,
+                               content['country'],
+                               content['director'],
+                               content['first_actor'],
+                               content['second_actor'])
 
-        episode = Episode.new(content['episode_number'],
-                              content['season_number'],
-                              content['release_date'])
-        tv_show.episodes << episode
-        tv_shows << tv_show
+          episode = Episode.new(content['episode_number'],
+                                content['season_number'],
+                                content['release_date'])
+          tv_show.episodes << episode
+          tv_shows << tv_show
+        end
       end
-    end
 
-    content_created = []
-    movies.each do |movie|
-      new_movie = movie_repo.create_content(movie)
-      content_created << new_movie.full_details
-    end
-    tv_shows.each do |tv_show|
-      new_tv_show = tv_show_repo.find_or_create(tv_show)
-      episode = tv_show.episodes.first
-      episode.tv_show = new_tv_show
-      new_episode = episodes_repo.create_episode(episode)
-      content_created << new_tv_show.full_details(new_episode)
-    end
+      content_created = []
+      movies.each do |movie|
+        new_movie = movie_repo.create_content(movie)
+        content_created << new_movie.full_details
+      end
+      tv_shows.each do |tv_show|
+        new_tv_show = tv_show_repo.find_or_create(tv_show)
+        episode = tv_show.episodes.first
+        episode.tv_show = new_tv_show
+        new_episode = episodes_repo.create_episode(episode)
+        content_created << new_tv_show.full_details(new_episode)
+      end
 
-    status 201
-    {
-      :message => 'El contenido fue registrado exitosamente!',
-      :content => content_created
-    }.to_json
+      status 201
+      {
+        :message => 'El contenido fue registrado exitosamente!',
+        :content => content_created
+      }.to_json
+    rescue GenreNotFound
+      status 400
+      {
+        :message => 'Debes agregar el género antes de crear este contenido'
+      }.to_json
+    end
   end
 
   get :show, :map => '/content', :with => :id do
