@@ -28,7 +28,7 @@ WebTemplate::App.controllers :clients do
     end
   end
 
-  patch :update, :map => '/clients/:email/contents/:content_id/seen' do
+  patch :update, :map => '/clients/:email/contents/:content_id/seen' do # rubocop:disable Metrics/BlockLength
     begin
       client = client_repo.find_by_email(params[:email])
       raise ClientNotFound if client.nil?
@@ -50,6 +50,11 @@ WebTemplate::App.controllers :clients do
       status 404
       {
         :message => "Error: el usuario con email #{params[:email]} no se encuentra registrado"
+      }.to_json
+    rescue ContentNotReleasedError
+      status 404
+      {
+        :message => 'Error: no se puede registrar como visto contenido no estrenado'
       }.to_json
     end
   end
