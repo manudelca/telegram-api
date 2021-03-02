@@ -66,6 +66,42 @@ describe Client do
 
       expect { client.likes(movie, repository) }.to raise_error(ContentNotSeenError)
     end
+
+    it 'should add a liked content' do
+      genre = Genre.new('Drama')
+      movie_id = 0
+      movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', movie_id)
+      Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
+      Persistence::Repositories::MovieRepo.new(DB).create_content(movie)
+      client.add_liked_content(movie)
+
+      expect(client.liked_content?(movie)).to eq(true)
+    end
+
+    xit 'should be able to mark tv show as liked' do # rubocop:disable RSpec/ExampleLength
+      genre = Genre.new('Drama')
+      tv_show = TvShow.new('Titanic: La serie', 'ATP', 190, genre, 'USA', 'James Cameron', 'Leonardo Di Caprio', 'Kate')
+      new_tv_show = Persistence::Repositories::TvShowRepo.new(DB).create_content(tv_show)
+      episode1 = Episode.new(1, 1, '2021-01-01')
+      episode2 = Episode.new(2, 1, '2021-01-01')
+      episode3 = Episode.new(3, 1, '2021-01-01')
+      episode1.tv_show = new_tv_show
+      episode2.tv_show = new_tv_show
+      episode3.tv_show = new_tv_show
+      created_episode1 = Persistence::Repositories::EpisodesRepo.new(DB).create_episode(episode1)
+      created_episode2 = Persistence::Repositories::EpisodesRepo.new(DB).create_episode(episode2)
+      created_episode3 = Persistence::Repositories::EpisodesRepo.new(DB).create_episode(episode3)
+      today = Time.parse('2021-01-02')
+      client.sees_content(created_episode1, today, repository)
+      client.sees_content(created_episode2, today, repository)
+      client.sees_content(created_episode3, today, repository)
+      client.likes(created_episode1, repository)
+      client.likes(created_episode2, repository)
+      client.likes(created_episode3, repository)
+      client.likes(new_tv_show, repository)
+
+      expect(client.liked_content?(new_tv_show)).to eq(true)
+    end
   end
 
   describe 'validation' do

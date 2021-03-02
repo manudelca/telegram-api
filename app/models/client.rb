@@ -51,6 +51,10 @@ class Client
     client_repo.update_contents_liked(self)
   end
 
+  def add_liked_content(content)
+    @contents_liked << content
+  end
+
   def liked_content?(content)
     @contents_liked.include?(content)
   end
