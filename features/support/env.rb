@@ -17,7 +17,17 @@ else
 end
 
 def header
-  {'Content-Type' => 'application/json'}
+  {
+    'Content-Type' => 'application/json',
+    'Authorization' => ENV['WEBAPI_API_KEY']
+  }
+end
+
+def header_with_api_key(api_key)
+  {
+    'Content-Type' => 'application/json',
+    'HTTP_AUTHORIZATION' => api_key
+  }
 end
 
 def find_user_url(user_id)
@@ -100,6 +110,10 @@ def test_weather_url
   "#{BASE_URL}/weather"
 end
 
+def test_api_key_url
+  "#{BASE_URL}/api_key"
+end
+
 def weather_suggestion_url
   "#{BASE_URL}/weather_suggestion"
 end
@@ -108,6 +122,10 @@ def seen_this_week_url
   "#{BASE_URL}/seen_this_week"
 end
 
+def alive_url
+  "#{BASE_URL}/"
+end
+
 After do |_scenario|
-  Faraday.post(reset_url)
+  Faraday.post(reset_url, nil, header_with_api_key(@@api_key_provider.api_key))
 end

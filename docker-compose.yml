@@ -30,6 +30,7 @@ services:
         DEV_DB_URL: "postgres://postgres:example@dev_db:5432/postgres"
         WEATHER_URL: "http://api.openweathermap.org/data/2.5/weather"
         CITY_NAME: "Buenos Aires, AR"
+        WEBAPI_API_KEY: "af5876e4-2b63-4f98-a903-807187ffe2d2"
     depends_on:
       - test_db
       - dev_db

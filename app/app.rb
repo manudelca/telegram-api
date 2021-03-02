@@ -2,11 +2,23 @@ require 'dotenv/load'
 
 @@weather = WeatherProvider.new # rubocop:disable Style/ClassVars
 @@date_provider = DateProvider.new # rubocop:disable Style/ClassVars
+@@api_key_provider = ApiKeyProvider.new # rubocop:disable Style/ClassVars
 
 module WebTemplate
   class App < Padrino::Application
     register Padrino::Mailer
     register Padrino::Helpers
+
+    before do
+      unless request.env['HTTP_AUTHORIZATION'] == @@api_key_provider.api_key ||
+             (request.env['Authorization'] == @@api_key_provider.api_key && ENV['RACK_ENV'] == 'test') ||
+             request.env['PATH_INFO'] == '/api_key' ||
+             request.env['PATH_INFO'] == '/health/version'
+        halt 401,
+             {'Content-Type' => 'application/json'},
+             { message: 'Not authorized Error'}.to_json
+      end
+    end
 
     get '/' do
       "It\'s alive! version: #{Version.current}"
@@ -18,6 +30,7 @@ module WebTemplate
         content_repo.delete_all
         genre_repo.delete_all
         @@date_provider.clean_now_date
+        @@api_key_provider.clean_api_key
         @@weather.clean_weather
 
         status 200
@@ -31,6 +44,14 @@ module WebTemplate
     post '/date' do
       input = JSON.parse(request.body.read)
       @@date_provider.define_now_date(Time.parse(input['date']))
+
+      status 200
+      {message: 'ok'}.to_json
+    end
+
+    post '/api_key' do
+      input = JSON.parse(request.body.read)
+      @@api_key_provider.define_api_key(input['api_key'])
 
       status 200
       {message: 'ok'}.to_json
