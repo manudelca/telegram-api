@@ -36,7 +36,7 @@ Feature: Registration of positive likes
     Then I should receive "Calificación registrada" message
 
     @wip
-    Scenario: US5.5 - Successful registration of positive like of tv show
+    Scenario: US5.5.1 - Successful registration of positive like of tv show
     Given the tv show "The Office", with type "tv_show", with audience "No ATP", duration 30 min, genre "comedy", origin country "USA", director "Ricky Gervais", actors "Steve Carrell" and "Rainn Wilson", release date "2004-01-01", season 1 and episode 1
     Given the tv show "The Office", with type "tv_show", with audience "No ATP", duration 30 min, genre "comedy", origin country "USA", director "Ricky Gervais", actors "Steve Carrell" and "Rainn Wilson", release date "2004-01-01", season 1 and episode 2
     Given the tv show "The Office", with type "tv_show", with audience "No ATP", duration 30 min, genre "comedy", origin country "USA", director "Ricky Gervais", actors "Steve Carrell" and "Rainn Wilson", release date "2004-01-01", season 1 and episode 3
@@ -51,7 +51,7 @@ Feature: Registration of positive likes
     Then I should receive "Calificación registrada" message
 
     @wip
-    Scenario: US5.6 - Registration of positive like of tv show with 2 episodes liked
+    Scenario: US5.5.2 - Registration of positive like of tv show with 2 episodes liked
     Given the tv show "The Office", with type "tv_show", with audience "No ATP", duration 30 min, genre "comedy", origin country "USA", director "Ricky Gervais", actors "Steve Carrell" and "Rainn Wilson", release date "2004-01-01", season 1 and episode 1
     Given the tv show "The Office", with type "tv_show", with audience "No ATP", duration 30 min, genre "comedy", origin country "USA", director "Ricky Gervais", actors "Steve Carrell" and "Rainn Wilson", release date "2004-01-01", season 1 and episode 2
     Given the tv show "The Office", with type "tv_show", with audience "No ATP", duration 30 min, genre "comedy", origin country "USA", director "Ricky Gervais", actors "Steve Carrell" and "Rainn Wilson", release date "2004-01-01", season 1 and episode 3
