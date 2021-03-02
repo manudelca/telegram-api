@@ -27,6 +27,15 @@ Given('the tv show {string}, with type {string}, with audience {string}, duratio
   content = JSON.parse(@response.body)
   @content_detail_id = content['content'].first['tv_show_id']
   @content_like_id = content['content'].first['id']
+  @tv_show_id = content['content'].first['tv_show_id']
+
+  if !@episodes
+    @episodes = {name => {episode => content['content'].first['id']}}
+  elsif !@episodes[name]
+    @episodes[name] = {episode => content['content'].first['id']}
+  else
+    @episodes[name][episode] = content['content'].first['id']
+  end
 end
 
 When('I get the last movie created') do
