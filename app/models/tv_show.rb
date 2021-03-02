@@ -59,4 +59,8 @@ class TvShow < Content
   def as_weather_suggestion
     @output_parser.weather_suggestion_json(self)
   end
+
+  def be_liked_by(client)
+    client.add_liked_content(self)
+  end
 end
