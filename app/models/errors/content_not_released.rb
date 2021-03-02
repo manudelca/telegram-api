@@ -1,0 +1,1 @@
+class ContentNotReleasedError < StandardError; end

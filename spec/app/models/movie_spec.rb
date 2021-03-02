@@ -12,4 +12,8 @@ describe Movie do
   it 'movie is listable' do
     expect(movie.is_listable).to eq(true)
   end
+
+  it 'movie tells if it was released' do
+    expect(movie.was_released?('2021-01-01')).to eq(true)
+  end
 end

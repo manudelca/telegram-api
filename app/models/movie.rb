@@ -28,6 +28,10 @@ class Movie < FullContent
     @output_parser.full_json(self)
   end
 
+  def was_released?(date)
+    date >= @release_date
+  end
+
   def details
     @output_parser.details_json(self)
   end
