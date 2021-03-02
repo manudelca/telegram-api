@@ -11,4 +11,15 @@ describe Episode do
   it 'episode is not listable' do
     expect(episode.is_listable).to eq(false)
   end
+
+  it 'episode can be liked if it was seen by the client' do
+    client = Client.new('juan@test.com', 123)
+    today = Time.parse('2021-01-02')
+    client_repository = instance_double('Persistence::Repositories::ClientRepo')
+    allow(client_repository).to receive(:update_contents_seen).and_return(nil)
+    client.sees_content(episode, today, client_repository)
+    episode.be_liked_by(client)
+
+    expect(client.liked_content?(episode)).to eq(true)
+  end
 end

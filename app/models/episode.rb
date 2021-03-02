@@ -41,4 +41,8 @@ class Episode < Content
   def as_weather_suggestion
     as_release
   end
+
+  def be_liked_by(client)
+    client.add_liked_content(self)
+  end
 end
