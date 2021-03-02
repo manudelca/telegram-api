@@ -80,7 +80,7 @@ WebTemplate::App.controllers :clients do
     end
   end
 
-  post :update, :map => '/like' do
+  post :update, :map => '/like' do # rubocop:disable Metrics/BlockLength
     begin
       client = client_repo.find_by_telegram_user_id(client_params[:telegram_user_id])
       content = content_repo.find(client_params[:content_id])
@@ -106,6 +106,11 @@ WebTemplate::App.controllers :clients do
       status 404
       {
         :message => 'Error: contenido no visto'
+      }.to_json
+    rescue NotEnoughEpisodesLikedError
+      status 404
+      {
+        :message => 'No puede calificar este contenido aún'
       }.to_json
     end
   end
