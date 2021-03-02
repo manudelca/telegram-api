@@ -42,7 +42,7 @@ describe Client do
       expect { client.sees_content(new_tv_show, seen_date, repository) }.to raise_error(NotViewableContentError)
     end
 
-    xit 'should not be able to mark content as seen if it is not released' do
+    it 'should not be able to mark content as seen if it is not released' do
       genre = Genre.new('Comedy')
       id = 0
       tv_show = TvShow.new('Titanic: La serie', 'ATP', 190, genre, 'USA', 'James Cameron', 'Leonardo Di Caprio', 'Kate', id)
