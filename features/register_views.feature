@@ -25,3 +25,11 @@ Feature: Register user views
     Given the user "john@test.com" is registered
     When I marked the episode 1 of tv show "The Office" for "john@test.com"
     Then I should get "Visto registrado exitosamente"
+
+    @wip
+    Scenario: US13 - Shouldn't be able to mark as seen content not released
+    Given today is "2021-02-03"
+    Given the episode  the tv show "The Office", with audience "No ATP", duration 20 min, genre "comedy", origin country "USA", director "Ricky Gervais", actors "Steve Carrell" and "Rainn Wilson", seasons 7 and episodes 200 and release date '2021-02-05' is available
+    Given the user "john@test.com" is registered
+    When I marked the episode 1 of tv show "The Office" for "john@test.com"
+    Then I should get "Error: no se puede registrar como visto contenido no estrenado"
