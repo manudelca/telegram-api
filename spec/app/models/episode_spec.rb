@@ -22,4 +22,10 @@ describe Episode do
 
     expect(client.liked_content?(episode)).to eq(true)
   end
+
+  it 'episode should raise error if liked and not seen by the client' do
+    client = Client.new('juan@test.com', 123)
+
+    expect { episode.be_liked_by(client) }.to raise_error(ContentNotSeenError)
+  end
 end
