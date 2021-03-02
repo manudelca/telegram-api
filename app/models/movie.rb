@@ -62,6 +62,8 @@ class Movie < Content
   end
 
   def be_liked_by(client)
+    raise ContentNotSeenError unless client.saw_content?(self)
+
     client.add_liked_content(self)
   end
 end

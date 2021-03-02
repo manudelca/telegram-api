@@ -23,4 +23,10 @@ describe Movie do
 
     expect(client.liked_content?(movie)).to eq(true)
   end
+
+  it 'movie should raise error if liked and not seen by the client' do
+    client = Client.new('juan@test.com', 123)
+
+    expect { movie.be_liked_by(client) }.to raise_error(ContentNotSeenError)
+  end
 end
