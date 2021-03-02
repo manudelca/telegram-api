@@ -60,4 +60,8 @@ class Movie < Content
   def can_be_a_weather_suggestion
     true
   end
+
+  def be_liked_by(client)
+    client.add_liked_content(self)
+  end
 end
