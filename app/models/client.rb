@@ -45,9 +45,7 @@ class Client
   end
 
   def likes(content, client_repo)
-    raise ContentNotSeenError unless saw_content?(content)
-
-    @contents_liked << content
+    content.be_liked_by(self)
     client_repo.update_contents_liked(self)
   end
 
