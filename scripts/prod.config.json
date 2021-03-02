@@ -1,7 +1,8 @@
 {
-"LOG_LEVEL":"info",
-"LOG_STREAM":"stdout",
-"ENABLE_RESET": "false",
-"WEATHER_URL": "http://api.openweathermap.org/data/2.5/weather",
-"CITY_NAME": "Buenos Aires, AR"
+  "LOG_LEVEL":"info",
+  "LOG_STREAM":"stdout",
+  "ENABLE_RESET": "false",
+  "WEATHER_URL": "http://api.openweathermap.org/data/2.5/weather",
+  "CITY_NAME": "Buenos Aires, AR",
+  "WEBAPI_API_KEY": "aaa57ad9-e930-455a-b798-7f325e1eb9a6"
 }

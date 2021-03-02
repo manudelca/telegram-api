@@ -3,6 +3,7 @@ Feature: Security with API_KEY
     As a streaming platform user
     I want to be able to use an API_KEY
 
+    @wip
     Scenario: US11.1 - Valid API_KEY
     Given the api key is "API_KEY"
     When I make a request with the api key "API_KEY"

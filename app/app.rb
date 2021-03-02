@@ -10,7 +10,9 @@ module WebTemplate
     register Padrino::Helpers
 
     before do
-      unless request.env['HTTP_AUTHORIZATION'] == @@api_key_provider.api_key || request.env['PATH_INFO'] == '/api_key'
+      unless ENV['RACK_ENV'] == 'test' ||
+             request.env['HTTP_AUTHORIZATION'] == @@api_key_provider.api_key ||
+             request.env['PATH_INFO'] == '/api_key'
         halt 401,
              {'Content-Type' => 'application/json'},
              { message: 'Not authorized Error'}.to_json
