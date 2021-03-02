@@ -13,7 +13,7 @@ describe View do
     expect(view.date).to eq(date)
   end
 
-  xit 'should raise an error when a content not released is passed' do
+  it 'should raise an error when a content not released is passed' do
     client = Client.new('juan@test.com', 'juan')
     genre = Genre.new('Drama')
     movie_id = 0
