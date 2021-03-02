@@ -1,3 +1,6 @@
+require 'dotenv/load'
+
+@@weather = WeatherProvider.new # rubocop:disable Style/ClassVars
 @@date_provider = DateProvider.new # rubocop:disable Style/ClassVars
 @@api_key_provider = ApiKeyProvider.new # rubocop:disable Style/ClassVars
 
@@ -25,6 +28,7 @@ module WebTemplate
         genre_repo.delete_all
         @@date_provider.clean_now_date
         @@api_key_provider.clean_api_key
+        @@weather.clean_weather
 
         status 200
         {message: 'reset ok'}.to_json
@@ -45,6 +49,14 @@ module WebTemplate
     post '/api_key' do
       input = JSON.parse(request.body.read)
       @@api_key_provider.define_api_key(input['api_key'])
+
+      status 200
+      {message: 'ok'}.to_json
+    end
+
+    post '/weather' do
+      input = JSON.parse(request.body.read)
+      @@weather.define_weather(input['weather'])
 
       status 200
       {message: 'ok'}.to_json

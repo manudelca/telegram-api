@@ -6,6 +6,17 @@ module Persistence
         content_relation.one
       end
 
+      def find_by_genre_name(genre_name)
+        genre = genre_repo.find_by_genre_name(genre_name)
+        return [] if genre.nil?
+
+        contents_relation = (contents.combine(:genres)
+                                     .where(genre_id: genre.id) >> content_mapper)
+        contents = []
+        contents_relation.each { |content| contents << content }
+        contents
+      end
+
       def find_before_date_and_first_newer(date)
         contents_relation = (contents.combine(:genres)
                                      .where { release_date < date }
@@ -32,6 +43,10 @@ module Persistence
 
       def content_mapper
         Persistence::Mappers::ContentMapper.new
+      end
+
+      def genre_repo
+        Persistence::Repositories::GenreRepo.new(DB)
       end
     end
   end

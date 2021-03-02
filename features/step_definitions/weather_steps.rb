@@ -5,6 +5,7 @@ Given('the weather is {string}') do |string|
   expect(answer['message']).to eq('ok')
 end
 
-Given('I request a content sugestion') do
-  pending # Write code here that turns the phrase above into concrete actions
+Given('I request a content weather suggestion') do
+  @response = Faraday.get(weather_suggestion_url)
+  @content = JSON.parse(@response.body)
 end

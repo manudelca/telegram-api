@@ -29,6 +29,8 @@ gem 'rom-sql'
 # Padrino Stable Gem
 gem 'padrino', '0.15.0'
 
+gem 'dotenv'
+
 # Or Padrino Edge
 # gem 'padrino', :github => 'padrino/padrino-framework'
 

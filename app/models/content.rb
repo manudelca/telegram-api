@@ -1,7 +1,10 @@
 class Content
   MAX_RELEASES_COUNT = 3
+  MAX_WEATHER_SUGGESTIONS_COUNT = 3
 
   attr_accessor :id
+
+  WEATHER_TO_GENRE = {'Clear' => 'comedia', 'Clouds' => 'accion'}.freeze
 
   def initialize(id = nil)
     @id = id
@@ -16,6 +19,17 @@ class Content
                 .select(&:can_be_a_release).first(MAX_RELEASES_COUNT)
   end
 
+  def self.weather_suggestions(content_repo, weather, date)
+    return releases(content_repo, date) unless WEATHER_TO_GENRE.key?(weather)
+
+    contents = content_repo.find_by_genre_name(WEATHER_TO_GENRE[weather])
+                           .select(&:can_be_a_weather_suggestion).first(MAX_WEATHER_SUGGESTIONS_COUNT)
+
+    return releases(content_repo, date) if contents.empty?
+
+    contents
+  end
+
   def is_viewable
     raise ShoulBeImplementedInDerivedClassesError
   end
@@ -25,6 +39,10 @@ class Content
   end
 
   def can_be_a_release
+    raise ShoulBeImplementedInDerivedClassesError
+  end
+
+  def can_be_a_weather_suggestion
     raise ShoulBeImplementedInDerivedClassesError
   end
 end

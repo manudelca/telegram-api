@@ -13,7 +13,7 @@ module Persistence
       def find_or_create(tv_show)
         contents_relation = contents.where(name: tv_show.name, director: tv_show.director,
                                            first_actor: tv_show.first_actor, second_actor: tv_show.second_actor,
-                                           type: 'tv_show').combine(:genres) # esta bien esto o es un abuso de notacion?
+                                           type: 'tv_show').combine(:genres)
         tv_show_searched = (contents_relation >> tv_show_mapper).first
         return create_content(tv_show) if tv_show_searched.nil?
 
@@ -23,18 +23,6 @@ module Persistence
       def find(id)
         contents_relation = (contents.combine(:genres).by_pk(id) >> tv_show_mapper)
         contents_relation.one
-      end
-
-      def find_releases_without_future_ones(how_many, now_date)
-        (contents.combine(:genres)
-                                     .where(type: 'tv_show').where { release_date < now_date }
-                                     .order { release_date.desc }.limit(how_many) >> tv_show_mapper)
-      end
-
-      def find_releases_with_future_ones(how_many, now_date)
-        (contents.combine(:genres)
-                 .where(type: 'tv_show').where { release_date > now_date }
-                 .order { release_date.desc }.limit(how_many) >> tv_show_mapper)
       end
 
       def update_tv_show(tv_show)

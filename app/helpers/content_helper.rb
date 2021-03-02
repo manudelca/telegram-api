@@ -2,76 +2,8 @@
 module WebTemplate
   class App
     module ContentHelper
-      def create_content_and_get_json(content_type, content_params)
-        dic_content_repo = {
-          'movie' => method(:save_movie),
-          'tv_show' => method(:save_tv_show)
-        }
-        dic_content_repo[content_type][content_params]
-      end
-
-      def save_movie(content_params)
-        genre = genre_repo.find_by_genre_name(content_params['genre'])
-        # Hay que definir que pasa si no lo encuentra...
-
-        movie = Movie.new(content_params['name'],
-                          content_params['audience'],
-                          content_params['duration_minutes'],
-                          genre,
-                          content_params['country'],
-                          content_params['director'],
-                          content_params['release_date'],
-                          content_params['first_actor'],
-                          content_params['second_actor'])
-        new_movie = movie_repo.create_content(movie)
-        new_movie.full_details
-      end
-
       def movie_repo
         Persistence::Repositories::MovieRepo.new(DB)
-      end
-
-      def save_tv_show(content_params) # rubocop:disable Metrics/AbcSize
-        genre = genre_repo.find_by_genre_name(content_params['genre'])
-        # Hay que definir que pasa si no lo encuentra...
-
-        tv_show = TvShow.new(content_params['name'],
-                             content_params['audience'],
-                             content_params['duration_minutes'],
-                             genre,
-                             content_params['country'],
-                             content_params['director'],
-                             content_params['first_actor'],
-                             content_params['second_actor'])
-        new_tv_show = tv_show_repo.find_or_create(tv_show)
-
-        # save episode
-        episode = Episode.new(content_params['episode_number'], content_params['season_number'],
-                              content_params['release_date'])
-        episode.tv_show = new_tv_show
-        new_episode = episodes_repo.create_episode(episode)
-
-        new_tv_show.full_details(new_episode)
-      end
-
-      def find_releases_without_future(now_date)
-        movie_releases = movie_repo.find_releases_without_future_ones(query_content_quantity, now_date)
-        tv_show_releases = tv_show_repo.find_releases_without_future_ones(query_content_quantity, now_date)
-
-        releases = []
-        releases += movie_releases unless movie_releases.nil?
-        releases += tv_show_releases unless tv_show_releases.nil?
-        releases
-      end
-
-      def find_releases_with_future(now_date)
-        movie_releases = movie_repo.find_releases_with_future_ones(query_content_quantity, now_date)
-        tv_show_releases = tv_show_repo.find_releases_with_future_ones(query_content_quantity, now_date)
-
-        releases = []
-        releases += movie_releases unless movie_releases.nil?
-        releases += tv_show_releases unless tv_show_releases.nil?
-        releases
       end
 
       def tv_show_repo
@@ -85,10 +17,6 @@ module WebTemplate
       def content_params
         @body ||= request.body.read
         JSON.parse(@body).symbolize_keys
-      end
-
-      def query_content_quantity
-        3
       end
     end
 

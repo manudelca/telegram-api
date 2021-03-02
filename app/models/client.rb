@@ -68,9 +68,9 @@ class Client
     seven_days = 7 * 24 * 60 * 60
     this_week = []
     @contents_seen.each do |view|
-      this_week.append(view) if view.date > today - seven_days && @contents_liked.none? { |content| content.id == view.content.id }
+      seen_this_week = view.date > today - seven_days && view.date <= today
+      this_week.append(view) if seen_this_week && @contents_liked.none? { |content| content.id == view.content.id }
     end
-    this_week.uniq { |view| view.content.id }
     this_week
   end
 

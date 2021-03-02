@@ -32,4 +32,21 @@ class TvShowOutputParser
       episodes: tv_show.number_of_episodes
     }
   end
+
+  def standard_suggestion_json(tv_show)
+    {
+      id: tv_show.id,
+      name: tv_show.name,
+      genre: tv_show.genre.name,
+      director: tv_show.director,
+      first_actor: tv_show.first_actor,
+      second_actor: tv_show.second_actor,
+      seasons: tv_show.number_of_seasons,
+      episodes: tv_show.number_of_episodes
+    }
+  end
+
+  def weather_suggestion_json(tv_show)
+    standard_suggestion_json(tv_show)
+  end
 end

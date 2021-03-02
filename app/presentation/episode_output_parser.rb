@@ -11,7 +11,7 @@ class EpisodeOutputParser
     }
   end
 
-  def release_json(episode)
+  def standard_suggestion_json(episode)
     tv_show = episode.tv_show
     {
       id: tv_show.id,
@@ -23,5 +23,9 @@ class EpisodeOutputParser
       season_number: episode.season_number,
       release_date: episode.release_date
     }
+  end
+
+  def release_json(episode)
+    standard_suggestion_json(episode)
   end
 end

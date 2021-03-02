@@ -18,5 +18,7 @@ services:
         PORT: "3000"
         RACK_ENV: "production"
         DATABASE_URL: "postgres://postgres:example@db:5432/postgres"
+        WEATHER_URL: "http://api.openweathermap.org/data/2.5/weather"
+        CITY_NAME: "Buenos Aires, AR"
     depends_on:
       - db
