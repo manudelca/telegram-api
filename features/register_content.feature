@@ -23,16 +23,15 @@ Feature: Register content
     When I register the movies "Titanic", with type "movie", with audience "ATP", duration 205 min, genre "drama", origin country "USA Jr", director "James Cameron Jr", actors "Kate Winslet Jr" and "Leonardo Dicaprio Jr", without release date
     Then I should receive "Error: falta la fecha de estreno en uno de tus contenidos" message
 
-    @wip
     Scenario: Register tv show without seasons
     Given I register the genre "comedy"
-    When I register the tv show "The Office", with type "tv_show", with audience "No ATP", genre "comedy", origin country "USA", director "Ricky Gervais", actors "Steve Carrell" and "Rainn Wilson", without seasons and episodes 200, release date "2021-01-01"
-    Then I should receive "Error: falta la cantidad de temporadas en uno de tus contenidos"
+    When I register the episode "The Office", with type "tv_show", with audience "No ATP", duration 30 min,  genre "comedy", origin country "USA", director "Ricky Gervais", actors "Steve Carrell" and "Rainn Wilson", without season and episode 3, release date "2021-01-01"
+    Then I should receive "Error: falta el numero de temporada en uno de tus contenidos" message
 
     @wip
     Scenario: Register tv show without episodes
     Given I register the genre "comedy"
-    When I register the tv show "The Office", with type "tv_show", with audience "No ATP", genre "comedy", origin country "USA", director "Ricky Gervais", actors "Steve Carrell" and "Rainn Wilson", seasons 7 and without episodes, release date "2021-01-01"
+    When I register the tv show "The Office", with type "tv_show", with audience "No ATP", duration 30 min, genre "comedy", origin country "USA", director "Ricky Gervais", actors "Steve Carrell" and "Rainn Wilson", seasons 7 and without episodes, release date "2021-01-01"
     Then I should receive "Error: falta la cantidad de episodios en uno de tus contenidos"
 
     @wip

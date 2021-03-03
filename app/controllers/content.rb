@@ -69,6 +69,11 @@ WebTemplate::App.controllers :content, :provides => [:json] do
       {
         :message => 'Error: falta la fecha de estreno en uno de tus contenidos'
       }.to_json
+    rescue MissingSeasonNumberError
+      status 400
+      {
+        :message => 'Error: falta el numero de temporada en uno de tus contenidos'
+      }.to_json
     end
   end
 
