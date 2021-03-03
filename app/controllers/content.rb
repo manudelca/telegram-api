@@ -5,6 +5,12 @@ WebTemplate::App.controllers :content, :provides => [:json] do
       tv_shows = []
 
       content_params[:content].each do |content| # rubocop:disable Metrics/BlockLength
+        # No se nos ocurrio otra forma de hacer este raise porque
+        # tambien tenemos el caso en que no se encuentra el genero (GenreNotFound)
+        # si queremos hacerlo dentro del objeto contenido seria sobre el
+        # mismo chequeo que es genre.nil?
+        raise MissingGenreError if content['genre'].nil?
+
         genre = genre_repo.find_by_genre_name(content['genre'])
         case content['type']
         when 'movie'
@@ -78,6 +84,11 @@ WebTemplate::App.controllers :content, :provides => [:json] do
       status 400
       {
         :message => 'Error: falta el numero de episodio en uno de tus contenidos'
+      }.to_json
+    rescue MissingGenreError
+      status 400
+      {
+        :message => 'Error: falta el genero en uno de tus contenidos'
       }.to_json
     end
   end

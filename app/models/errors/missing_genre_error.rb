@@ -1,0 +1,1 @@
+class MissingGenreError < StandardError; end
