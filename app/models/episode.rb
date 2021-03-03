@@ -9,6 +9,7 @@ class Episode < Content
                  output_parser = EpisodeOutputParser.new)
     raise MissingReleaseDateError if release_date.nil?
     raise MissingSeasonNumberError if season_number.nil?
+    raise MissingEpisodeNumberError if number.nil?
 
     super(id)
     @season_number = season_number

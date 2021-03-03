@@ -12,6 +12,10 @@ describe Episode do
     expect { described_class.new(1, nil, Time.parse('2020-01-01'), 1) }.to raise_error(MissingSeasonNumberError)
   end
 
+  it 'cant be created without a episode number' do
+    expect { described_class.new(nil, 1, Time.parse('2020-01-01'), 1) }.to raise_error(MissingEpisodeNumberError)
+  end
+
   it 'episode is viewable' do
     expect(episode.is_viewable).to eq(true)
   end

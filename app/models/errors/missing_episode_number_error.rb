@@ -1,0 +1,1 @@
+class MissingEpisodeNumberError < StandardError; end

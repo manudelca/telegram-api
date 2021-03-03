@@ -32,13 +32,13 @@ Feature: Register content
     Scenario: Register tv show without episodes
     Given I register the genre "comedy"
     When I register the tv show "The Office", with type "tv_show", with audience "No ATP", duration 30 min, genre "comedy", origin country "USA", director "Ricky Gervais", actors "Steve Carrell" and "Rainn Wilson", seasons 7 and without episodes, release date "2021-01-01"
-    Then I should receive "Error: falta la cantidad de episodios en uno de tus contenidos"
+    Then I should receive "Error: falta el numero de episodio en uno de tus contenidos" message
 
     @wip
     Scenario: Register content without genre
     Given I register the genre "comedy"
     When I register the movies "Titanic", with type "movie", with audience "ATP", duration 195 min, without genre, origin country "USA", director "James Cameron", actors "Kate Winslet" and "Leonardo Dicaprio", release date "2021-01-01"
-    Then I should receive "Error: falta la cantidad de episodios en uno de tus contenidos"
+    Then I should receive "Error: falta el genero en uno de tus contenidos" message
 
     @wip
     Scenario: US8.4 - Register an already registered content
