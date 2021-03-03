@@ -41,7 +41,7 @@ WebTemplate::App.controllers :clients do
       {
         :message => 'Visto registrado exitosamente'
       }.to_json
-    rescue ContentNotFound, RepoNotFound, NotViewableContentError
+    rescue ContentNotFound, NotViewableContentError
       status 404
       {
         :message => "Error: el contenido con id #{params[:content_id]} no se encuentra registrado"
@@ -92,7 +92,7 @@ WebTemplate::App.controllers :clients do
       {
         :message => 'Calificación registrada'
       }.to_json
-    rescue ContentNotFound, RepoNotFound
+    rescue ContentNotFound
       status 404
       {
         :message => "Error: El contenido con id #{client_params[:content_id]} no se encuentra registrada"

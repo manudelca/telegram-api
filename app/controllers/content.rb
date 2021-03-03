@@ -73,7 +73,7 @@ WebTemplate::App.controllers :content, :provides => [:json] do
         :message => 'El contenido fue encontrado!',
         :content => content.details
       }.to_json
-    rescue ContentNotFound, RepoNotFound => _e
+    rescue ContentNotFound
       status 404
       {
         :message => 'Error: id no se encuentra en la coleccion'
