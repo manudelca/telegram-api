@@ -13,7 +13,6 @@ Feature: Register content
     When I register the movies "Titanic", with type "movie", with audience "ATP", duration 195 min, genre "drama_unregistered", origin country "USA", director "James Cameron", actors "Kate Winslet" and "Leonardo Dicaprio", release date "2021-01-01" and "Titanic 2", with type "movie", with audience "ATP", duration 205 min, genre "drama", origin country "USA Jr", director "James Cameron Jr", actors "Kate Winslet Jr" and "Leonardo Dicaprio Jr", release date "2021-01-01"
     Then I should receive "Debes agregar el género antes de crear este contenido" message
 
-    @wip
     Scenario: US8.3 - Register content without a name
     Given I register the genre "drama"
     When I register a movie without name, with type "movie", with audience "ATP", duration 205 min, genre "drama", origin country "USA Jr", director "James Cameron Jr", actors "Kate Winslet Jr" and "Leonardo Dicaprio Jr", release date "2021-01-01"

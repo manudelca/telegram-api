@@ -59,6 +59,11 @@ WebTemplate::App.controllers :content, :provides => [:json] do
       {
         :message => 'Debes agregar el género antes de crear este contenido'
       }.to_json
+    rescue MissingNameError
+      status 400
+      {
+        :message => 'Error: falta el nombre de uno de tus contenidos'
+      }.to_json
     end
   end
 
