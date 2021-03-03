@@ -9,8 +9,8 @@ describe Movie do
     expect { described_class.new(nil, 'ATP', 190, genre, 'USA', 'James Cameron', Time.parse('2020-01-01'), 'Leonardo Di Caprio', 'Kate', 1) }.to raise_error(MissingNameError)
   end
 
-  xit 'cant create movie without a release date' do
-    expect { described_class.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', nil, 'Leonardo Di Caprio', 'Kate', 1) }.to raise_error(MissingNameError)
+  it 'cant create movie without a release date' do
+    expect { described_class.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', nil, 'Leonardo Di Caprio', 'Kate', 1) }.to raise_error(MissingReleaseDateError)
   end
 
   it 'movie is viewable' do

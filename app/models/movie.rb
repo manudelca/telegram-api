@@ -14,6 +14,7 @@ class Movie < FullContent
                  id = nil, output_parser = MovieOutputParser.new)
     super(genre, id)
     raise MissingNameError if name.nil?
+    raise MissingReleaseDateError if release_date.nil?
 
     @name = name
     @audience = audience

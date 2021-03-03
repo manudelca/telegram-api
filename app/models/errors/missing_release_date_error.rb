@@ -1,0 +1,1 @@
+class MissingReleaseDateError < StandardError; end
