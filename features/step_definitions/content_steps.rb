@@ -35,3 +35,11 @@ When('I register a movie without name, with type {string}, with audience {string
                          release_date: release_date}]}.to_json
   @response = Faraday.post(create_content_url, @request, header)
 end
+
+When('I register the movies {string}, with type {string}, with audience {string}, duration {int} min, genre {string}, origin country {string}, director {string}, actors {string} and {string}, without release date') do |name, type, audience, duration, genre, country, director, first_actor, second_actor|
+  @request = {content: [{type: type, name: name, audience: audience,
+                         duration_minutes: duration, genre: genre,
+                         country: country, director: director,
+                         first_actor: first_actor, second_actor: second_actor}]}.to_json
+  @response = Faraday.post(create_content_url, @request, header)
+end

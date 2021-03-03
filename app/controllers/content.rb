@@ -64,6 +64,11 @@ WebTemplate::App.controllers :content, :provides => [:json] do
       {
         :message => 'Error: falta el nombre de uno de tus contenidos'
       }.to_json
+    rescue MissingReleaseDateError
+      status 400
+      {
+        :message => 'Error: falta la fecha de estreno en uno de tus contenidos'
+      }.to_json
     end
   end
 

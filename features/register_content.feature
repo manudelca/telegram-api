@@ -18,7 +18,6 @@ Feature: Register content
     When I register a movie without name, with type "movie", with audience "ATP", duration 205 min, genre "drama", origin country "USA Jr", director "James Cameron Jr", actors "Kate Winslet Jr" and "Leonardo Dicaprio Jr", release date "2021-01-01"
     Then I should receive "Error: falta el nombre de uno de tus contenidos" message
 
-    @wip
     Scenario: Register content without release date
     Given I register the genre "drama"
     When I register the movies "Titanic", with type "movie", with audience "ATP", duration 205 min, genre "drama", origin country "USA Jr", director "James Cameron Jr", actors "Kate Winslet Jr" and "Leonardo Dicaprio Jr", without release date
