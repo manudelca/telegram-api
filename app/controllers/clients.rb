@@ -59,7 +59,7 @@ WebTemplate::App.controllers :clients do
     end
   end
 
-  patch :update, :map => '/clients/:telegram_user_id/contents/:content_id/list' do
+  patch :update, :map => '/clients/:telegram_user_id/contents/:content_id/list' do # rubocop:disable Metrics/BlockLength
     begin
       client = client_repo.find_by_telegram_user_id(params[:telegram_user_id])
       raise ClientNotFound if client.nil?
@@ -75,12 +75,17 @@ WebTemplate::App.controllers :clients do
     rescue ContentNotFound, NotListableContentError
       status 404
       {
-        :message => "Error: el contenido con id #{params[:content_id]} no se encuentra registrado"
+        :message => 'Contenido inexistente, no es posible añadirlo a la lista'
       }.to_json
     rescue ClientNotFound
       status 404
       {
         :message => 'Error: el usuario no se encuentra registrado'
+      }.to_json
+    rescue ContentAlreadyListedError
+      status 400
+      {
+        :message => 'Ya has añadido este contenido a tu lista'
       }.to_json
     end
   end
