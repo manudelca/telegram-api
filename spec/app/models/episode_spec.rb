@@ -4,6 +4,10 @@ describe Episode do
   let(:genre) { Genre.new('Drama') }
   let(:episode) { described_class.new(1, 1, Time.parse('2020-01-01'), 1) }
 
+  it 'cant be created if release date is nil' do
+    expect { described_class.new(1, 1, nil, 1) }.to raise_error(MissingReleaseDateError)
+  end
+
   it 'episode is viewable' do
     expect(episode.is_viewable).to eq(true)
   end
