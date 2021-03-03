@@ -42,7 +42,13 @@ class Episode < Content
     as_release
   end
 
+  def be_liked_by(client)
+    raise ContentNotSeenError unless client.saw_content?(self)
+
+    client.add_liked_content(self)
+  end
+
   def was_released?(date)
-    date >= Time.parse(@release_date)
+    date >= @release_date
   end
 end

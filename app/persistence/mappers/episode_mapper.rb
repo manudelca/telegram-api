@@ -18,7 +18,7 @@ module Persistence
 
       def build_episode_from(episode_attributes)
         Episode.new(episode_attributes.episode_number, episode_attributes.season_number,
-                    episode_attributes.release_date, episode_attributes.id)
+                    Time.parse(episode_attributes.release_date), episode_attributes.id)
       end
 
       def tv_show_repo

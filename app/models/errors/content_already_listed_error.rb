@@ -1,0 +1,1 @@
+class ContentAlreadyListedError < StandardError; end

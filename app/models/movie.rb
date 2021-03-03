@@ -29,7 +29,7 @@ class Movie < FullContent
   end
 
   def was_released?(date)
-    date >= Time.parse(@release_date)
+    date >= @release_date
   end
 
   def details
@@ -62,5 +62,11 @@ class Movie < FullContent
 
   def can_be_a_weather_suggestion
     true
+  end
+
+  def be_liked_by(client)
+    raise ContentNotSeenError unless client.saw_content?(self)
+
+    client.add_liked_content(self)
   end
 end

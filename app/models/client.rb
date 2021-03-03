@@ -26,7 +26,7 @@ class Client
 
   def saw_content?(content)
     @contents_seen.each do |view|
-      return true if view.content.id == content.id
+      return true if view.content == content
     end
 
     false
@@ -47,11 +47,14 @@ class Client
   end
 
   def likes(content, client_repo)
-    raise ContentNotSeenError unless saw_content?(content)
     raise ContentAlreadyLikedError if @contents_liked.include?(content)
 
-    @contents_liked << content
+    content.be_liked_by(self)
     client_repo.update_contents_liked(self)
+  end
+
+  def add_liked_content(content)
+    @contents_liked << content
   end
 
   def liked_content?(content)
@@ -60,6 +63,7 @@ class Client
 
   def lists(content, client_repo)
     raise NotListableContentError unless content.is_listable
+    raise ContentAlreadyListedError if @contents_listed.include?(content)
 
     @contents_listed << content
     client_repo.update_contents_listed(self)

@@ -42,7 +42,7 @@ describe Persistence::Repositories::ClientRepo do # rubocop:disable RSpec/FilePa
       client = Client.new('test@test9.com', 456_347)
       repository.create_client(client)
       genre = Genre.new('Drama')
-      movie = Movie.new('Titanic', 'No ATP', 190, genre, 'USA', 'James Cameron', '2021-01-01', 'Kate Winslet', 'Leonardo Dicaprio')
+      movie = Movie.new('Titanic', 'No ATP', 190, genre, 'USA', 'James Cameron', Time.parse('2021-01-01'), 'Kate Winslet', 'Leonardo Dicaprio')
       Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
       movie_created = Persistence::Repositories::MovieRepo.new(DB).create_content(movie)
       date_provider = DateProvider.new
@@ -62,7 +62,7 @@ describe Persistence::Repositories::ClientRepo do # rubocop:disable RSpec/FilePa
       Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
       tv_show = TvShow.new('Titanic', 'ATP', 195, genre, 'USA', 'James Cameron', 'Kate Winslet', 'Leonardo Dicaprio')
       new_tv_show = Persistence::Repositories::TvShowRepo.new(DB).create_content(tv_show)
-      episode = Episode.new(1, 1, '2021-01-01')
+      episode = Episode.new(1, 1, Time.parse('2021-01-01'))
       episode.tv_show = new_tv_show
       new_episode = Persistence::Repositories::EpisodesRepo.new(DB).create_episode(episode)
       date = Time.parse('2021-01-14')
@@ -80,7 +80,7 @@ describe Persistence::Repositories::ClientRepo do # rubocop:disable RSpec/FilePa
       client = Client.new('test@test5.com', 978_567)
       repository.create_client(client)
       genre = Genre.new('Drama')
-      movie = Movie.new('Titanic', 'No ATP', 190, genre, 'USA', 'James Cameron', '2021-01-01', 'Kate Winslet', 'Leonardo Dicaprio')
+      movie = Movie.new('Titanic', 'No ATP', 190, genre, 'USA', 'James Cameron', Time.parse('2021-01-01'), 'Kate Winslet', 'Leonardo Dicaprio')
       Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
       Persistence::Repositories::MovieRepo.new(DB).create_content(movie)
       date = Time.parse('2021-01-14')
@@ -102,7 +102,7 @@ describe Persistence::Repositories::ClientRepo do # rubocop:disable RSpec/FilePa
       Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
       tv_show = TvShow.new('Titanic', 'ATP', 195, genre, 'USA', 'James Cameron', 'Kate Winslet', 'Leonardo Dicaprio')
       new_tv_show = Persistence::Repositories::TvShowRepo.new(DB).create_content(tv_show)
-      episode = Episode.new(1, 1, '2021-01-01')
+      episode = Episode.new(1, 1, Time.parse('2021-01-01'))
       episode.tv_show = new_tv_show
       new_episode = Persistence::Repositories::EpisodesRepo.new(DB).create_episode(episode)
 
@@ -121,7 +121,7 @@ describe Persistence::Repositories::ClientRepo do # rubocop:disable RSpec/FilePa
     client = Client.new('test@test5.com', 978_567)
     repository.create_client(client)
     genre = Genre.new('Drama')
-    movie = Movie.new('Titanic', 'No ATP', 190, genre, 'USA', 'James Cameron', '2021-01-01', 'Kate Winslet', 'Leonardo Dicaprio')
+    movie = Movie.new('Titanic', 'No ATP', 190, genre, 'USA', 'James Cameron', Time.parse('2021-01-01'), 'Kate Winslet', 'Leonardo Dicaprio')
     Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
     Persistence::Repositories::MovieRepo.new(DB).create_content(movie)
     client.lists(movie, repository)

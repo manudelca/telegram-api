@@ -57,4 +57,14 @@ class TvShow < FullContent
   def as_weather_suggestion
     @output_parser.weather_suggestion_json(self)
   end
+
+  def be_liked_by(client)
+    likes = 0
+    @episodes.each do |episode|
+      likes += 1 if client.liked_content?(episode)
+    end
+    raise NotEnoughEpisodesLikedError if likes < 3
+
+    client.add_liked_content(self)
+  end
 end

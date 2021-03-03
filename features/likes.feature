@@ -34,7 +34,6 @@ Feature: Registration of positive likes
     When I positive like content with id 0
     Then I should receive "Calificación registrada" message
 
-    @wip
     Scenario: US5.5.1 - Successful registration of positive like of tv show
     Given the tv show "The Office", with type "tv_show", with audience "No ATP", duration 30 min, genre "comedy", origin country "USA", director "Ricky Gervais", actors "Steve Carrell" and "Rainn Wilson", release date "2004-01-01", season 1 and episode 1
     Given the tv show "The Office", with type "tv_show", with audience "No ATP", duration 30 min, genre "comedy", origin country "USA", director "Ricky Gervais", actors "Steve Carrell" and "Rainn Wilson", release date "2004-01-01", season 1 and episode 2
@@ -49,7 +48,6 @@ Feature: Registration of positive likes
     When I positive like "The Office"
     Then I should receive "Calificación registrada" message
 
-    @wip
     Scenario: US5.5.2 - Registration of positive like of tv show with 2 episodes liked
     Given the tv show "The Office", with type "tv_show", with audience "No ATP", duration 30 min, genre "comedy", origin country "USA", director "Ricky Gervais", actors "Steve Carrell" and "Rainn Wilson", release date "2004-01-01", season 1 and episode 1
     Given the tv show "The Office", with type "tv_show", with audience "No ATP", duration 30 min, genre "comedy", origin country "USA", director "Ricky Gervais", actors "Steve Carrell" and "Rainn Wilson", release date "2004-01-01", season 1 and episode 2
