@@ -58,6 +58,7 @@ class Client
 
   def lists(content, client_repo)
     raise NotListableContentError unless content.is_listable
+    raise ContentAlreadyListedError if @contents_listed.include?(content)
 
     @contents_listed << content
     client_repo.update_contents_listed(self)

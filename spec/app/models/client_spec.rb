@@ -237,5 +237,17 @@ describe Client do
 
       expect { client.lists(created_episode, repository) }.to raise_error(NotListableContentError)
     end
+
+    it 'should not be able to mark content as listed when already listed' do
+      genre = Genre.new('Drama')
+      movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate')
+      Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
+      Persistence::Repositories::MovieRepo.new(DB).create_content(movie)
+
+      client.lists(movie, repository)
+
+      saved_movie = Persistence::Repositories::ContentRepo.new(DB).find(movie.id)
+      expect { client.lists(saved_movie, repository) }.to raise_error(ContentAlreadyListedError)
+    end
   end
 end
