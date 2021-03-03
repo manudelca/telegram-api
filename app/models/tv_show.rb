@@ -1,21 +1,19 @@
 require_relative '../presentation/tv_show_output_parser'
-require_relative 'content'
+require_relative 'full_content'
 
-class TvShow < Content
+class TvShow < FullContent
   attr_reader :name, :audience, :duration_minutes,
-              :genre, :country, :director,
-              :first_actor, :second_actor
-  attr_accessor :id, :episodes
+              :country, :director, :first_actor, :second_actor
+  attr_accessor :id, :episodes, :genre
 
   def initialize(name, audience, duration_minutes,
                  genre, country, director,
                  first_actor, second_actor = nil, id = nil,
                  output_parser = TvShowOutputParser.new)
-    super(id)
+    super(genre, id)
     @name = name
     @audience = audience
     @duration_minutes = duration_minutes
-    @genre = genre
     @country = country
     @director = director
     @first_actor = first_actor

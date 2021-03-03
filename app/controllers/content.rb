@@ -1,15 +1,65 @@
 WebTemplate::App.controllers :content, :provides => [:json] do
-  post :create, :map => '/content' do
-    content_created = []
-    content_params[:content].each do |content|
-      content_created << create_content_and_get_json(content['type'], content)
-    end
+  post :create, :map => '/content' do # rubocop:disable Metrics/BlockLength
+    begin
+      movies = []
+      tv_shows = []
 
-    status 201
-    {
-      :message => 'El contenido fue registrado exitosamente!',
-      :content => content_created
-    }.to_json
+      content_params[:content].each do |content| # rubocop:disable Metrics/BlockLength
+        genre = genre_repo.find_by_genre_name(content['genre'])
+        case content['type']
+        when 'movie'
+          movie = Movie.new(content['name'],
+                            content['audience'],
+                            content['duration_minutes'],
+                            genre,
+                            content['country'],
+                            content['director'],
+                            content['release_date'],
+                            content['first_actor'],
+                            content['second_actor'])
+          movies << movie
+        when 'tv_show'
+          tv_show = TvShow.new(content['name'],
+                               content['audience'],
+                               content['duration_minutes'],
+                               genre,
+                               content['country'],
+                               content['director'],
+                               content['first_actor'],
+                               content['second_actor'])
+
+          episode = Episode.new(content['episode_number'],
+                                content['season_number'],
+                                content['release_date'])
+          tv_show.episodes << episode
+          tv_shows << tv_show
+        end
+      end
+
+      content_created = []
+      movies.each do |movie|
+        new_movie = movie_repo.create_content(movie)
+        content_created << new_movie.full_details
+      end
+      tv_shows.each do |tv_show|
+        new_tv_show = tv_show_repo.find_or_create(tv_show)
+        episode = tv_show.episodes.first
+        episode.tv_show = new_tv_show
+        new_episode = episodes_repo.create_episode(episode)
+        content_created << new_tv_show.full_details(new_episode)
+      end
+
+      status 201
+      {
+        :message => 'El contenido fue registrado exitosamente!',
+        :content => content_created
+      }.to_json
+    rescue GenreNotFound
+      status 400
+      {
+        :message => 'Debes agregar el género antes de crear este contenido'
+      }.to_json
+    end
   end
 
   get :show, :map => '/content', :with => :id do
@@ -23,7 +73,7 @@ WebTemplate::App.controllers :content, :provides => [:json] do
         :message => 'El contenido fue encontrado!',
         :content => content.details
       }.to_json
-    rescue ContentNotFound, RepoNotFound => _e
+    rescue ContentNotFound
       status 404
       {
         :message => 'Error: id no se encuentra en la coleccion'

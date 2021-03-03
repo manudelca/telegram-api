@@ -25,18 +25,6 @@ module Persistence
         contents_relation.one
       end
 
-      def find_releases_without_future_ones(how_many, now_date)
-        (contents.combine(:genres)
-                                     .where(type: 'tv_show').where { release_date < now_date }
-                                     .order { release_date.desc }.limit(how_many) >> tv_show_mapper)
-      end
-
-      def find_releases_with_future_ones(how_many, now_date)
-        (contents.combine(:genres)
-                 .where(type: 'tv_show').where { release_date > now_date }
-                 .order { release_date.desc }.limit(how_many) >> tv_show_mapper)
-      end
-
       def update_tv_show(tv_show)
         update(tv_show.id, tv_show_changeset(tv_show))
 

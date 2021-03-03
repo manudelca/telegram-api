@@ -47,9 +47,9 @@ describe TvShow do
     season_number3 = 3
     release_date = Time.parse('2021-01-01')
     episodes = []
-    episodes << Episode.new(1, season_number1, release_date, tv_show_id)
-    episodes << Episode.new(1, season_number2, release_date, tv_show_id)
-    episodes << Episode.new(1, season_number3, release_date, tv_show_id)
+    episodes << Episode.new(1, season_number1, release_date, 1)
+    episodes << Episode.new(1, season_number2, release_date, 2)
+    episodes << Episode.new(1, season_number3, release_date, 3)
     tv_show.episodes = episodes
 
     expect(tv_show.number_of_episodes).to eq(3)
@@ -84,9 +84,9 @@ describe TvShow do
     season_number3 = 3
     release_date = Time.parse('2021-01-01')
     episodes = []
-    episodes << Episode.new(1, season_number1, release_date, tv_show_id)
-    episodes << Episode.new(1, season_number2, release_date, tv_show_id)
-    episodes << Episode.new(1, season_number3, release_date, tv_show_id)
+    episodes << Episode.new(1, season_number1, release_date, 1)
+    episodes << Episode.new(1, season_number2, release_date, 2)
+    episodes << Episode.new(1, season_number3, release_date, 3)
     tv_show.episodes = episodes
     client_repository = instance_double('Persistence::Repositories::ClientRepo')
     allow(client_repository).to receive(:update_contents_seen).and_return(nil)
@@ -112,8 +112,8 @@ describe TvShow do
     season_number2 = 2
     release_date = Time.parse('2021-01-01')
     episodes = []
-    episodes << Episode.new(1, season_number1, release_date, tv_show_id)
-    episodes << Episode.new(1, season_number2, release_date, tv_show_id)
+    episodes << Episode.new(1, season_number1, release_date, 1)
+    episodes << Episode.new(1, season_number2, release_date, 2)
     tv_show.episodes = episodes
     client_repository = instance_double('Persistence::Repositories::ClientRepo')
     allow(client_repository).to receive(:update_contents_seen).and_return(nil)

@@ -21,7 +21,7 @@ module Persistence
                   genre,
                   movie_attributes.country,
                   movie_attributes.director,
-                  movie_attributes.release_date,
+                  Time.parse(movie_attributes.release_date),
                   movie_attributes.first_actor,
                   movie_attributes.second_actor,
                   movie_attributes.id)

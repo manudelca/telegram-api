@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'byebug'
 
 describe Client do
   let(:client) { described_class.new('juan@test.com', 123) }
@@ -9,7 +8,7 @@ describe Client do
     it 'should be able to mark movies as seen' do
       genre = Genre.new('Drama')
       movie_id = 0
-      movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2021-01-01', 'Leonardo Di Caprio', 'Kate', movie_id)
+      movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', Time.parse('2021-01-01'), 'Leonardo Di Caprio', 'Kate', movie_id)
       Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
       Persistence::Repositories::MovieRepo.new(DB).create_content(movie)
       today = Time.parse('2021-01-02')
@@ -23,7 +22,7 @@ describe Client do
       id = 0
       tv_show = TvShow.new('Titanic: La serie', 'ATP', 190, genre, 'USA', 'James Cameron', 'Leonardo Di Caprio', 'Kate', id)
       new_tv_show = Persistence::Repositories::TvShowRepo.new(DB).create_content(tv_show)
-      episode = Episode.new(1, 1, '2021-01-01')
+      episode = Episode.new(1, 1, Time.parse('2021-01-01'))
       episode.tv_show = new_tv_show
       Persistence::Repositories::EpisodesRepo.new(DB).create_episode(episode)
       today = Time.parse('2021-01-02')
@@ -41,13 +40,26 @@ describe Client do
 
       expect { client.sees_content(new_tv_show, seen_date, repository) }.to raise_error(NotViewableContentError)
     end
+
+    it 'should not be able to mark content as seen if it is not released' do
+      genre = Genre.new('Comedy')
+      id = 0
+      tv_show = TvShow.new('Titanic: La serie', 'ATP', 190, genre, 'USA', 'James Cameron', 'Leonardo Di Caprio', 'Kate', id)
+      new_tv_show = Persistence::Repositories::TvShowRepo.new(DB).create_content(tv_show)
+      episode = Episode.new(1, 1, Time.parse('2021-01-05'))
+      episode.tv_show = new_tv_show
+      Persistence::Repositories::EpisodesRepo.new(DB).create_episode(episode)
+      today = Time.parse('2021-01-02')
+
+      expect { client.sees_content(episode, today, repository) }.to raise_error(ContentNotReleasedError)
+    end
   end
 
   describe 'likes content' do
     it 'should be able to mark content as liked' do
       genre = Genre.new('Drama')
       movie_id = 0
-      movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', movie_id)
+      movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', Time.parse('2020-01-01'), 'Leonardo Di Caprio', 'Kate', movie_id)
       Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
       Persistence::Repositories::MovieRepo.new(DB).create_content(movie)
       today = Time.parse('2021-01-02')
@@ -60,7 +72,7 @@ describe Client do
     it 'should not be able to mark content not seen as liked' do
       genre = Genre.new('Drama')
       movie_id = 0
-      movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', movie_id)
+      movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', Time.parse('2020-01-01'), 'Leonardo Di Caprio', 'Kate', movie_id)
       Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
       Persistence::Repositories::MovieRepo.new(DB).create_content(movie)
 
@@ -70,7 +82,7 @@ describe Client do
     it 'should add a liked content' do
       genre = Genre.new('Drama')
       movie_id = 0
-      movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', movie_id)
+      movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', Time.parse('2020-01-01'), 'Leonardo Di Caprio', 'Kate', movie_id)
       Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
       Persistence::Repositories::MovieRepo.new(DB).create_content(movie)
       client.add_liked_content(movie)
@@ -78,25 +90,42 @@ describe Client do
       expect(client.liked_content?(movie)).to eq(true)
     end
 
-    it 'should be able to mark tv show as liked' do
+    it 'should be able to mark tv show as liked' do # rubocop:disable RSpec/ExampleLength
       genre = Genre.new('Drama')
       tv_show = TvShow.new('Titanic: La serie', 'ATP', 190, genre, 'USA', 'James Cameron', 'Leonardo Di Caprio', 'Kate')
       new_tv_show = Persistence::Repositories::TvShowRepo.new(DB).create_content(tv_show)
       today = Time.parse('2021-01-02')
       episodes = []
-      episodes << Episode.new(1, 1, today)
-      episodes << Episode.new(2, 1, today)
-      episodes << Episode.new(3, 1, today)
+      episodes << Episode.new(1, 1, today, 1)
+      episodes << Episode.new(2, 1, today, 2)
+      episodes << Episode.new(3, 1, today, 3)
+      client_repository = instance_double('Persistence::Repositories::ClientRepo')
+      allow(client_repository).to receive(:update_contents_seen).and_return(nil)
+      allow(client_repository).to receive(:update_contents_liked).and_return(nil)
       tv_show.episodes = episodes
-      client.sees_content(episodes[0], today, repository)
-      client.sees_content(episodes[1], today, repository)
-      client.sees_content(episodes[2], today, repository)
-      client.likes(episodes[0], repository)
-      client.likes(episodes[1], repository)
-      client.likes(episodes[2], repository)
-      client.likes(new_tv_show, repository)
+      client.sees_content(episodes[0], today, client_repository)
+      client.sees_content(episodes[1], today, client_repository)
+      client.sees_content(episodes[2], today, client_repository)
+      client.likes(episodes[0], client_repository)
+      client.likes(episodes[1], client_repository)
+      client.likes(episodes[2], client_repository)
+      client.likes(new_tv_show, client_repository)
 
       expect(client.liked_content?(new_tv_show)).to eq(true)
+    end
+
+    it 'should not be able to mark content as liked when already liked' do
+      genre = Genre.new('Drama')
+      movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', Time.parse('2020-01-01'), 'Leonardo Di Caprio', 'Kate')
+      Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
+      Persistence::Repositories::MovieRepo.new(DB).create_content(movie)
+
+      today = Time.parse('2021-01-02')
+      client.sees_content(movie, today, repository)
+      client.likes(movie, repository)
+
+      saved_movie = Persistence::Repositories::ContentRepo.new(DB).find(movie.id)
+      expect { client.likes(saved_movie, repository) }.to raise_error(ContentAlreadyLikedError)
     end
   end
 
@@ -112,7 +141,7 @@ describe Client do
     it 'should return movie seen yesterday when asking for content seen this week' do
       genre = Genre.new('Drama')
       movie_id = 0
-      movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', movie_id)
+      movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', Time.parse('2020-01-01'), 'Leonardo Di Caprio', 'Kate', movie_id)
       Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
       Persistence::Repositories::MovieRepo.new(DB).create_content(movie)
       seen_date = Time.parse('2021-01-01')
@@ -125,7 +154,7 @@ describe Client do
     it 'should not return movie seen 8 days ago when asking for content seen this week' do
       genre = Genre.new('Drama')
       movie_id = 0
-      movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', movie_id)
+      movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', Time.parse('2020-01-01'), 'Leonardo Di Caprio', 'Kate', movie_id)
       Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
       Persistence::Repositories::MovieRepo.new(DB).create_content(movie)
       seen_date = Time.parse('2021-01-01')
@@ -138,7 +167,7 @@ describe Client do
     it 'should return movie seen 7 days ago when asking for content seen this week' do
       genre = Genre.new('Drama')
       movie_id = 0
-      movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', movie_id)
+      movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', Time.parse('2020-01-01'), 'Leonardo Di Caprio', 'Kate', movie_id)
       Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
       Persistence::Repositories::MovieRepo.new(DB).create_content(movie)
       seen_date = Time.parse('2021-01-02')
@@ -148,12 +177,13 @@ describe Client do
       expect(client.seen_this_week(today)).to include(movie)
     end
 
-    it 'should return last 3 contents seen this week when asking for content seen this week' do
+    it 'should return last 3 contents seen this week when asking for content seen this week' do # rubocop:disable RSpec/ExampleLength
       genre = Genre.new('Drama')
-      movie1 = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', 0)
-      movie2 = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', 1)
-      movie3 = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', 2)
-      movie4 = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', 3)
+      release_date = Time.parse('2020-01-01')
+      movie1 = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', release_date, 'Leonardo Di Caprio', 'Kate', 0)
+      movie2 = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', release_date, 'Leonardo Di Caprio', 'Kate', 1)
+      movie3 = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', release_date, 'Leonardo Di Caprio', 'Kate', 2)
+      movie4 = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', release_date, 'Leonardo Di Caprio', 'Kate', 3)
       Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
       Persistence::Repositories::MovieRepo.new(DB).create_content(movie1)
       Persistence::Repositories::MovieRepo.new(DB).create_content(movie2)
@@ -173,7 +203,7 @@ describe Client do
 
     it 'should not return liked content this week when asking for content seen this week' do
       genre = Genre.new('Drama')
-      movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', 0)
+      movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', Time.parse('2020-01-01'), 'Leonardo Di Caprio', 'Kate', 0)
       Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
       Persistence::Repositories::MovieRepo.new(DB).create_content(movie)
       seen_date = Time.parse('2021-01-05')
@@ -184,12 +214,13 @@ describe Client do
       expect(client.seen_this_week(today)).not_to include(movie)
     end
 
-    it 'should return last 3 contents seen this week when asking for content seen this week added not in order' do
+    it 'should return last 3 contents seen this week when asking for content seen this week added not in order' do # rubocop:disable RSpec/ExampleLength
       genre = Genre.new('Drama')
-      movie1 = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', 0)
-      movie2 = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', 1)
-      movie3 = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', 2)
-      movie4 = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', 3)
+      release_date = Time.parse('2020-01-01')
+      movie1 = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', release_date, 'Leonardo Di Caprio', 'Kate', 0)
+      movie2 = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', release_date, 'Leonardo Di Caprio', 'Kate', 1)
+      movie3 = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', release_date, 'Leonardo Di Caprio', 'Kate', 2)
+      movie4 = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', release_date, 'Leonardo Di Caprio', 'Kate', 3)
       Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
       Persistence::Repositories::MovieRepo.new(DB).create_content(movie1)
       Persistence::Repositories::MovieRepo.new(DB).create_content(movie2)
@@ -209,7 +240,7 @@ describe Client do
 
     it 'should return last 3 contents seen this week not repeated when asking for content seen this week' do
       genre = Genre.new('Drama')
-      movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', 0)
+      movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', Time.parse('2020-01-01'), 'Leonardo Di Caprio', 'Kate', 0)
       Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
       Persistence::Repositories::MovieRepo.new(DB).create_content(movie)
       seen_date1 = Time.parse('2021-01-02')
@@ -225,7 +256,7 @@ describe Client do
     it 'should be able to mark movies as listed' do
       genre = Genre.new('Drama')
       movie_id = 0
-      movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2021-01-01', 'Leonardo Di Caprio', 'Kate', movie_id)
+      movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', Time.parse('2021-01-01'), 'Leonardo Di Caprio', 'Kate', movie_id)
       Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
       Persistence::Repositories::MovieRepo.new(DB).create_content(movie)
       client.lists(movie, repository)
@@ -237,11 +268,23 @@ describe Client do
       genre = Genre.new('Comedy')
       tv_show = TvShow.new('Titanic: La serie', 'ATP', 190, genre, 'USA', 'James Cameron', 'Leonardo Di Caprio', 'Kate')
       new_tv_show = Persistence::Repositories::TvShowRepo.new(DB).create_content(tv_show)
-      episode = Episode.new(1, 1, '2021-01-01')
+      episode = Episode.new(1, 1, Time.parse('2021-01-01'))
       episode.tv_show = new_tv_show
       created_episode = Persistence::Repositories::EpisodesRepo.new(DB).create_episode(episode)
 
       expect { client.lists(created_episode, repository) }.to raise_error(NotListableContentError)
+    end
+
+    it 'should not be able to mark content as listed when already listed' do
+      genre = Genre.new('Drama')
+      movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', Time.parse('2020-01-01'), 'Leonardo Di Caprio', 'Kate')
+      Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
+      Persistence::Repositories::MovieRepo.new(DB).create_content(movie)
+
+      client.lists(movie, repository)
+
+      saved_movie = Persistence::Repositories::ContentRepo.new(DB).find(movie.id)
+      expect { client.lists(saved_movie, repository) }.to raise_error(ContentAlreadyListedError)
     end
   end
 end

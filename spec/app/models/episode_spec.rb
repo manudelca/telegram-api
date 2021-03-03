@@ -28,4 +28,8 @@ describe Episode do
 
     expect { episode.be_liked_by(client) }.to raise_error(ContentNotSeenError)
   end
+
+  it 'episode tells if it was released' do
+    expect(episode.was_released?(Time.parse('2021-01-01'))).to eq(true)
+  end
 end

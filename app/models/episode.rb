@@ -47,4 +47,8 @@ class Episode < Content
 
     client.add_liked_content(self)
   end
+
+  def was_released?(date)
+    date >= @release_date
+  end
 end

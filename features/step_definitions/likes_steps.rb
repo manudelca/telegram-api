@@ -1,3 +1,4 @@
+require 'byebug'
 Given('I am registered as {string}') do |email|
   @user_id = 999
   @email = email
@@ -6,7 +7,7 @@ Given('I am registered as {string}') do |email|
 end
 
 Given('I saw content with id {int}') do |_int|
-  @response = Faraday.patch(views_url(@email, @content_like_id), header)
+  @response = Faraday.patch(views_url(@email, @content_like_id), nil, header)
 end
 
 Given('I haven\'t liked the content with id {int}') do |int|
@@ -16,7 +17,7 @@ Given("I haven't seen content with id {int}") do |int|
 end
 
 Given('I saw {string} season {int} episode {int}') do |name, _season, episode|
-  @response = Faraday.patch(views_url(@email, @episodes[name][episode]), header)
+  @response = Faraday.patch(views_url(@email, @episodes[name][episode]), nil, header)
 end
 
 Given('I positive liked {string} season {int} episode {int}') do |name, _season, episode|

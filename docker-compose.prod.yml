@@ -20,5 +20,6 @@ services:
         DATABASE_URL: "postgres://postgres:example@db:5432/postgres"
         WEATHER_URL: "http://api.openweathermap.org/data/2.5/weather"
         CITY_NAME: "Buenos Aires, AR"
+        WEBAPI_API_KEY: "aaa57ad9-e930-455a-b798-7f325e1eb9a6"
     depends_on:
       - db

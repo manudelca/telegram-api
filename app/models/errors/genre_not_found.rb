@@ -1,0 +1,1 @@
+class GenreNotFound < StandardError; end

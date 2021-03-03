@@ -45,6 +45,8 @@ class Client
   end
 
   def likes(content, client_repo)
+    raise ContentAlreadyLikedError if @contents_liked.include?(content)
+
     content.be_liked_by(self)
     client_repo.update_contents_liked(self)
   end
@@ -59,6 +61,7 @@ class Client
 
   def lists(content, client_repo)
     raise NotListableContentError unless content.is_listable
+    raise ContentAlreadyListedError if @contents_listed.include?(content)
 
     @contents_listed << content
     client_repo.update_contents_listed(self)
