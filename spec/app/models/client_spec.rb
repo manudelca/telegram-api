@@ -105,6 +105,8 @@ describe Client do
       tv_show = TvShow.new('Titanic: La serie', 'ATP', 190, genre, 'USA', 'James Cameron', 'Leonardo Di Caprio', 'Kate')
       new_tv_show = Persistence::Repositories::TvShowRepo.new(DB).create_content(tv_show)
       today = Time.parse('2021-01-02')
+      date_provider = DateProvider.new
+      date_provider.define_now_date(today)
       episodes = []
       episodes << Episode.new(1, 1, today, 1)
       episodes << Episode.new(2, 1, today, 2)
@@ -113,9 +115,9 @@ describe Client do
       allow(client_repository).to receive(:update_contents_seen).and_return(nil)
       allow(client_repository).to receive(:update_contents_liked).and_return(nil)
       tv_show.episodes = episodes
-      client.sees_content(episodes[0], today, client_repository)
-      client.sees_content(episodes[1], today, client_repository)
-      client.sees_content(episodes[2], today, client_repository)
+      client.sees_content(episodes[0], date_provider, client_repository)
+      client.sees_content(episodes[1], date_provider, client_repository)
+      client.sees_content(episodes[2], date_provider, client_repository)
       client.likes(episodes[0], client_repository)
       client.likes(episodes[1], client_repository)
       client.likes(episodes[2], client_repository)
@@ -243,7 +245,7 @@ describe Client do
       expect(client.seen_this_week(date_provider)).not_to include(movie)
     end
 
-    it 'should return last 3 contents seen this week when asking for content seen this week added not in order' do # rubocop:disable RSpec/ExampleLength
+    it 'should return last 3 contents seen this week when asking for content seen this week added not in order' do # rubocop:disable RSpec/ExampleLength, Metrics/BlockLength
       genre = Genre.new('Drama')
       release_date = Time.parse('2020-01-01')
       movie1 = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', release_date, 'Leonardo Di Caprio', 'Kate', 0)

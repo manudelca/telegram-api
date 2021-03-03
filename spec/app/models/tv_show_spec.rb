@@ -73,7 +73,7 @@ describe TvShow do
     expect(tv_show.is_listable).to eq(true)
   end
 
-  it 'tv_show can be liked if it has 3 liked episodes' do # rubocop:disable RSpec/ExampleLength
+  it 'tv_show can be liked if it has 3 liked episodes' do # rubocop:disable RSpec/ExampleLength, Metrics/BlockLength
     client = Client.new('juan@test.com', 123)
     tv_show_id = 1
     tv_show = described_class.new('The Office', 'No ATP', 190, Genre.new('comedy'),
@@ -83,6 +83,8 @@ describe TvShow do
     season_number2 = 2
     season_number3 = 3
     release_date = Time.parse('2021-01-01')
+    date_provider = DateProvider.new
+    date_provider.define_now_date(release_date)
     episodes = []
     episodes << Episode.new(1, season_number1, release_date, 1)
     episodes << Episode.new(1, season_number2, release_date, 2)
@@ -91,9 +93,9 @@ describe TvShow do
     client_repository = instance_double('Persistence::Repositories::ClientRepo')
     allow(client_repository).to receive(:update_contents_seen).and_return(nil)
     allow(client_repository).to receive(:update_contents_liked).and_return(nil)
-    client.sees_content(episodes[0], release_date, client_repository)
-    client.sees_content(episodes[1], release_date, client_repository)
-    client.sees_content(episodes[2], release_date, client_repository)
+    client.sees_content(episodes[0], date_provider, client_repository)
+    client.sees_content(episodes[1], date_provider, client_repository)
+    client.sees_content(episodes[2], date_provider, client_repository)
     client.likes(episodes[0], client_repository)
     client.likes(episodes[1], client_repository)
     client.likes(episodes[2], client_repository)
@@ -111,6 +113,8 @@ describe TvShow do
     season_number1 = 1
     season_number2 = 2
     release_date = Time.parse('2021-01-01')
+    date_provider = DateProvider.new
+    date_provider.define_now_date(release_date)
     episodes = []
     episodes << Episode.new(1, season_number1, release_date, 1)
     episodes << Episode.new(1, season_number2, release_date, 2)
@@ -118,8 +122,8 @@ describe TvShow do
     client_repository = instance_double('Persistence::Repositories::ClientRepo')
     allow(client_repository).to receive(:update_contents_seen).and_return(nil)
     allow(client_repository).to receive(:update_contents_liked).and_return(nil)
-    client.sees_content(episodes[0], release_date, client_repository)
-    client.sees_content(episodes[1], release_date, client_repository)
+    client.sees_content(episodes[0], date_provider, client_repository)
+    client.sees_content(episodes[1], date_provider, client_repository)
     client.likes(episodes[0], client_repository)
     client.likes(episodes[1], client_repository)
 
