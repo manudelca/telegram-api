@@ -1,0 +1,1 @@
+class MissingSeasonNumberError < StandardError; end

@@ -8,6 +8,7 @@ class Episode < Content
   def initialize(number, season_number, release_date, id = nil,
                  output_parser = EpisodeOutputParser.new)
     raise MissingReleaseDateError if release_date.nil?
+    raise MissingSeasonNumberError if season_number.nil?
 
     super(id)
     @season_number = season_number
