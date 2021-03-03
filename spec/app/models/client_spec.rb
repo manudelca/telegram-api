@@ -78,6 +78,20 @@ describe Client do
 
       expect { client.likes(movie, repository) }.to raise_error(ContentNotSeenError)
     end
+
+    it 'should not be able to mark content as liked when already liked' do
+      genre = Genre.new('Drama')
+      movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate')
+      Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
+      Persistence::Repositories::MovieRepo.new(DB).create_content(movie)
+
+      today = Time.parse('2021-01-02')
+      client.sees_content(movie, today, repository)
+      client.likes(movie, repository)
+
+      saved_movie = Persistence::Repositories::ContentRepo.new(DB).find(movie.id)
+      expect { client.likes(saved_movie, repository) }.to raise_error(ContentAlreadyLikedError)
+    end
   end
 
   describe 'validation' do

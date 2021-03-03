@@ -1,0 +1,1 @@
+class ContentAlreadyLikedError < StandardError; end

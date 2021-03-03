@@ -46,6 +46,7 @@ class Client
 
   def likes(content, client_repo)
     raise ContentNotSeenError unless saw_content?(content)
+    raise ContentAlreadyLikedError if @contents_liked.include?(content)
 
     @contents_liked << content
     client_repo.update_contents_liked(self)

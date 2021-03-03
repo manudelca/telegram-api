@@ -152,4 +152,14 @@ describe Content do
   it 'content is listable should raise error' do
     expect { content.is_listable }.to raise_error(ShoulBeImplementedInDerivedClassesError)
   end
+
+  it 'content wih same id is the same content' do
+    genre = Genre.new('Drama')
+    movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate')
+    Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
+    Persistence::Repositories::MovieRepo.new(DB).create_content(movie)
+
+    saved_movie = Persistence::Repositories::ContentRepo.new(DB).find(movie.id)
+    expect(movie).to eq(saved_movie)
+  end
 end

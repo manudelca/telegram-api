@@ -45,4 +45,8 @@ class Content
   def can_be_a_weather_suggestion
     raise ShoulBeImplementedInDerivedClassesError
   end
+
+  def ==(other)
+    id == other.id
+  end
 end
