@@ -1,0 +1,1 @@
+class MissingNameError < StandardError; end

@@ -13,6 +13,8 @@ class Movie < FullContent
                  release_date, first_actor, second_actor = nil,
                  id = nil, output_parser = MovieOutputParser.new)
     super(genre, id)
+    raise MissingNameError if name.nil?
+
     @name = name
     @audience = audience
     @duration_minutes = duration_minutes
