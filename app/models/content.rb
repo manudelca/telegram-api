@@ -10,7 +10,8 @@ class Content
     @id = id
   end
 
-  def self.releases(content_repo, now_date)
+  def self.releases(content_repo, date_provider)
+    now_date = date_provider.now
     releases_before_now = content_repo.find_before_date_and_first_newer(now_date)
                                       .select(&:can_be_a_release).first(MAX_RELEASES_COUNT)
     return releases_before_now unless releases_before_now.empty?
@@ -19,13 +20,13 @@ class Content
                 .select(&:can_be_a_release).first(MAX_RELEASES_COUNT)
   end
 
-  def self.weather_suggestions(content_repo, weather, date)
-    return releases(content_repo, date) unless WEATHER_TO_GENRE.key?(weather)
+  def self.weather_suggestions(content_repo, weather, date_provider)
+    return releases(content_repo, date_provider) unless WEATHER_TO_GENRE.key?(weather)
 
     contents = content_repo.find_by_genre_name(WEATHER_TO_GENRE[weather])
                            .select(&:can_be_a_weather_suggestion).first(MAX_WEATHER_SUGGESTIONS_COUNT)
 
-    return releases(content_repo, date) if contents.empty?
+    return releases(content_repo, date_provider) if contents.empty?
 
     contents
   end

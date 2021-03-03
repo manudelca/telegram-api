@@ -36,7 +36,7 @@ WebTemplate::App.controllers :clients do
       content = content_repo.find(params[:content_id])
       raise ContentNotFound if content.nil?
 
-      client.sees_content(content, @@date_provider.now, client_repo)
+      client.sees_content(content, @@date_provider, client_repo)
       status 201
       {
         :message => 'Visto registrado exitosamente'
@@ -123,7 +123,7 @@ WebTemplate::App.controllers :clients do
   post :show, :map => '/seen_this_week' do
     begin
       client = client_repo.find_by_telegram_user_id(client_params[:telegram_user_id])
-      contents = client.seen_this_week(@@date_provider.now)
+      contents = client.seen_this_week(@@date_provider)
       raise ContentNotFound if contents.empty?
 
       seen_this_week = []

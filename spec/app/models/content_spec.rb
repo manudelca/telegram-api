@@ -9,6 +9,8 @@ describe Content do
 
   it 'content class should return comedy content when weather is clear' do # rubocop:disable RSpec/ExampleLength, RSpec/MultipleExpectations, Metrics/BlockLength
     date = Time.parse('2020-02-03')
+    date_provider = DateProvider.new
+    date_provider.define_now_date(date)
     weather = 'Clear'
     genre_repository = Persistence::Repositories::GenreRepo.new(DB)
     movie_repo = Persistence::Repositories::MovieRepo.new(DB)
@@ -32,7 +34,7 @@ describe Content do
     movie_repo.create_content(movie5)
     movie_repo.create_content(movie6)
 
-    movies = described_class.weather_suggestions(content_repo, weather, date)
+    movies = described_class.weather_suggestions(content_repo, weather, date_provider)
 
     expect(movies.size).to eq(3)
     expect(movies[0].id).to eq(saved_movie1.id)
@@ -42,6 +44,8 @@ describe Content do
 
   it 'content class should return action content when weather is clouds' do # rubocop:disable RSpec/ExampleLength, RSpec/MultipleExpectations, Metrics/BlockLength
     date = Time.parse('2020-02-03')
+    date_provider = DateProvider.new
+    date_provider.define_now_date(date)
     weather = 'Clouds'
     genre_repository = Persistence::Repositories::GenreRepo.new(DB)
     movie_repo = Persistence::Repositories::MovieRepo.new(DB)
@@ -65,7 +69,7 @@ describe Content do
     movie_repo.create_content(movie5)
     movie_repo.create_content(movie6)
 
-    movies = described_class.weather_suggestions(content_repo, weather, date)
+    movies = described_class.weather_suggestions(content_repo, weather, date_provider)
 
     expect(movies.size).to eq(3)
     expect(movies[0].id).to eq(saved_movie1.id)
@@ -75,6 +79,8 @@ describe Content do
 
   it 'Default action if no content is found, it should return releases' do # rubocop:disable RSpec/ExampleLength, RSpec/MultipleExpectations, Metrics/BlockLength
     date = Time.parse('2020-02-03')
+    date_provider = DateProvider.new
+    date_provider.define_now_date(date)
     weather = 'Clouds'
     genre_repository = Persistence::Repositories::GenreRepo.new(DB)
     movie_repo = Persistence::Repositories::MovieRepo.new(DB)
@@ -103,7 +109,7 @@ describe Content do
     movie_repo.create_content(movie5)
     movie_repo.create_content(movie6)
 
-    movies = described_class.weather_suggestions(content_repo, weather, date)
+    movies = described_class.weather_suggestions(content_repo, weather, date_provider)
 
     expect(movies.size).to eq(3)
     expect(movies[0].id).to eq(saved_movie1.id)
@@ -113,6 +119,8 @@ describe Content do
 
   it 'Default action if weather isnt mapped' do # rubocop:disable RSpec/ExampleLength, RSpec/MultipleExpectations, Metrics/BlockLength
     date = Time.parse('2020-02-03')
+    date_provider = DateProvider.new
+    date_provider.define_now_date(date)
     weather = 'Not a mapped weather'
     genre_repository = Persistence::Repositories::GenreRepo.new(DB)
     movie_repo = Persistence::Repositories::MovieRepo.new(DB)
@@ -141,7 +149,7 @@ describe Content do
     movie_repo.create_content(movie5)
     movie_repo.create_content(movie6)
 
-    movies = described_class.weather_suggestions(content_repo, weather, date)
+    movies = described_class.weather_suggestions(content_repo, weather, date_provider)
 
     expect(movies.size).to eq(3)
     expect(movies[0].id).to eq(saved_movie1.id)

@@ -16,7 +16,8 @@ class Client
     @seen_this_with_amount = 3
   end
 
-  def sees_content(content, date, client_repo)
+  def sees_content(content, date_provider, client_repo)
+    date = date_provider.now
     raise NotViewableContentError unless content.is_viewable
 
     @contents_seen << View.new(self, content, date)
@@ -31,7 +32,8 @@ class Client
     false
   end
 
-  def seen_this_week(today)
+  def seen_this_week(date_provider)
+    today = date_provider.now
     last_three = []
     this_week = this_week_seen_and_not_liked_dates(today)
     this_week = most_recent_each(this_week)

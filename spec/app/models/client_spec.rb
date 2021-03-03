@@ -12,7 +12,9 @@ describe Client do
       Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
       Persistence::Repositories::MovieRepo.new(DB).create_content(movie)
       today = Time.parse('2021-01-02')
-      client.sees_content(movie, today, repository)
+      date_provider = DateProvider.new
+      date_provider.define_now_date(today)
+      client.sees_content(movie, date_provider, repository)
 
       expect(client.saw_content?(movie)).to eq(true)
     end
@@ -26,7 +28,9 @@ describe Client do
       episode.tv_show = new_tv_show
       Persistence::Repositories::EpisodesRepo.new(DB).create_episode(episode)
       today = Time.parse('2021-01-02')
-      client.sees_content(episode, today, repository)
+      date_provider = DateProvider.new
+      date_provider.define_now_date(today)
+      client.sees_content(episode, date_provider, repository)
 
       expect(client.saw_content?(episode)).to eq(true)
     end
@@ -37,8 +41,10 @@ describe Client do
       tv_show = TvShow.new('Titanic: La serie', 'ATP', 190, genre, 'USA', 'James Cameron', 'Leonardo Di Caprio', 'Kate', id)
       new_tv_show = Persistence::Repositories::TvShowRepo.new(DB).create_content(tv_show)
       seen_date = Time.parse('2021-01-05')
+      date_provider = DateProvider.new
+      date_provider.define_now_date(seen_date)
 
-      expect { client.sees_content(new_tv_show, seen_date, repository) }.to raise_error(NotViewableContentError)
+      expect { client.sees_content(new_tv_show, date_provider, repository) }.to raise_error(NotViewableContentError)
     end
 
     it 'should not be able to mark content as seen if it is not released' do
@@ -50,8 +56,10 @@ describe Client do
       episode.tv_show = new_tv_show
       Persistence::Repositories::EpisodesRepo.new(DB).create_episode(episode)
       today = Time.parse('2021-01-02')
+      date_provider = DateProvider.new
+      date_provider.define_now_date(today)
 
-      expect { client.sees_content(episode, today, repository) }.to raise_error(ContentNotReleasedError)
+      expect { client.sees_content(episode, date_provider, repository) }.to raise_error(ContentNotReleasedError)
     end
   end
 
@@ -63,7 +71,9 @@ describe Client do
       Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
       Persistence::Repositories::MovieRepo.new(DB).create_content(movie)
       today = Time.parse('2021-01-02')
-      client.sees_content(movie, today, repository)
+      date_provider = DateProvider.new
+      date_provider.define_now_date(today)
+      client.sees_content(movie, date_provider, repository)
       client.likes(movie, repository)
 
       expect(client.liked_content?(movie)).to eq(true)
@@ -86,7 +96,9 @@ describe Client do
       Persistence::Repositories::MovieRepo.new(DB).create_content(movie)
 
       today = Time.parse('2021-01-02')
-      client.sees_content(movie, today, repository)
+      date_provider = DateProvider.new
+      date_provider.define_now_date(today)
+      client.sees_content(movie, date_provider, repository)
       client.likes(movie, repository)
 
       saved_movie = Persistence::Repositories::ContentRepo.new(DB).find(movie.id)
@@ -109,11 +121,14 @@ describe Client do
       movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', movie_id)
       Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
       Persistence::Repositories::MovieRepo.new(DB).create_content(movie)
+      date_provider = DateProvider.new
       seen_date = Time.parse('2021-01-01')
       today = Time.parse('2021-01-02')
-      client.sees_content(movie, seen_date, repository)
+      date_provider.define_now_date(seen_date)
+      client.sees_content(movie, date_provider, repository)
+      date_provider.define_now_date(today)
 
-      expect(client.seen_this_week(today)).to include(movie)
+      expect(client.seen_this_week(date_provider)).to include(movie)
     end
 
     it 'should not return movie seen 8 days ago when asking for content seen this week' do
@@ -122,11 +137,14 @@ describe Client do
       movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', movie_id)
       Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
       Persistence::Repositories::MovieRepo.new(DB).create_content(movie)
+      date_provider = DateProvider.new
       seen_date = Time.parse('2021-01-01')
       today = Time.parse('2021-01-08')
-      client.sees_content(movie, seen_date, repository)
+      date_provider.define_now_date(seen_date)
+      client.sees_content(movie, date_provider, repository)
+      date_provider.define_now_date(today)
 
-      expect(client.seen_this_week(today)).not_to include(movie)
+      expect(client.seen_this_week(date_provider)).not_to include(movie)
     end
 
     it 'should return movie seen 7 days ago when asking for content seen this week' do
@@ -137,12 +155,15 @@ describe Client do
       Persistence::Repositories::MovieRepo.new(DB).create_content(movie)
       seen_date = Time.parse('2021-01-02')
       today = Time.parse('2021-01-08')
-      client.sees_content(movie, seen_date, repository)
+      date_provider = DateProvider.new
+      date_provider.define_now_date(seen_date)
+      client.sees_content(movie, date_provider, repository)
+      date_provider.define_now_date(today)
 
-      expect(client.seen_this_week(today)).to include(movie)
+      expect(client.seen_this_week(date_provider)).to include(movie)
     end
 
-    it 'should return last 3 contents seen this week when asking for content seen this week' do
+    it 'should return last 3 contents seen this week when asking for content seen this week' do # rubocop:disable RSpec/ExampleLength
       genre = Genre.new('Drama')
       movie1 = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', 0)
       movie2 = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', 1)
@@ -154,15 +175,20 @@ describe Client do
       Persistence::Repositories::MovieRepo.new(DB).create_content(movie3)
       Persistence::Repositories::MovieRepo.new(DB).create_content(movie4)
       seen_date1 = Time.parse('2021-01-02')
+      date_provider = DateProvider.new
+      date_provider.define_now_date(seen_date1)
+      client.sees_content(movie1, date_provider, repository)
       seen_date2 = Time.parse('2021-01-03')
+      date_provider.define_now_date(seen_date2)
+      client.sees_content(movie2, date_provider, repository)
       seen_date3 = Time.parse('2021-01-04')
+      date_provider.define_now_date(seen_date3)
+      client.sees_content(movie3, date_provider, repository)
       seen_date4 = Time.parse('2021-01-05')
-      client.sees_content(movie1, seen_date1, repository)
-      client.sees_content(movie2, seen_date2, repository)
-      client.sees_content(movie3, seen_date3, repository)
-      client.sees_content(movie4, seen_date4, repository)
+      date_provider.define_now_date(seen_date4)
+      client.sees_content(movie4, date_provider, repository)
 
-      expect(client.seen_this_week(seen_date4)).not_to include(movie1)
+      expect(client.seen_this_week(date_provider)).not_to include(movie1)
     end
 
     it 'should not return liked content this week when asking for content seen this week' do
@@ -170,15 +196,18 @@ describe Client do
       movie = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', 0)
       Persistence::Repositories::GenreRepo.new(DB).create_genre(genre)
       Persistence::Repositories::MovieRepo.new(DB).create_content(movie)
+      date_provider = DateProvider.new
       seen_date = Time.parse('2021-01-05')
       today = Time.parse('2021-01-08')
-      client.sees_content(movie, seen_date, repository)
+      date_provider.define_now_date(seen_date)
+      client.sees_content(movie, date_provider, repository)
       client.likes(movie, repository)
+      date_provider.define_now_date(today)
 
-      expect(client.seen_this_week(today)).not_to include(movie)
+      expect(client.seen_this_week(date_provider)).not_to include(movie)
     end
 
-    it 'should return last 3 contents seen this week when asking for content seen this week added not in order' do
+    it 'should return last 3 contents seen this week when asking for content seen this week added not in order' do # rubocop:disable RSpec/ExampleLength
       genre = Genre.new('Drama')
       movie1 = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', 0)
       movie2 = Movie.new('Titanic', 'ATP', 190, genre, 'USA', 'James Cameron', '2020-01-01', 'Leonardo Di Caprio', 'Kate', 1)
@@ -189,16 +218,22 @@ describe Client do
       Persistence::Repositories::MovieRepo.new(DB).create_content(movie2)
       Persistence::Repositories::MovieRepo.new(DB).create_content(movie3)
       Persistence::Repositories::MovieRepo.new(DB).create_content(movie4)
+      date_provider = DateProvider.new
       seen_date1 = Time.parse('2021-01-02')
       seen_date2 = Time.parse('2021-01-03')
       seen_date3 = Time.parse('2021-01-04')
       seen_date4 = Time.parse('2021-01-05')
-      client.sees_content(movie1, seen_date4, repository)
-      client.sees_content(movie2, seen_date2, repository)
-      client.sees_content(movie3, seen_date3, repository)
-      client.sees_content(movie4, seen_date1, repository)
+      date_provider.define_now_date(seen_date4)
+      client.sees_content(movie1, date_provider, repository)
+      date_provider.define_now_date(seen_date2)
+      client.sees_content(movie2, date_provider, repository)
+      date_provider.define_now_date(seen_date3)
+      client.sees_content(movie3, date_provider, repository)
+      date_provider.define_now_date(seen_date1)
+      client.sees_content(movie4, date_provider, repository)
+      date_provider.define_now_date(seen_date4)
 
-      expect(client.seen_this_week(seen_date4)).not_to include(movie4)
+      expect(client.seen_this_week(date_provider)).not_to include(movie4)
     end
 
     it 'should return last 3 contents seen this week not repeated when asking for content seen this week' do
@@ -208,10 +243,13 @@ describe Client do
       Persistence::Repositories::MovieRepo.new(DB).create_content(movie)
       seen_date1 = Time.parse('2021-01-02')
       seen_date2 = Time.parse('2021-01-03')
-      client.sees_content(movie, seen_date1, repository)
-      client.sees_content(movie, seen_date2, repository)
+      date_provider = DateProvider.new
+      date_provider.define_now_date(seen_date1)
+      client.sees_content(movie, date_provider, repository)
+      date_provider.define_now_date(seen_date2)
+      client.sees_content(movie, date_provider, repository)
 
-      expect(client.seen_this_week(seen_date2).size).to eq(1)
+      expect(client.seen_this_week(date_provider).size).to eq(1)
     end
   end
 

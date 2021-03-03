@@ -47,13 +47,16 @@ module Persistence
       end
 
       def add_contents_seen(client_attributes, client, dates) # rubocop:disable Metrics/AbcSize
+        date_provider = DateProvider.new
         client_attributes.seen.each do |content|
           case content.type
           when 'movie'
             genre = genre_mapper.build_genre_from(content.genres)
-            client.sees_content(movie_mapper.build_movie_from(content, genre), Time.parse(dates[content.id].pop), client_repo)
+            date_provider.define_now_date(Time.parse(dates[content.id].pop))
+            client.sees_content(movie_mapper.build_movie_from(content, genre), date_provider, client_repo)
           when 'episode'
-            client.sees_content(episode_mapper.build_content_from_attributes(content), Time.parse(dates[content.id].pop), client_repo)
+            date_provider.define_now_date(Time.parse(dates[content.id].pop))
+            client.sees_content(episode_mapper.build_content_from_attributes(content), date_provider, client_repo)
           end
         end
       end
