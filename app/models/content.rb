@@ -20,7 +20,8 @@ class Content
                 .select(&:can_be_a_release).first(MAX_RELEASES_COUNT)
   end
 
-  def self.weather_suggestions(content_repo, weather, date_provider)
+  def self.weather_suggestions(content_repo, weather_provider, date_provider)
+    weather = weather_provider.current_weather
     return releases(content_repo, date_provider) unless WEATHER_TO_GENRE.key?(weather)
 
     contents = content_repo.find_by_genre_name(WEATHER_TO_GENRE[weather])

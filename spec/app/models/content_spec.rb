@@ -12,6 +12,8 @@ describe Content do
     date_provider = DateProvider.new
     date_provider.define_now_date(date)
     weather = 'Clear'
+    weather_provider = WeatherProvider.new
+    weather_provider.define_weather(weather)
     genre_repository = Persistence::Repositories::GenreRepo.new(DB)
     movie_repo = Persistence::Repositories::MovieRepo.new(DB)
     content_repo = Persistence::Repositories::ContentRepo.new(DB)
@@ -34,7 +36,7 @@ describe Content do
     movie_repo.create_content(movie5)
     movie_repo.create_content(movie6)
 
-    movies = described_class.weather_suggestions(content_repo, weather, date_provider)
+    movies = described_class.weather_suggestions(content_repo, weather_provider, date_provider)
 
     expect(movies.size).to eq(3)
     expect(movies[0].id).to eq(saved_movie1.id)
@@ -47,6 +49,8 @@ describe Content do
     date_provider = DateProvider.new
     date_provider.define_now_date(date)
     weather = 'Clouds'
+    weather_provider = WeatherProvider.new
+    weather_provider.define_weather(weather)
     genre_repository = Persistence::Repositories::GenreRepo.new(DB)
     movie_repo = Persistence::Repositories::MovieRepo.new(DB)
     content_repo = Persistence::Repositories::ContentRepo.new(DB)
@@ -69,7 +73,7 @@ describe Content do
     movie_repo.create_content(movie5)
     movie_repo.create_content(movie6)
 
-    movies = described_class.weather_suggestions(content_repo, weather, date_provider)
+    movies = described_class.weather_suggestions(content_repo, weather_provider, date_provider)
 
     expect(movies.size).to eq(3)
     expect(movies[0].id).to eq(saved_movie1.id)
@@ -82,6 +86,8 @@ describe Content do
     date_provider = DateProvider.new
     date_provider.define_now_date(date)
     weather = 'Clouds'
+    weather_provider = WeatherProvider.new
+    weather_provider.define_weather(weather)
     genre_repository = Persistence::Repositories::GenreRepo.new(DB)
     movie_repo = Persistence::Repositories::MovieRepo.new(DB)
     content_repo = Persistence::Repositories::ContentRepo.new(DB)
@@ -109,7 +115,7 @@ describe Content do
     movie_repo.create_content(movie5)
     movie_repo.create_content(movie6)
 
-    movies = described_class.weather_suggestions(content_repo, weather, date_provider)
+    movies = described_class.weather_suggestions(content_repo, weather_provider, date_provider)
 
     expect(movies.size).to eq(3)
     expect(movies[0].id).to eq(saved_movie1.id)
@@ -122,6 +128,8 @@ describe Content do
     date_provider = DateProvider.new
     date_provider.define_now_date(date)
     weather = 'Not a mapped weather'
+    weather_provider = WeatherProvider.new
+    weather_provider.define_weather(weather)
     genre_repository = Persistence::Repositories::GenreRepo.new(DB)
     movie_repo = Persistence::Repositories::MovieRepo.new(DB)
     content_repo = Persistence::Repositories::ContentRepo.new(DB)
@@ -149,7 +157,7 @@ describe Content do
     movie_repo.create_content(movie5)
     movie_repo.create_content(movie6)
 
-    movies = described_class.weather_suggestions(content_repo, weather, date_provider)
+    movies = described_class.weather_suggestions(content_repo, weather_provider, date_provider)
 
     expect(movies.size).to eq(3)
     expect(movies[0].id).to eq(saved_movie1.id)
