@@ -61,8 +61,7 @@ Given('I haven\'t qualified any content') do
 end
 
 When('I request content seen this week') do
-  @request = {telegram_user_id: @user_id}.to_json
-  @response = Faraday.post(seen_this_week_url, @request, header)
+  @response = Faraday.get(seen_this_week_url(@user_id), nil, header)
   @content = JSON.parse(@response.body)
 end
 

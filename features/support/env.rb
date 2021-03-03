@@ -118,8 +118,8 @@ def weather_suggestion_url
   "#{BASE_URL}/weather_suggestion"
 end
 
-def seen_this_week_url
-  "#{BASE_URL}/seen_this_week"
+def seen_this_week_url(telegram_user_id)
+  "#{BASE_URL}/seen_this_week/#{telegram_user_id}"
 end
 
 def alive_url

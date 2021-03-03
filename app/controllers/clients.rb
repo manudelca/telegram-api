@@ -130,9 +130,9 @@ WebTemplate::App.controllers :clients do
     end
   end
 
-  post :show, :map => '/seen_this_week' do
+  get :show, :map => '/seen_this_week', :with => :telegram_user_id do
     begin
-      client = client_repo.find_by_telegram_user_id(client_params[:telegram_user_id])
+      client = client_repo.find_by_telegram_user_id(params[:telegram_user_id])
       contents = client.seen_this_week(@@date_provider.now)
       raise ContentNotFound if contents.empty?
 
@@ -149,7 +149,7 @@ WebTemplate::App.controllers :clients do
     rescue ClientNotFound
       status 404
       {
-        :message => "Error: el usuario con id #{client_params[:telegram_user_id]} no se encuentra registrado"
+        :message => "Error: el usuario con id #{params[:telegram_user_id]} no se encuentra registrado"
       }.to_json
     rescue ContentNotFound
       status 404
