@@ -40,6 +40,19 @@ describe Client do
 
       expect { client.sees_content(new_tv_show, seen_date, repository) }.to raise_error(NotViewableContentError)
     end
+
+    it 'should not be able to mark content as seen if it is not released' do
+      genre = Genre.new('Comedy')
+      id = 0
+      tv_show = TvShow.new('Titanic: La serie', 'ATP', 190, genre, 'USA', 'James Cameron', 'Leonardo Di Caprio', 'Kate', id)
+      new_tv_show = Persistence::Repositories::TvShowRepo.new(DB).create_content(tv_show)
+      episode = Episode.new(1, 1, '2021-01-05')
+      episode.tv_show = new_tv_show
+      Persistence::Repositories::EpisodesRepo.new(DB).create_episode(episode)
+      today = Time.parse('2021-01-02')
+
+      expect { client.sees_content(episode, today, repository) }.to raise_error(ContentNotReleasedError)
+    end
   end
 
   describe 'likes content' do
