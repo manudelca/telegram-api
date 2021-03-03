@@ -25,7 +25,7 @@ class Client
 
   def saw_content?(content)
     @contents_seen.each do |view|
-      return true if view.content.id == content.id
+      return true if view.content == content
     end
 
     false
@@ -55,11 +55,6 @@ class Client
 
   def liked_content?(content)
     @contents_liked.include?(content)
-    @contents_liked.each do |liked_content|
-      return true if liked_content.id == content.id
-    end
-
-    false
   end
 
   def lists(content, client_repo)
