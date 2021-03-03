@@ -2,6 +2,17 @@ require 'spec_helper'
 require_relative '../../../app/presentation/tv_show_output_parser'
 
 describe TvShow do
+  it 'cant be created without a name' do
+    genre = Genre.new('comedy')
+    tv_show_id = 1
+
+    expect do
+      described_class.new(nil, 'No ATP', 190, genre,
+                          'USA', 'Ricky Gervais',
+                          'Steve Carrell', 'Rainn Wilson', tv_show_id)
+    end.to raise_error(MissingNameError)
+  end
+
   it 'tv_show can set episodes' do
     genre = Genre.new('comedy')
     tv_show_id = 1
