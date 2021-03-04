@@ -42,4 +42,13 @@ describe Persistence::Repositories::EpisodesRepo do # rubocop:disable RSpec/File
       expect(repository.find(saved_episode.id).number).to eq episode.number
     end
   end
+
+  describe 'episode by tv_show id, number and season' do
+    it 'must find episode by tv_show id, number and season' do
+      episode = Episode.new(2, 2, Time.parse('2021-01-01'))
+      episode.tv_show = tv_show
+      saved_episode = repository.create_episode(episode)
+      expect(repository.find_by_tv_show_id_number_season_and_release_date(tv_show.id, episode.number, episode.season_number, episode.release_date).id).to eq saved_episode.id
+    end
+  end
 end

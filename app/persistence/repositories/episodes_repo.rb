@@ -25,6 +25,15 @@ module Persistence
         episodes
       end
 
+      def find_by_tv_show_id_number_season_and_release_date(tv_show_id, number, season, release_date)
+        episodes_relation = contents.where(tv_show_id: tv_show_id)
+                                    .where(episode_number: number)
+                                    .where(season_number: season)
+                                    .where(release_date: release_date)
+        episodes_relation = (episodes_relation >> episode_mapper)
+        episodes_relation.first
+      end
+
       private
 
       def episodes_changeset(episode)
