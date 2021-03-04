@@ -5,6 +5,8 @@ info:
   version: 1.0.0
 servers:
   - url: <server_url>
+security:
+  - ApiKeyAuth: [ ]
 paths:
   /genre:
     post:
@@ -111,6 +113,12 @@ paths:
                   message: 'Error: el contenido ya fue registrado previamente'
 
 components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+
   schemas:
     CreateGenreBody:
       properties:
