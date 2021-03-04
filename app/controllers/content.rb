@@ -26,19 +26,19 @@ WebTemplate::App.controllers :content, :provides => [:json] do
                                      movie_repo)
           movies << movie
         when 'tv_show'
-          tv_show = TvShow.new(content['name'],
-                               content['audience'],
-                               content['duration_minutes'],
-                               genre,
-                               content['country'],
-                               content['director'],
-                               content['first_actor'],
-                               content['second_actor'])
-
-          episode = Episode.new(content['episode_number'],
-                                content['season_number'],
-                                content['release_date'])
-          tv_show.episodes << episode
+          tv_show = TvShow.create_tv_show_with_episode(content['name'],
+                                                       content['audience'],
+                                                       content['duration_minutes'],
+                                                       genre,
+                                                       content['country'],
+                                                       content['director'],
+                                                       content['first_actor'],
+                                                       content['second_actor'],
+                                                       content['episode_number'],
+                                                       content['season_number'],
+                                                       content['release_date'],
+                                                       tv_show_repo,
+                                                       episodes_repo)
           tv_shows << tv_show
         end
       end

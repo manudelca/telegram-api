@@ -6,6 +6,37 @@ class TvShow < FullContent
               :country, :director, :first_actor, :second_actor
   attr_accessor :id, :episodes, :genre
 
+  def self.create_tv_show_with_episode(name, audience, duration_minutes,
+                                       genre, country, director,
+                                       first_actor, second_actor = nil,
+                                       episode_number, season_number,
+                                       release_date, tv_show_repo, episode_repo)
+    saved_tv_show = tv_show_repo.find_by_name(name)
+    unless saved_tv_show.nil?
+      saved_episode = episode_repo.find_by_tv_show_id_number_season_and_release_date(saved_tv_show.id,
+                                                                                     episode_number,
+                                                                                     season_number,
+                                                                                     release_date)
+      raise ContentAlreadyCreated unless saved_episode.nil?
+    end
+
+    tv_show = TvShow.new(name,
+                         audience,
+                         duration_minutes,
+                         genre,
+                         country,
+                         director,
+                         first_actor,
+                         second_actor)
+
+    episode = Episode.new(episode_number,
+                          season_number,
+                          release_date)
+
+    tv_show.episodes << episode
+    tv_show
+  end
+
   def initialize(name, audience, duration_minutes,
                  genre, country, director,
                  first_actor, second_actor = nil, id = nil,

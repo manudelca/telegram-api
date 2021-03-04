@@ -36,4 +36,12 @@ describe Persistence::Repositories::TvShowRepo do # rubocop:disable RSpec/FilePa
       expect(repository.find(saved_tv_show.id).name).to eq tv_show.name
     end
   end
+
+  describe 'find tv show by name' do
+    it 'must find tv show by name' do
+      tv_show = TvShow.new('The Office', 'No ATP', 190, genre, 'USA', 'Ricky Gervais', 'Steve Carrell', 'Rainn Wilson')
+      saved_tv_show = repository.create_content(tv_show)
+      expect(repository.find_by_name(tv_show.name).id).to eq saved_tv_show.id
+    end
+  end
 end

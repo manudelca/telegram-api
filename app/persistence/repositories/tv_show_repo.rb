@@ -25,6 +25,13 @@ module Persistence
         contents_relation.one
       end
 
+      def find_by_name(name)
+        contents_relation = contents.where(name: name)
+                                    .combine(:genres)
+        contents_relation = (contents_relation >> tv_show_mapper)
+        contents_relation.first
+      end
+
       def update_tv_show(tv_show)
         update(tv_show.id, tv_show_changeset(tv_show))
 
