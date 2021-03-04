@@ -1,11 +1,10 @@
 openapi: 3.0.0
 info:
-  title: Web Template
-  description: A simple template for web applications
+  title: Volantis Web API
+  description: Documentation of Volantis Web API
   version: 1.0.0
 servers:
   - url: <server_url>
-  - url: otracosa
 paths:
   /genre:
     post:
@@ -73,44 +72,44 @@ paths:
                   message: 'Error: el contenido con id -1 no se encuentra registrado'
                 ClientNotFound:
                   message: 'Error: el usuario con email test@test.com no se encuentra registrado'
-
-  /:
-    get:
-      summary: Classic hello world
-      responses:
-        '200':
-          description: Just a "Hello People" string
-
+  /content:
     post:
-        summary: POST example
-        responses:
-          '200':
-            description: Successful result
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/SuccessfulResult'
-          '404':
-            description: Resource not found
-
-  /post_with_body:
-    post:
-      summary: POST with body example
+      summary: Create content
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/BodyExample'
+              $ref: '#/components/schemas/CreateContentBody'
       responses:
-        '200':
-          description: Successful result
+        '201':
+          description: Created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SuccessfulResult'
-          '404':
-            description: Resource not found
+                $ref: '#/components/schemas/CreateContentSuccessResponseBody'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PatchContentSeenResponseBody'
+              example:
+                GenreNotFound:
+                  message: 'Debes agregar el género antes de crear este contenido'
+                MissingNameError:
+                  message: 'Error: falta el nombre de uno de tus contenidos'
+                MissingReleaseDateError:
+                  message: 'Error: falta la fecha de estreno en uno de tus contenidos'
+                MissingSeasonNumberError:
+                  message: 'Error: falta el numero de temporada en uno de tus contenidos'
+                MissingEpisodeNumberError:
+                  message: 'Error: falta el numero de episodio en uno de tus contenidos'
+                MissingGenreError:
+                  message: 'Error: falta el genero en uno de tus contenidos'
+                ContentAlreadyCreated:
+                  message: 'Error: el contenido ya fue registrado previamente'
+
 components:
   schemas:
     CreateGenreBody:
@@ -118,7 +117,7 @@ components:
         name:
           type: string
 
-    GenreBody:
+    Genre:
       properties:
         id:
           type: integer
@@ -130,7 +129,7 @@ components:
         message:
           type: string
         genre:
-          $ref: '#/components/schemas/GenreBody'
+          $ref: '#/components/schemas/Genre'
 
     CreateGenreErrorResponseBody:
       properties:
@@ -142,27 +141,74 @@ components:
         message:
           type: string
 
-    SuccessfulResult:
+    Episode:
       properties:
+        type:
+          type: string
+          enum: [tv_show]
         name:
           type: string
-        value:
+        audience:
+          type: enum
+        duration_minutes:
+          type: integer
+        genre:
+          type: string
+        country:
+          type: string
+        director:
+          type: string
+        release_date:
+          type: string
+        first_actor:
+          type: string
+        second_actor:
+          type: string
+        season_number:
+          type: integer
+        episode_number:
           type: integer
 
-    BodyExample:
+    Movie:
       properties:
+        type:
+          type: string
+          enum: [movie]
         name:
           type: string
-        value:
+        audience:
+          type: enum
+        duration_minutes:
           type: integer
-        a_list:
+        genre:
+          type: string
+        country:
+          type: string
+        director:
+          type: string
+        release_date:
+          type: string
+        first_actor:
+          type: string
+        second_actor:
+          type: string
+
+    CreateContentBody:
+      properties:
+        content:
           type: array
           items:
-            $ref: '#/components/schemas/BodyItemExample'
+            oneOf:
+              - $ref: '#/components/schemas/Movie'
+              - $ref: '#/components/schemas/Episode'
 
-    BodyItemExample:
+    CreateContentSuccessResponseBody:
       properties:
-        id:
+        message:
           type: string
-        quantity:
-          type: integer
+        content:
+          type: array
+          items:
+            oneOf:
+              - $ref: '#/components/schemas/Movie'
+              - $ref: '#/components/schemas/Episode'
