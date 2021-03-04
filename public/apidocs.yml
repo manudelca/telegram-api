@@ -7,6 +7,77 @@ servers:
   - url: <server_url>
   - url: otracosa
 paths:
+  /genre:
+    post:
+      summary: Create genre for contents
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateGenreBody'
+            example:
+              name: Comedy
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateGenreSuccessResponseBody'
+              example:
+                message: Genero Comedy fue registrado exitosamente!
+                genre:
+                  id: 1
+                  name: Comedy
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateGenreErrorResponseBody'
+              example:
+                NoNameError:
+                  value:
+                    message: 'Error: falta el campo nombre'
+                NameRepeatedError:
+                  value:
+                    message: 'Error: el genero Comedy ya fue registrado'
+
+  /clients/{email}/contents/{content_id}/seen:
+    patch:
+      summary: Client sees a content
+      responses:
+        '200':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PatchContentSeenResponseBody'
+              example:
+                message: Visto registrado exitosamente
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PatchContentSeenResponseBody'
+              example:
+                message: 'Error: no se puede registrar como visto contenido no estrenado'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PatchContentSeenResponseBody'
+              example:
+                ContentNotFound:
+                  value:
+                    message: 'Error: el contenido con id -1 no se encuentra registrado'
+                ClientNotFound:
+                  value:
+                    message: 'Error: el usuario con email test@test.com no se encuentra registrado'
+
   /:
     get:
       summary: Classic hello world
@@ -46,6 +117,35 @@ paths:
             description: Resource not found
 components:
   schemas:
+    CreateGenreBody:
+      properties:
+        name:
+          type: string
+
+    GenreBody:
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+
+    CreateGenreSuccessResponseBody:
+      properties:
+        message:
+          type: string
+        genre:
+          $ref: '#/components/schemas/GenreBody'
+
+    CreateGenreErrorResponseBody:
+      properties:
+        message:
+          type: string
+
+    PatchContentSeenResponseBody:
+      properties:
+        message:
+          type: string
+
     SuccessfulResult:
       properties:
         name:

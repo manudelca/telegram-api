@@ -12,13 +12,13 @@ WebTemplate::App.controllers :genre, :provides => [:json] do
         :message => "Genero #{new_genre.name} fue registrado exitosamente!",
         :genre => genre_to_json(new_genre)
       }.to_json
-    rescue NoNameError => _e
-      status 404
+    rescue NoNameError
+      status 400
       {
         :message => 'Error: falta el campo nombre'
       }.to_json
-    rescue NameRepeatedError => _e
-      status 404
+    rescue NameRepeatedError
+      status 400
       {
         :message => "Error: el genero #{genre_params[:name]} ya fue registrado"
       }.to_json

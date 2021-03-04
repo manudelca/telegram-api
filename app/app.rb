@@ -13,6 +13,7 @@ module WebTemplate
       unless request.env['HTTP_AUTHORIZATION'] == @@api_key_provider.api_key ||
              (request.env['Authorization'] == @@api_key_provider.api_key && ENV['RACK_ENV'] == 'test') ||
              request.env['PATH_INFO'] == '/api_key' ||
+             request.env['PATH_INFO'] == '/docs' ||
              request.env['PATH_INFO'] == '/health/version'
         halt 401,
              {'Content-Type' => 'application/json'},

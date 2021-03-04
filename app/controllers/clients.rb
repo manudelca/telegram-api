@@ -37,7 +37,7 @@ WebTemplate::App.controllers :clients do
       raise ContentNotFound if content.nil?
 
       client.sees_content(content, @@date_provider, client_repo)
-      status 201
+      status 200
       {
         :message => 'Visto registrado exitosamente'
       }.to_json
@@ -52,7 +52,7 @@ WebTemplate::App.controllers :clients do
         :message => "Error: el usuario con email #{params[:email]} no se encuentra registrado"
       }.to_json
     rescue ContentNotReleasedError
-      status 404
+      status 400
       {
         :message => 'Error: no se puede registrar como visto contenido no estrenado'
       }.to_json
