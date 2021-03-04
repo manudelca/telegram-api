@@ -38,11 +38,9 @@ paths:
                 $ref: '#/components/schemas/CreateGenreErrorResponseBody'
               example:
                 NoNameError:
-                  value:
-                    message: 'Error: falta el campo nombre'
+                  message: 'Error: falta el campo nombre'
                 NameRepeatedError:
-                  value:
-                    message: 'Error: el genero Comedy ya fue registrado'
+                  message: 'Error: el genero Comedy ya fue registrado'
 
   /clients/{email}/contents/{content_id}/seen:
     patch:
@@ -72,11 +70,9 @@ paths:
                 $ref: '#/components/schemas/PatchContentSeenResponseBody'
               example:
                 ContentNotFound:
-                  value:
-                    message: 'Error: el contenido con id -1 no se encuentra registrado'
+                  message: 'Error: el contenido con id -1 no se encuentra registrado'
                 ClientNotFound:
-                  value:
-                    message: 'Error: el usuario con email test@test.com no se encuentra registrado'
+                  message: 'Error: el usuario con email test@test.com no se encuentra registrado'
 
   /:
     get:
