@@ -1,0 +1,1 @@
+class ContentAlreadyCreated < StandardError; end

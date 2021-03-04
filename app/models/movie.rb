@@ -8,6 +8,25 @@ class Movie < FullContent
               :second_actor
   attr_accessor :id, :genre
 
+  def self.create_movie(name, audience, duration_minutes,
+                        genre, country, director,
+                        release_date, first_actor, second_actor = nil,
+                        repo)
+
+    saved_movie = repo.find_by_name_and_release_date(name, release_date)
+    raise ContentAlreadyCreated unless saved_movie.nil?
+
+    Movie.new(name,
+              audience,
+              duration_minutes,
+              genre,
+              country,
+              director,
+              release_date,
+              first_actor,
+              second_actor)
+  end
+
   def initialize(name, audience, duration_minutes,
                  genre, country, director,
                  release_date, first_actor, second_actor = nil,

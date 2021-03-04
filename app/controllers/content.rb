@@ -14,15 +14,16 @@ WebTemplate::App.controllers :content, :provides => [:json] do
         genre = genre_repo.find_by_genre_name(content['genre'])
         case content['type']
         when 'movie'
-          movie = Movie.new(content['name'],
-                            content['audience'],
-                            content['duration_minutes'],
-                            genre,
-                            content['country'],
-                            content['director'],
-                            content['release_date'],
-                            content['first_actor'],
-                            content['second_actor'])
+          movie = Movie.create_movie(content['name'],
+                                     content['audience'],
+                                     content['duration_minutes'],
+                                     genre,
+                                     content['country'],
+                                     content['director'],
+                                     content['release_date'],
+                                     content['first_actor'],
+                                     content['second_actor'],
+                                     movie_repo)
           movies << movie
         when 'tv_show'
           tv_show = TvShow.new(content['name'],
@@ -89,6 +90,11 @@ WebTemplate::App.controllers :content, :provides => [:json] do
       status 400
       {
         :message => 'Error: falta el genero en uno de tus contenidos'
+      }.to_json
+    rescue ContentAlreadyCreated
+      status 400
+      {
+        :message => 'Error: el contenido ya fue registrado previamente'
       }.to_json
     end
   end

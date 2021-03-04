@@ -42,4 +42,12 @@ describe Persistence::Repositories::MovieRepo do # rubocop:disable RSpec/FilePat
       expect { repository.find(non_existant_movie_id) }.to raise_error(ContentNotFound)
     end
   end
+
+  describe 'find movie by name and release date' do
+    it 'finds a movie by its name and release date' do
+      movie = Movie.new('Titanic', 'No ATP', 190, genre, 'USA', 'James Cameron', '2021-01-01', 'Kate Winslet', 'Leonardo Dicaprio')
+      saved_movie = repository.create_content(movie)
+      expect(repository.find_by_name_and_release_date('Titanic', '2021-01-01').id).to eq saved_movie.id
+    end
+  end
 end

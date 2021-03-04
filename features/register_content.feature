@@ -38,9 +38,9 @@ Feature: Register content
     When I register the movies "Titanic", with type "movie", with audience "ATP", duration 195 min, without genre, origin country "USA", director "James Cameron", actors "Kate Winslet" and "Leonardo Dicaprio", release date "2021-01-01"
     Then I should receive "Error: falta el genero en uno de tus contenidos" message
 
-    @wip
     Scenario: US8.4 - Register an already registered content
     Given I register the genre "drama"
+    Given I register the genre "comedy"
     When I register the movie "Titanic", with audience "No ATP", duration 185 min, genre "comedy", origin country "Canada", director "John Cameron", actors "Mary Winslet" and "Harry Dicaprio", release date "2021-01-01"
-    When I register the movies "Titanic", with audience "ATP", duration 195 min, genre "drama", origin country "USA", director "James Cameron", actors "Kate Winslet" and "Leonardo Dicaprio", release date "2021-01-01"
+    When I register the movie "Titanic", with audience "ATP", duration 195 min, genre "drama", origin country "USA", director "James Cameron", actors "Kate Winslet" and "Leonardo Dicaprio", release date "2021-01-01"
     Then I should receive "Error: el contenido ya fue registrado previamente" message

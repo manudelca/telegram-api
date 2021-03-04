@@ -18,6 +18,14 @@ module Persistence
         movie
       end
 
+      def find_by_name_and_release_date(name, release_date)
+        contents_relation = contents.where(name: name)
+                                    .where(release_date: release_date)
+                                    .combine(:genres)
+        contents_relation = (contents_relation >> movie_mapper)
+        contents_relation.first
+      end
+
       def delete_all
         contents.delete
       end
